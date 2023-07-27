@@ -295,10 +295,10 @@
     "confirmed": "Confirmed",
     "pending": "Pending",
     "discount": "Discount",
-    "discount_error": "You Can't Put This Number As a Value",
-    "profit_error": "You Can't Put This Number As a Value",
+    "discount_error": "You Can't Put This Discount Number As a Value",
+    "profit_error": "You Can't Put This Profit Number As a Value",
     "add_profit": "Add Profit Percentage",
-    "privacy_desc_2": "The number of employees who can access this information and participate in managing this information is limited and based on a need-to-know basis. We use advanced security technology to prevent unauthorized access to our computers. It is important for you to protect your login credentials and your computer from unauthorized access. Ensure the security of the password used to access our services.",
+    "privacy_desc": "Welcome to the privacy policy of moalime site. This site is operated and managed by the educational authority that owns it and information technology or its affiliates. You are required to register on the site for some personal data, and we pledge to protect it and not share it with any third party. As such, we feel it necessary to disclose to you what information this website collects and tracks and what we do with the information we collect.",
     "info_privacy": "What information do we request?",
     "info_privacy_content": "Certainly, logging into the website requires personal data, and we commit to using advanced security technology to prevent unauthorized access to our computers.",
     "info_privacy_list": [
@@ -320,5 +320,13 @@
     "privacy_edit_content": "We may update this privacy policy from time to time without notice. We advise you to read and review this privacy policy regularly. Any changes to this privacy policy will be effective from the date of publication on the website.",
     "privacy_contact": "Contact us:",
     "privacy_contact_content": "Please contact us if you have any inquiries regarding this privacy policy by email at info@moalime.com.",
-    "bankID": "Bank ID"
+    "bankID": "Bank Information",
+    "bank_name": "Bank Name",
+    "acc_name": "Account Name",
+    "acc_number": "Account Number",
+    "paypal_acc": "PayPal Account",
+    "forgetpassword": "Forget Your Password ?",
+    "discount_precent": "Packages up to",
+    "addTime": "Add Time",
+    "note_teacher": "Note : "
 }

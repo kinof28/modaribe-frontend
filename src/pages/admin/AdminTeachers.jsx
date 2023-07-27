@@ -15,6 +15,8 @@ import { useAdminTeachers } from "../../hooks/useAdminTeachers";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useSnackbar } from "notistack";
 
 export default function AdminTeachers() {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ export default function AdminTeachers() {
     { id: "Gender", label: t("gender"), minWidth: 150 },
     { id: "Phone", label: t("phone"), minWidth: 150 },
     { id: "View", label: t("view"), minWidth: 150 },
+    { id: "actions", label: t("actions"), minWidth: 150 },
     { id: "Actions", label: t("financialRecord"), minWidth: 150 },
   ];
 
@@ -41,6 +44,7 @@ export default function AdminTeachers() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
 
   const { data, isLoading } = useAdminTeachers(token);
 
@@ -67,6 +71,27 @@ export default function AdminTeachers() {
       console.log(err);
     }
   }
+
+  const handleDelete = (id) => {
+    try {
+      fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/deleteTeacher/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      enqueueSnackbar("Teacher Deleted Successfully", {
+        variant: "warning",
+        autoHideDuration: 4000,
+      });
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <AdminLayout>
@@ -134,6 +159,15 @@ export default function AdminTeachers() {
                               }
                             >
                               <VisibilityIcon />
+                            </Button>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Button
+                              onClick={() => handleDelete(row.id)}
+                              sx={{ minWidth: "10px" }}
+                              color="error"
+                            >
+                              <DeleteIcon />
                             </Button>
                           </TableCell>
                           <TableCell align="center">

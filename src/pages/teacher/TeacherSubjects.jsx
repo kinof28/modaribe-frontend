@@ -114,13 +114,18 @@ export default function TeacherSubjects() {
   }, [teacher2]);
 
   const onSubmit = async () => {
-    if (discount >= 100 || discount < 0) {
-      enqueueSnackbar(t("discount_error"), {
-        variant: "error",
-        autoHideDuration: 5000,
-      });
-      return;
-    }
+    // if (
+    //   discount >= 100 ||
+    //   discount < 0 ||
+    //   discount === "" ||
+    //   discount === undefined
+    // ) {
+    //   enqueueSnackbar(t("discount_error"), {
+    //     variant: "error",
+    //     autoHideDuration: 5000,
+    //   });
+    //   return;
+    // }
     let ar1 = choseCategories.map((sub) => {
       return { TeacherId: teacher.id, SubjectId: sub.id };
     });
@@ -198,11 +203,16 @@ export default function TeacherSubjects() {
         )}
         <Grid container>
           <Grid item xs={12} lg={9}>
+            <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+              {t("discount")}
+            </InputLabel>
             <TextField
+              fullWidth
+              name="discount"
+              required
               sx={{ marginBottom: 3 }}
               onChange={handleDiscount}
               value={discount}
-              label={t("discount")}
             />
           </Grid>
         </Grid>

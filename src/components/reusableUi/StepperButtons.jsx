@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 export default function StepperButtons({ onSubmit, load, skipLink }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  console.log({ onSubmit });
   return (
     <Box sx={{ display: "flex", columnGap: "12px", marginTop: "40px" }}>
       <Button
@@ -34,13 +33,13 @@ export default function StepperButtons({ onSubmit, load, skipLink }) {
           {t("next")}
         </Button>
       )}
-      <Button
+      {/* <Button
         sx={{ textTransform: "capitalize" }}
         variant="outlined"
         onClick={() => navigate(`/teacher/${skipLink}`)}
       >
         {t("skip")}
-      </Button>
+      </Button> */}
     </Box>
   );
 }

@@ -151,37 +151,45 @@ export default function Login() {
                 <ReactCodeInput type="number" fields={4} ref={input1} />
               </Box>
             </Box>
-            {!load ? (
-              <Button
-                variant="contained"
-                color="secondary"
-                fullWidth
-                type="submit"
-                sx={{ textTransform: "capitalize" }}
-              >
-                {t("login")}
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="secondary"
-                fullWidth
-                sx={{ textTransform: "capitalize" }}
-              >
-                {t("login")}...
-              </Button>
-            )}
-            <Typography
-              sx={{
-                marginTop: "40px",
-                fontSize: "15px",
-                textAlign: "center",
-                fontWeight: "700",
-                marginBottom: "20px",
-              }}
+
+            <Button
+              variant="contained"
+              color="secondary"
+              fullWidth
+              type="submit"
+              sx={{ textTransform: "capitalize" }}
             >
-              {t("donthaveacount")}
-            </Typography>
+              {load ? t("login") + "..." : t("login")}
+            </Button>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography
+                sx={{
+                  marginTop: "40px",
+                  fontSize: "15px",
+                  textAlign: "center",
+                  fontWeight: "700",
+                  marginBottom: "20px",
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/teacherRegister/step1")}
+              >
+                {t("donthaveacount")}
+              </Typography>
+              <Typography
+                sx={{
+                  marginTop: "40px",
+                  fontSize: "15px",
+                  textAlign: "center",
+                  fontWeight: "700",
+                  marginBottom: "20px",
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/forgetPassword/step1")}
+              >
+                {t("forgetpassword")}
+              </Typography>
+            </Box>
+
             <Grid container spacing={2}>
               <Grid item xs={4}>
                 <Button

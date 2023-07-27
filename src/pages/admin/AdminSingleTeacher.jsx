@@ -7,8 +7,8 @@ import HeaderSingleTeacher from "../../components/client/singleTeacher/HeaderSin
 import AboutSingleTeacher from "../../components/client/singleTeacher/AboutSingleTeacher";
 import StdeuntsTypeSingleTeacher from "../../components/client/singleTeacher/StdeuntsTypeSingleTeacher";
 import AvailablitySingleTeacher from "../../components/client/singleTeacher/AvailablitySingleTeacher";
-import PayingTeacher from "../../components/client/singleTeacher/PayingTeacher";
 import ResumeSingleTeacher from "../../components/client/singleTeacher/ResumeSingleTeacher";
+import AdminPayingTeacher from "../../components/client/singleTeacher/AdminPayingTeacher";
 
 export default function AdminSingleTeacher() {
   const { teacherId } = useParams();
@@ -23,7 +23,7 @@ export default function AdminSingleTeacher() {
           <AboutSingleTeacher teacher={data?.data} />
           <StdeuntsTypeSingleTeacher teacher={data?.data} />
           <AvailablitySingleTeacher teacher={data?.data} />
-          <PayingTeacher teacher={data?.data} />
+          <AdminPayingTeacher teacher={data?.data} />
           <ResumeSingleTeacher teacher={data?.data} />
         </>
       )}

@@ -70,6 +70,7 @@ import AdminSingleTeacher from "./pages/admin/AdminSingleTeacher";
 import MapBrowser from "./pages/client/MapBrowser";
 import AdminSocialMedia from "./pages/admin/AdminSocialMedia";
 import AdminAddProfit from "./pages/admin/AdminAddProfit";
+import ForgetPasswordFirstStep from "./pages/auth/forgetPassword/ForgetPassFirstStep";
 
 const theme = createTheme({
   direction: "rtl",
@@ -178,6 +179,10 @@ function App() {
             <Route
               path="teacherRegister/step3"
               element={<TeacherThirdStep />}
+            />
+            <Route
+              path="forgetPassword/step1"
+              element={<ForgetPasswordFirstStep />}
             />
 
             {/** student pages */}

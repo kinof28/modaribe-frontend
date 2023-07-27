@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useSnackbar } from "notistack";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Label = styled("label")({
   width: "100%",
@@ -20,12 +21,18 @@ const Image = styled("img")({
 });
 
 export default function TeacherPhoto() {
+  const { teacher, token } = useSelector((state) => state.teacher);
   const [image, setImage] = useState(null);
+
+  const [imageUrl, setImageUrl] = useState(teacher?.image);
   const { t } = useTranslation();
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
-  const { teacher, token } = useSelector((state) => state.teacher);
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(teacher);
+  }, []);
 
   const handleButtonSubmit = async () => {
     try {
@@ -55,6 +62,8 @@ export default function TeacherPhoto() {
       }
       setLoad(false);
       const resData = await response.json();
+
+      teacher.image = resData.data;
       navigate("/teacher/AdditionalInformation");
     } catch (err) {
       console.log(err);
@@ -68,7 +77,10 @@ export default function TeacherPhoto() {
           type="file"
           id="image"
           hidden
-          onChange={(e) => setImage(e.target.files[0])}
+          onChange={(e) => {
+            setImage(e.target.files[0]);
+            setImageUrl(URL.createObjectURL(e.target.files[0]));
+          }}
         />
         <Button
           variant="contained"
@@ -76,7 +88,18 @@ export default function TeacherPhoto() {
         >
           <Label htmlFor="image">{t("replace_photo")}</Label>
         </Button>
-        <Box>{image && <Image src={URL.createObjectURL(image)} />}</Box>
+
+        <Box>
+          {imageUrl && (
+            <Image
+              src={
+                imageUrl.startsWith("blob")
+                  ? imageUrl
+                  : `${process.env.REACT_APP_API_KEY}images/${imageUrl}`
+              }
+            />
+          )}
+        </Box>
         <StepperButtons
           skipLink={"AdditionalInformation"}
           onSubmit={handleButtonSubmit}

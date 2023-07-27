@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AdminLayout from "../../components/admin/AdminLayout";
 import { useTranslation } from "react-i18next";
 import TextField from "@mui/material/TextField";
@@ -48,6 +48,35 @@ export default function AdminAddProfit() {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_KEY}api/v1/admin/profitRatio`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        const resData = await response.json();
+        setProfit(resData.profitRatio);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <AdminLayout>
       <h1 style={style}>{t("add_profit")}</h1>

@@ -18,7 +18,6 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTeacher } from "../../hooks/useTeacher";
-import Grid from "@mui/material/Grid";
 
 export default function AdditionalInformation() {
   const { t } = useTranslation();
@@ -28,7 +27,6 @@ export default function AdditionalInformation() {
   const { data } = useTeacher(teacher.id);
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
-  const [bankID, setbankID] = useState("");
 
   const {
     register,
@@ -43,7 +41,11 @@ export default function AdditionalInformation() {
       yearsOfExperience: "",
       gender: "",
       hours_per_week: "",
-      bankID: "",
+      bank_name: "",
+      acc_name: "",
+      acc_number: "",
+      iban: "",
+      paypal_acc: "",
     },
   });
 
@@ -66,12 +68,28 @@ export default function AdditionalInformation() {
         yearsOfExperience: user?.experienceYears,
         hours_per_week: user?.favHours,
         gender: user?.favStdGender,
-        bankID: user?.bankID,
+        bank_name: user?.bank_name,
+        acc_name: user?.acc_name,
+        acc_number: user?.acc_number,
+        iban: user?.iban,
+        paypal_acc: user?.paypal_acc,
       });
     }
   }, [data]);
 
   const onSubmit = async (data) => {
+    if (
+      data.bank_name === "" ||
+      data.acc_name === "" ||
+      data.acc_number === "" ||
+      data.iban === "" ||
+      data.paypal_acc === ""
+    ) {
+      console.log(data);
+
+      alert("Please fill all the fields");
+      return;
+    }
     setLoad(true);
     try {
       const response = await fetch(
@@ -90,7 +108,11 @@ export default function AdditionalInformation() {
             favHours: data.hours_per_week,
             favStdGender: data.gender,
             experienceYears: data.yearsOfExperience,
-            bankID: data.bankID,
+            bank_name: data.bank_name,
+            acc_name: data.acc_name,
+            acc_number: data.acc_number,
+            iban: data.iban,
+            paypal_acc: data.paypal_acc,
           }),
         }
       );
@@ -272,16 +294,157 @@ export default function AdditionalInformation() {
           <p style={{ marginBottom: "15px" }} htmlFor="">
             {t("bankID")}
           </p>
-          <Grid item xs={12} lg={9}>
+          <Box sx={{ width: { md: "500px", xs: "100%" } }}>
+            <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+              {t("bank_name")}
+            </InputLabel>
             <Controller
-              label={t("bankID")}
-              name="bankID"
+              name="bank_name"
+              control={control}
+              required
+              render={({ field }) => (
+                <TextField
+                  fullWidth
+                  required
+                  sx={{ marginBottom: 3 }}
+                  name="bank_name"
+                  {...field}
+                />
+              )}
+              {...register("bank_name", {
+                required: "Bank Name is required",
+              })}
+            />
+
+            {errors.bank_name?.type === "required" && (
+              <Typography
+                color="error"
+                role="alert"
+                sx={{ fontSize: "13px", marginTop: "6px" }}
+              >
+                {t("required")}
+              </Typography>
+            )}
+            <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+              {t("acc_name")}
+            </InputLabel>
+            <Controller
+              name="acc_name"
+              required
               control={control}
               render={({ field }) => (
-                <TextField sx={{ marginBottom: 3 }} type="bankID" {...field} />
+                <TextField
+                  fullWidth
+                  required
+                  sx={{ marginBottom: 3 }}
+                  name="acc_name"
+                  {...field}
+                />
               )}
+              {...register("acc_name", {
+                required: "Account Name is required",
+              })}
             />
-          </Grid>
+
+            {errors.acc_name?.type === "required" && (
+              <Typography
+                color="error"
+                role="alert"
+                sx={{ fontSize: "13px", marginTop: "6px" }}
+              >
+                {t("required")}
+              </Typography>
+            )}
+            <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+              {t("acc_number")}
+            </InputLabel>
+            <Controller
+              name="acc_number"
+              control={control}
+              required
+              render={({ field }) => (
+                <TextField
+                  fullWidth
+                  required
+                  sx={{ marginBottom: 3 }}
+                  name="acc_number"
+                  {...field}
+                />
+              )}
+              {...register("acc_number", {
+                required: "Account Number is required",
+              })}
+            />
+
+            {errors.acc_number?.type === "required" && (
+              <Typography
+                color="error"
+                role="alert"
+                sx={{ fontSize: "13px", marginTop: "6px" }}
+              >
+                {t("required")}
+              </Typography>
+            )}
+            <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+              {t("IBAN")}
+            </InputLabel>
+            <Controller
+              name="iban"
+              required
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  fullWidth
+                  required
+                  sx={{ marginBottom: 3 }}
+                  name="iban"
+                  {...field}
+                />
+              )}
+              {...register("iban", {
+                required: "IBAN is required",
+              })}
+            />
+
+            {errors.iban?.type === "required" && (
+              <Typography
+                color="error"
+                role="alert"
+                sx={{ fontSize: "13px", marginTop: "6px" }}
+              >
+                {t("required")}
+              </Typography>
+            )}
+            <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+              {t("paypal_acc")}
+            </InputLabel>
+            <Controller
+              name="paypal_acc"
+              required
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  fullWidth
+                  sx={{ marginBottom: 3 }}
+                  type="paypal_acc"
+                  {...field}
+                />
+              )}
+              {...register("paypal_acc", {
+                required: "PayPal Account is required",
+              })}
+            />
+            {errors.paypal_acc?.type === "required" && (
+              <Typography
+                color="error"
+                role="alert"
+                sx={{ fontSize: "13px", marginTop: "6px" }}
+              >
+                {t("required")}
+              </Typography>
+            )}
+            <p>{t("note_teacher")}</p>
+          </Box>
           <Box sx={{ marginBottom: "26px" }}>
             <InputLabel sx={{ marginBottom: "6px", fontSize: "14px" }}>
               {t("hoursPerWeek")}
