@@ -37,13 +37,13 @@ export default function TeacherPhoto() {
   const handleButtonSubmit = async () => {
     try {
       closeSnackbar();
-      if (!image) {
-        enqueueSnackbar(t("image_required"), {
-          variant: "error",
-          autoHideDuration: 2000,
-        });
-        throw new Error("image is not found");
-      }
+      // if (!image) {
+      //   enqueueSnackbar(t("image_required"), {
+      //     variant: "error",
+      //     autoHideDuration: 2000,
+      //   });
+      //   throw new Error("image is not found");
+      // }
       setLoad(true);
       const formData = new FormData();
       formData.append("image", image);
