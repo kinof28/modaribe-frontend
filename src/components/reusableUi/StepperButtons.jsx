@@ -33,13 +33,15 @@ export default function StepperButtons({ onSubmit, load, skipLink }) {
           {t("next")}
         </Button>
       )}
-      {/* <Button
-        sx={{ textTransform: "capitalize" }}
-        variant="outlined"
-        onClick={() => navigate(`/teacher/${skipLink}`)}
-      >
-        {t("skip")}
-      </Button> */}
+      {skipLink === "AdditionalInformation" && (
+        <Button
+          sx={{ textTransform: "capitalize" }}
+          variant="outlined"
+          onClick={() => navigate(`/teacher/${skipLink}`)}
+        >
+          {t("skip")}
+        </Button>
+      )}
     </Box>
   );
 }
