@@ -18,6 +18,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSnackbar } from "notistack";
 
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+
 export default function AdminTeachers() {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -31,6 +33,21 @@ export default function AdminTeachers() {
     { id: "View", label: t("view"), minWidth: 150 },
     { id: "actions", label: t("actions"), minWidth: 150 },
     { id: "Actions", label: t("financialRecord"), minWidth: 150 },
+  ];
+  const dataGridColumns = [
+    {
+      field: "name",
+      headerName: t("name"),
+      valueGetter: (params) => {
+        return `${params.row.firstName || ""} ${params.row.lastName || ""}`;
+      },
+    },
+    { headerName: t("email"), field: "email" },
+    { headerName: t("gender"), field: "gender" },
+    { headerName: t("phone"), field: "phone" },
+    { headerName: t("view"), field: "View" },
+    { headerName: t("actions"), field: "actions" },
+    { headerName: t("financialRecord"), field: "Actions" },
   ];
 
   const [page, setPage] = React.useState(0);
@@ -48,7 +65,7 @@ export default function AdminTeachers() {
 
   const { data, isLoading } = useAdminTeachers(token);
 
-  const [pdf, setPdf] = useState(null);
+  console.log("data: ", data);
 
   async function handleDownloadFile() {
     try {
@@ -111,91 +128,98 @@ export default function AdminTeachers() {
           {t("download")}
         </Button>
       </Box>
-      {pdf && (
-        <embed
-          src={URL.createObjectURL(pdf)}
-          type="application/pdf"
-          width="100%"
-          height="600px"
-        />
-      )}
+
       {!isLoading ? (
-        <Paper sx={{ width: "100%", padding: "20px" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={"center"}
-                    style={{ top: 57, minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-              <TableBody>
-                {data?.data.length > 0 &&
-                  data.data
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      return (
-                        <TableRow hover role="checkbox" key={row.id + "demj"}>
-                          <TableCell align="center">
-                            {row.firstName + " " + row.lastName || ""}
-                          </TableCell>
-                          <TableCell align="center">{row.email}</TableCell>
-                          <TableCell align="center">
-                            {row.gender || ""}
-                          </TableCell>
-                          <TableCell align="center">
-                            {row.phone || ""}
-                          </TableCell>
-                          <TableCell align="center">
-                            <Button
-                              color="secondary"
-                              onClick={() =>
-                                navigate(`/admin/teacher/${row.id}`)
-                              }
-                            >
-                              <VisibilityIcon />
-                            </Button>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Button
-                              onClick={() => handleDelete(row.id)}
-                              sx={{ minWidth: "10px" }}
-                              color="error"
-                            >
-                              <DeleteIcon />
-                            </Button>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Button
-                              onClick={() =>
-                                navigate(`/admin/teacher/${row.id}/dues`)
-                              }
-                              sx={{ minWidth: "10px" }}
-                            >
-                              <LocalAtmIcon />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={data?.data.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
+        // <Paper sx={{ width: "100%", padding: "20px" }}>
+        //   <TableContainer sx={{ maxHeight: 440 }}>
+        //     <Table stickyHeader aria-label="sticky table">
+        //       <TableRow>
+        //         {columns.map((column) => (
+        //           <TableCell
+        //             key={column.id}
+        //             align={"center"}
+        //             style={{ top: 57, minWidth: column.minWidth }}
+        //           >
+        //             {column.label}
+        //           </TableCell>
+        //         ))}
+        //       </TableRow>
+        //       <TableBody>
+        //         {data?.data.length > 0 &&
+        //           data.data
+        //             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        //             .map((row) => {
+        //               return (
+        //                 <TableRow hover role="checkbox" key={row.id + "demj"}>
+        //                   <TableCell align="center">
+        //                     {row.firstName + " " + row.lastName || ""}
+        //                   </TableCell>
+        //                   <TableCell align="center">{row.email}</TableCell>
+        //                   <TableCell align="center">
+        //                     {row.gender || ""}
+        //                   </TableCell>
+        //                   <TableCell align="center">
+        //                     {row.phone || ""}
+        //                   </TableCell>
+        //                   <TableCell align="center">
+        //                     <Button
+        //                       color="secondary"
+        //                       onClick={() =>
+        //                         navigate(`/admin/teacher/${row.id}`)
+        //                       }
+        //                     >
+        //                       <VisibilityIcon />
+        //                     </Button>
+        //                   </TableCell>
+        //                   <TableCell align="center">
+        //                     <Button
+        //                       onClick={() => handleDelete(row.id)}
+        //                       sx={{ minWidth: "10px" }}
+        //                       color="error"
+        //                     >
+        //                       <DeleteIcon />
+        //                     </Button>
+        //                   </TableCell>
+        //                   <TableCell align="center">
+        //                     <Button
+        //                       onClick={() =>
+        //                         navigate(`/admin/teacher/${row.id}/dues`)
+        //                       }
+        //                       sx={{ minWidth: "10px" }}
+        //                     >
+        //                       <LocalAtmIcon />
+        //                     </Button>
+        //                   </TableCell>
+        //                 </TableRow>
+        //               );
+        //             })}
+        //       </TableBody>
+        //     </Table>
+        //   </TableContainer>
+        //   <TablePagination
+        //     rowsPerPageOptions={[10, 25, 100]}
+        //     component="div"
+        //     count={data?.data.length}
+        //     rowsPerPage={rowsPerPage}
+        //     page={page}
+        //     onPageChange={handleChangePage}
+        //     onRowsPerPageChange={handleChangeRowsPerPage}
+        //   />
+        // </Paper>
+        <DataGrid
+          // {...data.data}
+          // disableColumnFilter
+          // disableColumnSelector
+          // disableDensitySelector
+          columns={dataGridColumns}
+          rows={data.data}
+          pageSizeOptions={[5, 10, 25]} // slots={{ toolbar: GridToolbar }}
+          // slotProps={{
+          //   toolbar: {
+          //     showQuickFilter: true,
+          //   },
+          // }}
+        />
       ) : (
         <Loading />
       )}

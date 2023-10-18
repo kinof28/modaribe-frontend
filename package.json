@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.120",
     "@mui/material": "^5.11.7",
+    "@mui/x-data-grid": "^6.16.2",
     "@react-google-maps/api": "^2.18.1",
     "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",

@@ -37,7 +37,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 import PercentIcon from "@mui/icons-material/Percent";
-
+// Edited by Abdelwahab
+import EmailIcon from "@mui/icons-material/Email";
 const drawerWidth = 240;
 
 const Image = styled("img")({
@@ -132,6 +133,12 @@ function AdminLayout(props) {
       title: t("add_profit"),
       icon: PercentIcon,
       link: "/add-profit",
+    },
+    // Edited by Abdelwahab
+    {
+      title: t("messages"),
+      icon: EmailIcon,
+      link: "/messages",
     },
   ];
 
