@@ -13,6 +13,7 @@ import Loading from "../../components/Loading";
 import { useAdminLessons } from "../../hooks/useAdminLessons";
 import { useSelector } from "react-redux";
 import Moment from "moment";
+import TextField from "@mui/material/TextField";
 
 export default function AdminBookedLessons() {
   const { token } = useSelector((state) => state.admin);
@@ -33,6 +34,7 @@ export default function AdminBookedLessons() {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchInput, setSearchInput] = useState("");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -61,6 +63,13 @@ export default function AdminBookedLessons() {
       {!isLoading ? (
         <Paper sx={{ width: "100%", padding: "20px" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
+            <TextField
+              sx={{ m: 1, width: "90%" }}
+              label={t("search")}
+              variant="outlined"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
             <Table stickyHeader aria-label="sticky table">
               <TableRow>
                 {columns.map((column) => (
@@ -76,6 +85,38 @@ export default function AdminBookedLessons() {
               <TableBody>
                 {data?.data.length > 0 &&
                   data?.data
+                    .filter(
+                      (row) =>
+                        `${
+                          row.Teacher?.firstName +
+                            " " +
+                            row.Teacher?.lastName || t("username")
+                        }`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${row.Student?.name || t("username")}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${row?.totalPrice || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${row.currency || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${
+                          Moment(row.createdAt).format(
+                            "MMMM Do YYYY, h:mm:ss a"
+                          ) || ""
+                        }`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${t(row?.typeOfPayment) || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${t(row?.type + "_place") || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim())
+                    )
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       return (

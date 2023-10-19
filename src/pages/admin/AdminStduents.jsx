@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 import DeleteIcon from "@mui/icons-material/Delete";
+import TextField from "@mui/material/TextField";
 
 export default function AdminStduents() {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ export default function AdminStduents() {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchInput, setSearchInput] = useState("");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -122,6 +124,13 @@ export default function AdminStduents() {
       {!isLoading ? (
         <Paper sx={{ width: "100%", padding: "20px" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
+            <TextField
+              sx={{ m: 1, width: "90%" }}
+              label={t("search")}
+              variant="outlined"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
             <Table stickyHeader aria-label="sticky table">
               <TableRow>
                 {columns.map((column) => (
@@ -137,6 +146,21 @@ export default function AdminStduents() {
               <TableBody>
                 {data?.data.length > 0 &&
                   data?.data
+                    .filter(
+                      (row) =>
+                        `${row.name || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${row.email || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${row.gender || ""}`
+                          .toLowerCase()
+                          .startsWith(searchInput.toLowerCase().trim()) ||
+                        `${row.phoneNumber || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim())
+                    )
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       return (

@@ -35,7 +35,6 @@ export default function Statistics() {
 
   const { token } = useSelector((state) => state.admin);
   const { data, isLoading } = useMainBoxes(token);
-  console.log(data);
 
   const details = [
     {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdminLayout from "../../components/admin/AdminLayout";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -39,7 +39,6 @@ export default function AdminTeachers() {
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
 
   const { data, isLoading } = useAdminTeachers(token);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -144,10 +143,20 @@ export default function AdminTeachers() {
               <TableBody>
                 {data?.data.length > 0 &&
                   data.data
-                    .filter((row) =>
-                      `${row.firstName + " " + row.lastName || ""}`
-                        .toLowerCase()
-                        .includes(searchInput.toLowerCase())
+                    .filter(
+                      (row) =>
+                        `${row.firstName + " " + row.lastName || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${row.email || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim()) ||
+                        `${row.gender || ""}`
+                          .toLowerCase()
+                          .startsWith(searchInput.toLowerCase().trim()) ||
+                        `${row.phone || ""}`
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase().trim())
                     )
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
