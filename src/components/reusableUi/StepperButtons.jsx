@@ -23,12 +23,20 @@ export default function StepperButtons({ onSubmit, load, skipLink }) {
         >
           {t("next")}...
         </Button>
-      ) : (
+      ) : onSubmit ? (
         <Button
           sx={{ textTransform: "capitalize" }}
           variant="contained"
           type="submit"
           onClick={onSubmit}
+        >
+          {t("next")}
+        </Button>
+      ) : (
+        <Button
+          sx={{ textTransform: "capitalize" }}
+          variant="contained"
+          type="submit"
         >
           {t("next")}
         </Button>

@@ -21,13 +21,12 @@ import { useTeacher } from "../../hooks/useTeacher";
 
 export default function AdditionalInformation() {
   const { t } = useTranslation();
-  const [checked, setChecked] = React.useState([]);
-  const [checked_2, setChecked_2] = React.useState([]);
+  const [checked, setChecked] = useState([]);
+  const [checked_2, setChecked_2] = useState([]);
   const { teacher, token } = useSelector((state) => state.teacher);
   const { data } = useTeacher(teacher.id);
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
-
   const {
     register,
     control,
@@ -50,46 +49,33 @@ export default function AdditionalInformation() {
   });
 
   useEffect(() => {
-    if (data) {
-      const user = data?.data;
-      setChecked_2(
-        user?.CurriculumTeachers.map((c) => {
-          return { CurriculumId: c.CurriculumId, TeacherId: c.TeacherId };
-        })
-      );
-      setChecked(
-        user?.TeacherLevels.map((l) => {
-          return { LevelId: l.LevelId, TeacherId: l.TeacherId };
-        })
-      );
-      reset({
-        certificates: user?.haveCertificates ? "yes" : "no",
-        experience: user?.haveExperience ? "yes" : "no",
-        yearsOfExperience: user?.experienceYears,
-        hours_per_week: user?.favHours,
-        gender: user?.favStdGender,
-        bank_name: user?.bank_name,
-        acc_name: user?.acc_name,
-        acc_number: user?.acc_number,
-        iban: user?.iban,
-        paypal_acc: user?.paypal_acc,
-      });
-    }
+    if (!data) return;
+    const user = data?.data;
+    setChecked(
+      user?.TeacherLevels.map((l) => {
+        return { LevelId: l.LevelId, TeacherId: l.TeacherId };
+      })
+    );
+    setChecked_2(
+      user?.CurriculumTeachers.map((c) => {
+        return { CurriculumId: c.CurriculumId, TeacherId: c.TeacherId };
+      })
+    );
+    reset({
+      certificates: user?.haveCertificates ? "yes" : "no",
+      experience: user?.haveExperience ? "yes" : "no",
+      yearsOfExperience: user?.experienceYears,
+      hours_per_week: user?.favHours,
+      gender: user?.favStdGender,
+      bank_name: user?.bank_name,
+      acc_name: user?.acc_name,
+      acc_number: user?.acc_number,
+      iban: user?.iban,
+      paypal_acc: user?.paypal_acc,
+    });
   }, [data]);
 
-  const onSubmit = async (data) => {
-    if (
-      data.bank_name === "" ||
-      data.acc_name === "" ||
-      data.acc_number === "" ||
-      data.iban === "" ||
-      data.paypal_acc === ""
-    ) {
-      console.log(data);
-
-      alert("Please fill all the fields");
-      return;
-    }
+  const onSubmit = async (passedData) => {
     setLoad(true);
     try {
       const response = await fetch(
@@ -103,25 +89,28 @@ export default function AdditionalInformation() {
           body: JSON.stringify({
             curriculums: checked_2,
             levels: checked,
-            haveCertificates: data.certificates == "no" ? false : true,
-            haveExperience: data.experience == "no" ? false : true,
-            favHours: data.hours_per_week,
-            favStdGender: data.gender,
-            experienceYears: data.yearsOfExperience,
-            bank_name: data.bank_name,
-            acc_name: data.acc_name,
-            acc_number: data.acc_number,
-            iban: data.iban,
-            paypal_acc: data.paypal_acc,
+            haveCertificates: passedData.certificates == "no" ? false : true,
+            haveExperience: passedData.experience == "no" ? false : true,
+            favHours: passedData.hours_per_week,
+            favStdGender: passedData.gender,
+            experienceYears: passedData.yearsOfExperience,
+            bank_name: passedData.bank_name,
+            acc_name: passedData.acc_name,
+            acc_number: passedData.acc_number,
+            iban: passedData.iban,
+            paypal_acc: passedData.paypal_acc,
           }),
         }
       );
-      setLoad(false);
       const resData = await response.json();
+      console.log("response: ", resData);
+      setLoad(false);
       if (resData.status !== 200 && resData.status !== 201) {
+        console.log("some error Occurred, response is: ", resData);
         throw new Error("");
+      } else {
+        navigate("/teacher/subjects");
       }
-      navigate("/teacher/subjects");
     } catch (err) {
       console.log(err);
     }
@@ -301,19 +290,15 @@ export default function AdditionalInformation() {
             <Controller
               name="bank_name"
               control={control}
-              required
               render={({ field }) => (
                 <TextField
                   fullWidth
-                  required
                   sx={{ marginBottom: 3 }}
                   name="bank_name"
                   {...field}
+                  {...register("bank_name")}
                 />
               )}
-              {...register("bank_name", {
-                required: "Bank Name is required",
-              })}
             />
 
             {errors.bank_name?.type === "required" && (
@@ -330,20 +315,16 @@ export default function AdditionalInformation() {
             </InputLabel>
             <Controller
               name="acc_name"
-              required
               control={control}
               render={({ field }) => (
                 <TextField
                   fullWidth
-                  required
                   sx={{ marginBottom: 3 }}
                   name="acc_name"
                   {...field}
+                  {...register("acc_name")}
                 />
               )}
-              {...register("acc_name", {
-                required: "Account Name is required",
-              })}
             />
 
             {errors.acc_name?.type === "required" && (
@@ -361,19 +342,15 @@ export default function AdditionalInformation() {
             <Controller
               name="acc_number"
               control={control}
-              required
               render={({ field }) => (
                 <TextField
                   fullWidth
-                  required
                   sx={{ marginBottom: 3 }}
                   name="acc_number"
                   {...field}
+                  {...register("acc_number")}
                 />
               )}
-              {...register("acc_number", {
-                required: "Account Number is required",
-              })}
             />
 
             {errors.acc_number?.type === "required" && (
@@ -390,20 +367,16 @@ export default function AdditionalInformation() {
             </InputLabel>
             <Controller
               name="iban"
-              required
               control={control}
               render={({ field }) => (
                 <TextField
                   fullWidth
-                  required
                   sx={{ marginBottom: 3 }}
                   name="iban"
                   {...field}
+                  {...register("iban")}
                 />
               )}
-              {...register("iban", {
-                required: "IBAN is required",
-              })}
             />
 
             {errors.iban?.type === "required" && (
@@ -420,7 +393,6 @@ export default function AdditionalInformation() {
             </InputLabel>
             <Controller
               name="paypal_acc"
-              required
               control={control}
               render={({ field }) => (
                 <TextField
@@ -428,11 +400,9 @@ export default function AdditionalInformation() {
                   sx={{ marginBottom: 3 }}
                   type="paypal_acc"
                   {...field}
+                  {...register("paypal_acc")}
                 />
               )}
-              {...register("paypal_acc", {
-                required: "PayPal Account is required",
-              })}
             />
             {errors.paypal_acc?.type === "required" && (
               <Typography
@@ -495,9 +465,9 @@ export default function AdditionalInformation() {
               </Typography>
             )}
           </Box>
-          <CheckBoxLevels setChecked={setChecked} checked={checked} />
+          <CheckBoxLevels checked={checked} setChecked={setChecked} />
           <CheckBoxCurriculum checked={checked_2} setChecked={setChecked_2} />
-          <StepperButtons onSubmit={onSubmit} load={load} skipLink="subjects" />
+          <StepperButtons load={load} skipLink="subjects" />
         </form>
       </TeacherLayout>
     </Navbar>
