@@ -5,7 +5,8 @@ import StepperButtons from "../../components/reusableUi/StepperButtons";
 import Navbar from "../../components/Navbar";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "notistack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { changeTeacherImage } from "../../redux/teacherSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -22,49 +23,53 @@ const Image = styled("img")({
 
 export default function TeacherPhoto() {
   const { teacher, token } = useSelector((state) => state.teacher);
+  const dispatch = useDispatch();
   const [image, setImage] = useState(null);
-
   const [imageUrl, setImageUrl] = useState(teacher?.image);
+  const [load, setLoad] = useState(false);
+
   const { t } = useTranslation();
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
-  const [load, setLoad] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(teacher);
-  }, []);
 
   const handleButtonSubmit = async () => {
     try {
       closeSnackbar();
-      if (!image) {
+      if (!imageUrl && !image) {
         enqueueSnackbar(t("image_required"), {
           variant: "error",
           autoHideDuration: 2000,
         });
         throw new Error("image is not found");
-      }
-      setLoad(true);
-      const formData = new FormData();
-      formData.append("image", image);
-      const response = await fetch(
-        `${process.env.REACT_APP_API_KEY}api/v1/teacher/image/${teacher.id}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: token,
-          },
-          body: formData,
+      } else if (imageUrl && !image) {
+        navigate("/teacher/AdditionalInformation");
+      } else {
+        setLoad(true);
+        const formData = new FormData();
+        formData.append("image", image);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_KEY}api/v1/teacher/image/${teacher.id}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: token,
+            },
+            body: formData,
+          }
+        );
+        if (response.status !== 200 && response.status !== 201) {
+          enqueueSnackbar(t("image_upload_error"), {
+            variant: "error",
+            autoHideDuration: 2000,
+          });
+          throw new Error("failed occured");
         }
-      );
-      if (response.status !== 200 && response.status !== 201) {
-        throw new Error("failed occured");
-      }
-      setLoad(false);
-      const resData = await response.json();
+        setLoad(false);
+        const resData = await response.json();
+        dispatch(changeTeacherImage({ image: resData.data }));
 
-      teacher.image = resData.data;
-      navigate("/teacher/AdditionalInformation");
+        navigate("/teacher/AdditionalInformation");
+      }
     } catch (err) {
       console.log(err);
     }

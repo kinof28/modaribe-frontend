@@ -145,6 +145,7 @@
   "Video": "Video",
   "password": "Password",
   "image_required": "Upload image is required",
+  "image_upload_error": "Error Occurred while uploading, please try an other image",
   "view_children": "Childrens",
   "add": "Add",
   "student_parent": "Parents requests for children",
