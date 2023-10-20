@@ -154,8 +154,13 @@ export default function TeacherSubjects() {
       const resData = await response.json();
       if (resData.status !== 200 && resData.status !== 201) {
         throw new Error("");
+      } else {
+        enqueueSnackbar(t("update_success"), {
+          variant: "success",
+          autoHideDuration: 1000,
+        });
+        navigate("/teacher/resume");
       }
-      navigate("/teacher/resume");
     } catch (err) {
       console.log(err);
     }
