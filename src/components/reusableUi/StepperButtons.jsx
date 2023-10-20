@@ -41,7 +41,7 @@ export default function StepperButtons({ onSubmit, load, skipLink }) {
           {t("next")}
         </Button>
       )}
-      {skipLink === "AdditionalInformation" && (
+      {(skipLink === "AdditionalInformation" || skipLink === "credit") && (
         <Button
           sx={{ textTransform: "capitalize" }}
           variant="outlined"
