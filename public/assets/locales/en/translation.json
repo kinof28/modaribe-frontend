@@ -330,5 +330,6 @@
   "discount_precent": "Packages up to",
   "addTime": "Add Time",
   "note_teacher": "Note: 15% of the platform management percentage will be deducted from your profits",
-  "loading_conversations": "Loading Conversations"
+  "loading_conversations": "Loading Conversations",
+  "update_success": "Updated Successfully"
 }
