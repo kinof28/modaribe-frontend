@@ -66,7 +66,6 @@ export default function TeacherVideo() {
         }
       );
       const resData = await response.json();
-      console.log(resData);
       enqueueSnackbar(t("update_success"), {
         variant: "success",
         autoHideDuration: 1000,
