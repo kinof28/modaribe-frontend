@@ -15,6 +15,11 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTeacher } from "../../hooks/useTeacher";
+import { useSnackbar } from "notistack";
+
+const urlRegex = new RegExp(
+  "^(http(s)://.)[-a-zA-Z0-9@:%._+~#=]{2,256}.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$"
+);
 
 export default function TeacherVideo() {
   const { teacher, token } = useSelector((state) => state.teacher);
@@ -22,6 +27,7 @@ export default function TeacherVideo() {
   const navigate = useNavigate();
   const { data } = useTeacher(teacher?.id);
   const { t } = useTranslation();
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
 
   const {
     register,
@@ -45,6 +51,7 @@ export default function TeacherVideo() {
   }, [data]);
 
   async function onSubmit(data) {
+    if (data.link.trim() === "" || urlRegex.test(data.link.trim())) return;
     try {
       setLoad(true);
       const response = await fetch(
@@ -59,7 +66,12 @@ export default function TeacherVideo() {
         }
       );
       const resData = await response.json();
-      navigate("/");
+      console.log(resData);
+      enqueueSnackbar(t("update_success"), {
+        variant: "success",
+        autoHideDuration: 1000,
+      });
+      navigate("/teacher/credit");
     } catch (err) {
       console.log(err);
     }

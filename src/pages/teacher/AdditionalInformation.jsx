@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTeacher } from "../../hooks/useTeacher";
+import { useSnackbar } from "notistack";
 
 export default function AdditionalInformation() {
   const { t } = useTranslation();
@@ -27,6 +28,8 @@ export default function AdditionalInformation() {
   const { data } = useTeacher(teacher.id);
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
+
   const {
     register,
     control,
@@ -103,12 +106,16 @@ export default function AdditionalInformation() {
         }
       );
       const resData = await response.json();
-      console.log("response: ", resData);
+      // console.log("response: ", resData);
       setLoad(false);
       if (resData.status !== 200 && resData.status !== 201) {
         console.log("some error Occurred, response is: ", resData);
         throw new Error("");
       } else {
+        enqueueSnackbar(t("update_success"), {
+          variant: "success",
+          autoHideDuration: 1000,
+        });
         navigate("/teacher/subjects");
       }
     } catch (err) {

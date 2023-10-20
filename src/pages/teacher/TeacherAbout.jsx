@@ -24,6 +24,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import countries from "../../data/countries";
 import Cookies from "js-cookie";
+import { useSnackbar } from "notistack";
 
 export default function TeacherAbout() {
   const { teacher, token } = useSelector((state) => state.teacher);
@@ -31,6 +32,7 @@ export default function TeacherAbout() {
   const { data, isLoading } = useTeacher(teacher?.id);
   const dispatch = useDispatch();
   const lang = Cookies.get("i18next") || "en";
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -94,6 +96,10 @@ export default function TeacherAbout() {
     dispatch(
       changeTeacherName({ firstName: data.firstName, lastName: data.lastName })
     );
+    enqueueSnackbar(t("update_success"), {
+      variant: "success",
+      autoHideDuration: 1000,
+    });
     navigate("/teacher/photo");
   }
 

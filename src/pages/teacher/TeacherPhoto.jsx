@@ -8,7 +8,6 @@ import { useSnackbar } from "notistack";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTeacherImage } from "../../redux/teacherSlice";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const Label = styled("label")({
   width: "100%",
@@ -67,7 +66,10 @@ export default function TeacherPhoto() {
         setLoad(false);
         const resData = await response.json();
         dispatch(changeTeacherImage({ image: resData.data }));
-
+        enqueueSnackbar(t("update_success"), {
+          variant: "success",
+          autoHideDuration: 1000,
+        });
         navigate("/teacher/AdditionalInformation");
       }
     } catch (err) {
