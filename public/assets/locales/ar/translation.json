@@ -342,5 +342,6 @@
   "note_teacher": "ملاحظة: سيتم خصم 15% نسبة لادارة المنصة من الارباح الخاصة بكم",
   "loading_conversations": "جاري تحميل المحادثات",
   "update_success": "تم التحديث بنجاح",
-  "start_lesson_meet": "إبدأ درس على Google Meet"
+  "start_lesson_meet": "إبدأ درس على Google Meet",
+  "add_time_to_proceed": "يجب على الأقل إضافة توقيت لأضافة هذا اليوم"
 }

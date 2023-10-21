@@ -1,4 +1,4 @@
-import { Divider, Box, InputLabel } from "@mui/material";
+import { Divider, Box, InputLabel, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import AvailablitlyDay from "../../components/teacher/AvailablitlyDay";
@@ -22,6 +22,7 @@ export default function TeacherAvailability() {
   const [selectedDays, setSelectedDays] = useState([]);
   const [selectedTimezone, setSelectedTimezone] = useState(null);
   const [load, setLoad] = useState(false);
+  const [errorId, setErrorID] = useState(0);
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -54,6 +55,23 @@ export default function TeacherAvailability() {
   };
 
   async function onSubmit() {
+    let i = 0;
+    for (let index = 0; index < selectedDays.length; index++) {
+      const d = selectedDays[index];
+      for (i = 0; i < selectedTimes.length; i++) {
+        if (d === selectedTimes[i].DayId) break;
+      }
+      if (i >= selectedTimes.length) {
+        setErrorID(d);
+        closeSnackbar();
+        enqueueSnackbar(t("add_time_to_proceed"), {
+          variant: "error",
+          autoHideDuration: 1500,
+        });
+        return;
+      }
+    }
+    setErrorID(0);
     const days = selectedTimes.map((day) => {
       return { ...day, TeacherId: teacher.id };
     });
@@ -74,6 +92,7 @@ export default function TeacherAvailability() {
         }
       );
       const data = await response.json();
+      closeSnackbar();
       enqueueSnackbar(t("update_success"), {
         variant: "success",
         autoHideDuration: 1000,
@@ -107,6 +126,20 @@ export default function TeacherAvailability() {
                   setSelectedTimes={setSelectedTimes}
                   selectedTimes={selectedTimes}
                 />
+                {day.id === errorId && (
+                  <Typography
+                    color="error"
+                    role="alert"
+                    sx={{
+                      fontSize: "13px",
+                      marginTop: "-15px",
+                      marginBottom: "15px",
+                      marginX: "15px",
+                    }}
+                  >
+                    {t("add_time_to_proceed")}
+                  </Typography>
+                )}
                 <Divider />
               </>
             );

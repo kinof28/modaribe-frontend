@@ -332,5 +332,6 @@
   "note_teacher": "Note: 15% of the platform management percentage will be deducted from your profits",
   "loading_conversations": "Loading Conversations",
   "update_success": "Updated Successfully",
-  "start_lesson_meet": "Start a Lesson on Google Meet"
+  "start_lesson_meet": "Start a Lesson on Google Meet",
+  "add_time_to_proceed": "You have to add time for this Day"
 }
