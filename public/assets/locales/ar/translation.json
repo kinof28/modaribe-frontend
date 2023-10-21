@@ -341,5 +341,6 @@
   "discount_precent": "خصم يصل إلى",
   "note_teacher": "ملاحظة: سيتم خصم 15% نسبة لادارة المنصة من الارباح الخاصة بكم",
   "loading_conversations": "جاري تحميل المحادثات",
-  "update_success": "تم التحديث بنجاح"
+  "update_success": "تم التحديث بنجاح",
+  "start_lesson_meet": "إبدأ درس على Google Meet"
 }
