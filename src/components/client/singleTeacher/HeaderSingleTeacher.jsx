@@ -31,7 +31,7 @@ export default function HeaderSingleTeacher({ teacher }) {
           <Typography
             sx={{ fontSize: "20px", marginBottom: "8px", fontWeight: "700" }}
           >
-            {teacher?.firstName + " " + teacher?.lastName[0]}
+            {teacher?.firstName + " " + teacher?.lastName}
           </Typography>
           <Box
             sx={{
