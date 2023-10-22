@@ -351,5 +351,6 @@
   "add_time_to_proceed": "يجب على الأقل إضافة توقيت لأضافة هذا اليوم",
   "file_manager": "مدير الملفات",
   "invalid_session": "لا يوجد درس محجوز بالرقم :",
-  "lessonTitle": "عنوان الدرس"
+  "lessonTitle": "عنوان الدرس",
+  "admin_message": ":رسالة من مدير الموقع"
 }
