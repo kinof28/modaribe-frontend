@@ -113,7 +113,9 @@ export default function Conversaition({ messages }) {
                 you={you}
                 key={index + "pq1"}
                 message={msg}
-                isAdmin={isAdmin}
+                isAdmin={
+                  isAdmin || msg.studentId === "0" || msg.teacherId === "0"
+                }
               />
             </div>
           );

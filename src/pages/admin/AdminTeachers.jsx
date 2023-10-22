@@ -16,8 +16,18 @@ import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EmailIcon from "@mui/icons-material/Email";
 import { useSnackbar } from "notistack";
 import TextField from "@mui/material/TextField";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "../../firebase";
 
 export default function AdminTeachers() {
   const navigate = useNavigate();
@@ -33,8 +43,9 @@ export default function AdminTeachers() {
     { id: "Gender", label: t("gender"), minWidth: 150 },
     { id: "Phone", label: t("phone"), minWidth: 150 },
     { id: "View", label: t("view"), minWidth: 150 },
+    { id: "message", label: t("instant_messaging"), minWidth: 150 },
     { id: "actions", label: t("actions"), minWidth: 150 },
-    { id: "Actions", label: t("financialRecord"), minWidth: 150 },
+    { id: "financialRecord", label: t("financialRecord"), minWidth: 150 },
   ];
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
 
@@ -89,6 +100,31 @@ export default function AdminTeachers() {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  // Added by Abdelwahab
+  const handleCreateMessage = async (teacher) => {
+    console.log("id: ", teacher);
+    const q = query(
+      collection(db, "chats"),
+      where("teacherId", "==", `${teacher?.id}`)
+    );
+
+    const res = await getDocs(q);
+    if (res.empty) {
+      const time = Timestamp.now();
+      await addDoc(collection(db, "chats"), {
+        messages: [],
+        teacherId: `${teacher?.id}`,
+        studentId: `0`,
+        studentName: "",
+        studentImage: "",
+        teacherName: `${teacher?.firstName} ${teacher?.lastName}`,
+        teacherImage: teacher?.image,
+        lastmessage: time,
+      });
+    }
+    navigate(`/admin/messages`);
   };
 
   return (
@@ -180,6 +216,14 @@ export default function AdminTeachers() {
                               }
                             >
                               <VisibilityIcon />
+                            </Button>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Button
+                              color="success"
+                              onClick={() => handleCreateMessage(row)}
+                            >
+                              <EmailIcon />
                             </Button>
                           </TableCell>
                           <TableCell align="center">

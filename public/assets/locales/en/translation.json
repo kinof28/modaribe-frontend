@@ -342,5 +342,6 @@
   "file_manager": "File Manager",
   "invalid_session": "There is no Booked lesson with ID: ",
   "lessonTitle": "Lesson Title",
-  "admin_message": "Message from the Admin:"
+  "admin_message": "Message from the Admin:",
+  "instant_messaging": "Send Message"
 }
