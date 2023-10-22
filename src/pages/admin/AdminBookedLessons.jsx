@@ -23,13 +23,13 @@ export default function AdminBookedLessons() {
   const columns = [
     { id: "Name", label: t("teacher"), minWidth: 150 },
     { id: "Email", label: t("student"), minWidth: 150 },
-    { id: "Gender", label: t("price"), minWidth: 150 },
+    { id: "price", label: t("price"), minWidth: 150 },
     { id: "Phone", label: t("currency"), minWidth: 150 },
-    { id: "View", label: t("bookingDate"), minWidth: 150 },
-    { id: "View", label: t("payment"), minWidth: 150 },
-    { id: "View", label: t("where"), minWidth: 150 },
-    { id: "View", label: t("confirmTeacher"), minWidth: 150 },
-    { id: "View", label: t("confirmStudent"), minWidth: 150 },
+    { id: "bookingDate", label: t("bookingDate"), minWidth: 150 },
+    { id: "payment", label: t("payment"), minWidth: 150 },
+    { id: "where", label: t("where"), minWidth: 150 },
+    { id: "confirmTeacher", label: t("confirmTeacher"), minWidth: 150 },
+    { id: "confirmStudent", label: t("confirmStudent"), minWidth: 150 },
   ];
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

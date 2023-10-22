@@ -190,7 +190,10 @@
   "price": "Price",
   "currency": "Currency",
   "bookingDate": "Booking Date",
+  "bookedLessonDate": "Lesson Date",
+  "period": "Period in hours",
   "payments": "Payments",
+  "payed": "Is Payed",
   "bookingPay": "Booking Pay",
   "speaks": "Speaks",
   "certifiedTeacher": "Certified teacher",
@@ -337,5 +340,6 @@
   "start_lesson_meet": "Start a Lesson on Google Meet",
   "add_time_to_proceed": "You have to add time for this Day",
   "file_manager": "File Manager",
-  "invalid_session": "There is no Booked lesson with ID: "
+  "invalid_session": "There is no Booked lesson with ID: ",
+  "lessonTitle": "Lesson Title"
 }

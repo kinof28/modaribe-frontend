@@ -11,6 +11,8 @@ import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import Moment from "moment";
+
 function SingleBookedLesson() {
   const { bookedLessonId } = useParams();
   const { token } = useSelector((state) => state.admin);
@@ -254,7 +256,253 @@ function SingleBookedLesson() {
               {/* Session details section */}
               <Paper sx={{ padding: "1.5rem" }}>
                 <Typography variant="h4">{t("aboutSession")}</Typography>
-              </Paper>{" "}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    marginY: "12px",
+                    marginX: "6px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("bookingDate")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {Moment(bookedLesson.createdAt).format(
+                        "MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("bookedLessonDate")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {Moment(bookedLesson.date).format(
+                        "MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("lessonTitle")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {bookedLesson?.title}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("where")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {t(bookedLesson?.type + "_place")}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("period")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {bookedLesson.period}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("lessonPrice")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {bookedLesson?.price}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("totlalessonPrice")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {bookedLesson?.totalPrice}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("currency")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {bookedLesson?.currency}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("payment")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {t(bookedLesson?.typeOfPayment)}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("confirmTeacher")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {bookedLesson?.teacherAccept
+                        ? t("confirmed")
+                        : t("pending")}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("confirmStudent")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {bookedLesson?.studentAccept
+                        ? t("confirmed")
+                        : t("pending")}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#4f4f51",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {t("payed")}:{" "}
+                    </Typography>
+                    <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                      {bookedLesson?.isPaid ? t("confirmed") : t("pending")}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Paper>
             </>
           ) : (
             <Paper sx={{ padding: "2rem" }}>
