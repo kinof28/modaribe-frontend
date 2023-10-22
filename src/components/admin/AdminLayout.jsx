@@ -39,6 +39,7 @@ import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact
 import PercentIcon from "@mui/icons-material/Percent";
 // Edited by Abdelwahab
 import EmailIcon from "@mui/icons-material/Email";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
 const drawerWidth = 240;
 
 const Image = styled("img")({
@@ -139,6 +140,11 @@ function AdminLayout(props) {
       title: t("messages"),
       icon: EmailIcon,
       link: "/messages",
+    },
+    {
+      title: t("file_manager"),
+      icon: Inventory2Icon,
+      link: "/history",
     },
   ];
 

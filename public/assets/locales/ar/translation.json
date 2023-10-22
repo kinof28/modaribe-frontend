@@ -343,5 +343,6 @@
   "loading_conversations": "جاري تحميل المحادثات",
   "update_success": "تم التحديث بنجاح",
   "start_lesson_meet": "إبدأ درس على Google Meet",
-  "add_time_to_proceed": "يجب على الأقل إضافة توقيت لأضافة هذا اليوم"
+  "add_time_to_proceed": "يجب على الأقل إضافة توقيت لأضافة هذا اليوم",
+  "file_manager": "مدير الملفات"
 }

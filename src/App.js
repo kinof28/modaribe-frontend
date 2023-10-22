@@ -72,6 +72,8 @@ import AdminSocialMedia from "./pages/admin/AdminSocialMedia";
 import AdminAddProfit from "./pages/admin/AdminAddProfit";
 import ForgetPasswordFirstStep from "./pages/auth/forgetPassword/ForgetPassFirstStep";
 import AdminMessages from "./pages/admin/AdminMessages";
+import SingleBookedLesson from "./pages/admin/SingleBookedLesson";
+import AdminHistory from "./pages/admin/AdminHistory";
 
 const theme = createTheme({
   direction: "rtl",
@@ -403,50 +405,18 @@ function App() {
                 admin ? <AdminMessages /> : <Navigate to="/admin/login" />
               }
             />
-
-            {/* <Route path="admin" element={<AdminHome />} />
-            <Route path="admin/levels" element={<AdminLevels />} />
-            <Route path="admin/years" element={<AdminClasses />} />
-            <Route path="admin/curriculums" element={<AdminCurriculums />} />
-            <Route path="admin/subjects" element={<Subjects />} />
             <Route
-              path="admin/categories"
-              element={<AdminSubjectCategories />}
+              path="admin/history"
+              element={
+                admin ? <AdminHistory /> : <Navigate to="/admin/login" />
+              }
             />
             <Route
-              path="admin/Curriculums_insert"
-              element={<InsertCurriculums />}
+              path="admin/booked-lesson/:bookedLessonId"
+              element={
+                admin ? <SingleBookedLesson /> : <Navigate to="/admin/login" />
+              }
             />
-            <Route
-              path="admin/teachers_approve"
-              element={<TeachersApprove />}
-            />
-            <Route
-              path="admin/parent-student"
-              element={<AdminParentStudent />}
-            />
-            <Route
-              path="admin/booked-lessons"
-              element={<AdminBookedLessons />}
-            />
-            <Route path="admin/payments" element={<AdminPayments />} />
-            <Route path="admin/teachers" element={<AdminTeachers />} />
-
-            <Route path="admin/students" element={<AdminStduents />} />
-            <Route path="admin/social-media" element={<AdminSocialMedia />} />
-            <Route path="admin/add-profit" element={<AdminAddProfit />} />
-            <Route
-              path="admin/student/:id/payment"
-              element={<AdminStudentHistory />}
-            />
-            <Route
-              path="admin/teacher/:id/dues"
-              element={<AdminTeacherDues />}
-            />
-            <Route
-              path="admin/teacher/:teacherId"
-              element={<AdminSingleTeacher />}
-            /> */}
 
             {/** parent pages */}
             <Route path="parent/register" element={<ParentRegister />} />
