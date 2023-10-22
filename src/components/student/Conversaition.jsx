@@ -27,12 +27,6 @@ export default function Conversaition({ messages }) {
   const { data } = useTeacher(messages?.teacherId);
   const { data: data2 } = useStudent(messages?.studentId);
 
-  console.log("messages: ", messages);
-  console.log("student: ", student);
-  console.log("teacher: ", teacher);
-  console.log("data about teacher: ", data);
-  console.log("data about student: ", data2);
-
   const ref = useRef();
 
   const { register, control, handleSubmit, reset, watch } = useForm({
@@ -109,7 +103,6 @@ export default function Conversaition({ messages }) {
         </Typography>
       </Box>
       <Divider sx={{ marginY: "10px" }} />
-      {/* ------------------------------ */}
       <Box sx={{ paddingX: "20px", height: "400px", overflowY: "auto" }}>
         {messages?.messages?.map((msg, index) => {
           const you = student ? msg.studentId !== "" : msg.teacherId !== "";
