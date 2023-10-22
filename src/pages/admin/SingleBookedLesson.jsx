@@ -25,7 +25,6 @@ function SingleBookedLesson() {
       setBookedLesson(data.data.filter((i) => `${i.id}` === bookedLessonId)[0]);
   }, [data, bookedLessonId]);
 
-  console.log(bookedLesson);
   return (
     <AdminLayout>
       {!isLoading ? (
