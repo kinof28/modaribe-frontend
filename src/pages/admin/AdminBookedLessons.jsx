@@ -14,12 +14,12 @@ import { useAdminLessons } from "../../hooks/useAdminLessons";
 import { useSelector } from "react-redux";
 import Moment from "moment";
 import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminBookedLessons() {
   const { token } = useSelector((state) => state.admin);
   const { t } = useTranslation();
   const { data, isLoading } = useAdminLessons(token);
-
   const columns = [
     { id: "Name", label: t("teacher"), minWidth: 150 },
     { id: "Email", label: t("student"), minWidth: 150 },
@@ -35,6 +35,7 @@ export default function AdminBookedLessons() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchInput, setSearchInput] = useState("");
+  const navigate = useNavigate();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -120,7 +121,14 @@ export default function AdminBookedLessons() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       return (
-                        <TableRow hover role="checkbox" key={row.id + "demj"}>
+                        <TableRow
+                          sx={{ cursor: "pointer" }}
+                          hover
+                          key={row.id + "demj"}
+                          onClick={() =>
+                            navigate(`/admin/booked-lesson/${row.id}`)
+                          }
+                        >
                           <TableCell align="center">
                             {row.Teacher?.firstName +
                               " " +
