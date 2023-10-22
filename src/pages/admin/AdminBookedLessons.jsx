@@ -31,7 +31,6 @@ export default function AdminBookedLessons() {
     { id: "View", label: t("confirmTeacher"), minWidth: 150 },
     { id: "View", label: t("confirmStudent"), minWidth: 150 },
   ];
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchInput, setSearchInput] = useState("");

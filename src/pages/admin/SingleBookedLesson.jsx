@@ -1,18 +1,273 @@
-import { Container, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Container, Paper, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAdminLessons } from "../../hooks/useAdminLessons";
 import AdminLayout from "../../components/admin/AdminLayout";
-
+import { useEffect, useState } from "react";
+import Loading from "../../components/Loading";
+import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
+import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 function SingleBookedLesson() {
   const { bookedLessonId } = useParams();
+  const { token } = useSelector((state) => state.admin);
+  const { t } = useTranslation();
+  const lang = Cookies.get("i18next") || "en";
+  const { data, isLoading } = useAdminLessons(token);
+  const [bookedLesson, setBookedLesson] = useState([]);
+  useEffect(() => {
+    if (data)
+      setBookedLesson(data.data.filter((i) => `${i.id}` === bookedLessonId)[0]);
+  }, [data, bookedLessonId]);
+
+  console.log(bookedLesson);
   return (
     <AdminLayout>
-      <Container
-        sx={{ marginBottom: "50px", marginTop: "30px", overflow: "hidden" }}
-      >
-        <Paper>
-          <Typography>Booked Lesson Id: {bookedLessonId} </Typography>
-        </Paper>
-      </Container>
+      {!isLoading ? (
+        <>
+          {bookedLesson ? (
+            <>
+              {/* teacher details section */}
+              <Paper sx={{ padding: "1.5rem" }}>
+                <Typography variant="h4">{t("aboutTeacher")}</Typography>
+                <Box
+                  sx={{ marginTop: "30px", display: "flex", columnGap: "20px" }}
+                >
+                  <Avatar
+                    src={`${process.env.REACT_APP_API_KEY}images/${bookedLesson?.Teacher?.image}`}
+                    sx={{ width: "141px", height: "141px" }}
+                  />
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "20px",
+                        marginBottom: "8px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      {bookedLesson?.Teacher?.firstName +
+                        " " +
+                        bookedLesson?.Teacher?.lastName}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        columnGap: "4px",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <SpeakerNotesIcon
+                        sx={{ fontSize: "16px", color: "#d5d5d5" }}
+                      />
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("certifiedTeacher")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {bookedLesson?.Teacher?.experienceYears}{" "}
+                        {t("yearsofexperience")}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        columnGap: "4px",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <LocationOnIcon
+                        sx={{ fontSize: "16px", color: "#d5d5d5" }}
+                      />
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("location")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {bookedLesson?.Teacher?.city +
+                          " , " +
+                          bookedLesson?.Teacher?.country}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        columnGap: "4px",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <PhoneEnabledIcon
+                        sx={{ fontSize: "16px", color: "#d5d5d5" }}
+                      />
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("phone")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {bookedLesson?.Teacher?.phone}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        columnGap: "4px",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <AlternateEmailIcon
+                        sx={{ fontSize: "16px", color: "#d5d5d5" }}
+                      />
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("email")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {bookedLesson?.Teacher?.email}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Paper>
+              {/*   student details section */}
+              <Paper sx={{ padding: "1.5rem", marginY: "1rem" }}>
+                <Typography variant="h4">{t("aboutStudent")}</Typography>
+                <Box
+                  sx={{ marginTop: "30px", display: "flex", columnGap: "20px" }}
+                >
+                  <Avatar
+                    src={`${process.env.REACT_APP_API_KEY}images/${bookedLesson?.Student?.image}`}
+                    sx={{ width: "141px", height: "141px" }}
+                  />
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "20px",
+                        marginBottom: "8px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      {bookedLesson?.Student?.name}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        columnGap: "4px",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <LocationOnIcon
+                        sx={{ fontSize: "16px", color: "#d5d5d5" }}
+                      />
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("location")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {bookedLesson?.Student?.city +
+                          " , " +
+                          bookedLesson?.Student?.nationality}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        columnGap: "4px",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <PhoneEnabledIcon
+                        sx={{ fontSize: "16px", color: "#d5d5d5" }}
+                      />
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("phone")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {bookedLesson?.Student?.phoneNumber}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        columnGap: "4px",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <AlternateEmailIcon
+                        sx={{ fontSize: "16px", color: "#d5d5d5" }}
+                      />
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("email")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {bookedLesson?.Student?.email}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Paper>
+              {/* Session details section */}
+              <Paper sx={{ padding: "1.5rem" }}>
+                <Typography variant="h4">{t("aboutSession")}</Typography>
+              </Paper>{" "}
+            </>
+          ) : (
+            <Paper sx={{ padding: "2rem" }}>
+              <Typography variant="h2">
+                {t("invalid_session") + bookedLessonId}
+              </Typography>
+            </Paper>
+          )}
+        </>
+      ) : (
+        <Loading />
+      )}
+      {/* </Container> */}
     </AdminLayout>
   );
 }

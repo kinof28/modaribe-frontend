@@ -222,6 +222,8 @@
   "login_as_student": "الرجاء تسجيل الدخول كطالب",
   "ok": "موافق",
   "aboutTeacher": "عن المدرس",
+  "aboutStudent": "عن التلميذ",
+  "aboutSession": "عن الدرس",
   "typeStudent": "من هم الطلاب الذين يريد تعليمهم وتدريبهم؟",
   "genderStudents": "جنس الطالب الذي يقوم بتدريسهم",
   "levelStudents": "مستوى الطالب الذي يقوم بتدريسه",
@@ -344,5 +346,6 @@
   "update_success": "تم التحديث بنجاح",
   "start_lesson_meet": "إبدأ درس على Google Meet",
   "add_time_to_proceed": "يجب على الأقل إضافة توقيت لأضافة هذا اليوم",
-  "file_manager": "مدير الملفات"
+  "file_manager": "مدير الملفات",
+  "invalid_session": "لا يوجد درس محجوز بالرقم :"
 }

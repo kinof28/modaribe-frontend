@@ -223,6 +223,8 @@
   "login_as_student": "Please login as student",
   "ok": "okay",
   "aboutTeacher": "About the teacher",
+  "aboutStudent": "About the student",
+  "aboutSession": "About the lesson",
   "typeStudent": "Which students want to teach and train?",
   "genderStudents": "Student's gender he teach",
   "levelStudents": "Student's level he teach",
@@ -334,5 +336,6 @@
   "update_success": "Updated Successfully",
   "start_lesson_meet": "Start a Lesson on Google Meet",
   "add_time_to_proceed": "You have to add time for this Day",
-  "file_manager": "File Manager"
+  "file_manager": "File Manager",
+  "invalid_session": "There is no Booked lesson with ID: "
 }
