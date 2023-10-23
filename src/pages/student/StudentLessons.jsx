@@ -57,6 +57,8 @@ export default function StudentLessons() {
                       " " +
                       lesson?.Teacher?.lastName
                     }
+                    parentTeacher={lesson?.Teacher}
+                    parentStudent={student}
                     date={lesson?.date}
                     type={lesson?.type}
                     period={lesson?.period}

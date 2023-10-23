@@ -35,6 +35,8 @@ export default function TeacherLessons() {
                   <BookedLesson
                     image={lesson?.Student?.image}
                     name={lesson?.Student.name}
+                    parentTeacher={teacher}
+                    parentStudent={lesson?.Student}
                     date={lesson?.date}
                     type={lesson?.type}
                     period={lesson?.period}

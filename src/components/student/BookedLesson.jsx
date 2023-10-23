@@ -5,6 +5,16 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function BookedLesson({
   image,
@@ -16,10 +26,13 @@ export default function BookedLesson({
   studentAccept,
   teacherAccept,
   sessionId,
+  parentTeacher,
+  parentStudent,
 }) {
   const { t } = useTranslation();
   const teacher = useSelector((state) => state.teacher);
   const student = useSelector((state) => state.student);
+  const navigate = useNavigate();
   const [showAttend, setShowAttend] = useState(
     (isStudent && !studentAccept) || (!isStudent && !teacherAccept)
   );
@@ -55,6 +68,34 @@ export default function BookedLesson({
       console.log(err);
     }
   }
+  const handleCreateMessage = async () => {
+    console.log("starting messaging.....");
+    console.log("is Student: ", isStudent);
+    console.log("parent teacher: ", parentTeacher);
+    console.log("parent Student: ", parentStudent);
+
+    const q = query(
+      collection(db, "chats"),
+      where("studentId", "==", `${parentStudent?.id}`),
+      where("teacherId", "==", `${parentTeacher?.id}`)
+    );
+    const res = await getDocs(q);
+    if (res.empty) {
+      const time = Timestamp.now();
+      await addDoc(collection(db, "chats"), {
+        messages: [],
+        teacherId: `${parentTeacher?.id}`,
+        studentId: `${parentStudent?.id}`,
+        studentName: parentStudent?.name,
+        studentImage: parentStudent?.image,
+        teacherName: `${parentTeacher?.firstName} ${parentTeacher?.lastName}`,
+        teacherImage: parentTeacher?.image,
+        lastmessage: time,
+      });
+    }
+    if (isStudent) navigate(`/student/messages`);
+    else navigate(`/teacher/messages`);
+  };
 
   return (
     <>
@@ -116,6 +157,15 @@ export default function BookedLesson({
                 {t("attendLesson")}
               </Button>
             )}
+            <Button
+              onClick={handleCreateMessage}
+              variant="contained"
+              size="small"
+              sx={{ marginTop: "4px", marginBottom: "8px", marginX: "16px" }}
+              color="warning"
+            >
+              {t("instant_messaging")}
+            </Button>
           </Box>
         </Box>
       </Box>
