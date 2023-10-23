@@ -73,16 +73,20 @@ export default function Conversaition({ messages }) {
       >
         {!student && !teacher ? (
           <Box sx={{ display: "flex", gap: "3px" }}>
-            <Avatar
-              alt={`${data?.data?.firstName}`}
-              src={`${process.env.REACT_APP_API_KEY}images/${data?.data?.image}`}
-              sx={{ width: "45px", height: "45px" }}
-            />
-            <Avatar
-              alt={`${data2?.data?.name}`}
-              src={`${process.env.REACT_APP_API_KEY}images/${data2?.data?.image}`}
-              sx={{ width: "45px", height: "45px" }}
-            />
+            {data?.data && (
+              <Avatar
+                alt={`${data?.data?.firstName}`}
+                src={`${process.env.REACT_APP_API_KEY}images/${data?.data?.image}`}
+                sx={{ width: "45px", height: "45px" }}
+              />
+            )}
+            {data2?.data && (
+              <Avatar
+                alt={`${data2?.data?.name}`}
+                src={`${process.env.REACT_APP_API_KEY}images/${data2?.data?.image}`}
+                sx={{ width: "45px", height: "45px" }}
+              />
+            )}
           </Box>
         ) : (
           <Avatar
@@ -95,11 +99,18 @@ export default function Conversaition({ messages }) {
         )}
 
         <Typography>
-          {student
-            ? `${data?.data?.firstName} ${data?.data?.lastName}`
-            : teacher
-            ? `${data2?.data?.name}`
-            : `${data?.data?.firstName} ${data?.data?.lastName} & ${data2?.data?.name} `}
+          {student ? (
+            `${data?.data?.firstName} ${data?.data?.lastName}`
+          ) : teacher ? (
+            `${data2?.data?.name}`
+          ) : (
+            <>
+              {data?.data &&
+                `${data?.data?.firstName + " " + data?.data?.lastName}`}
+              {data?.data && data2?.data && " & "}
+              {data2?.data && `${data2?.data?.name}`}
+            </>
+          )}
         </Typography>
       </Box>
       <Divider sx={{ marginY: "10px" }} />
