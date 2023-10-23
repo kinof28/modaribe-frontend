@@ -16,7 +16,18 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 import DeleteIcon from "@mui/icons-material/Delete";
+// Added by Abdelwahab
+import EmailIcon from "@mui/icons-material/Email";
 import TextField from "@mui/material/TextField";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "../../firebase";
 
 export default function AdminStduents() {
   const { t } = useTranslation();
@@ -27,9 +38,12 @@ export default function AdminStduents() {
     { id: "Email", label: t("email"), minWidth: 150 },
     { id: "Gender", label: t("gender"), minWidth: 150 },
     { id: "Phone", label: t("phone"), minWidth: 150 },
-    { id: "Phone", label: t("financialRecord"), minWidth: 150 },
+    { id: "financialRecord", label: t("financialRecord"), minWidth: 150 },
+    // Added by Abdelwahab
+    { id: "message", label: t("instant_messaging"), minWidth: 150 },
+    // ---------
     { id: "actions", label: t("actions"), minWidth: 150 },
-    { id: "Actions", label: `${t("credit")} - OMR`, minWidth: 150 },
+    { id: "credit", label: `${t("credit")} - OMR`, minWidth: 150 },
   ];
 
   const [page, setPage] = useState(0);
@@ -93,6 +107,21 @@ export default function AdminStduents() {
     } catch (err) {
       console.log(err);
     }
+  };
+  // Added by Abdelwahab
+  const handleCreateMessage = async (student) => {
+    const time = Timestamp.now();
+    await addDoc(collection(db, "chats"), {
+      messages: [],
+      teacherId: "0",
+      studentId: `${student?.id}`,
+      studentName: `${student?.name}`,
+      studentImage: `${student?.image}`,
+      teacherName: "",
+      teacherImage: "",
+      lastmessage: time,
+    });
+    navigate(`/admin/messages`);
   };
 
   return (
@@ -182,7 +211,14 @@ export default function AdminStduents() {
                               <LocalAtmIcon />
                             </Button>
                           </TableCell>
-
+                          <TableCell align="center">
+                            <Button
+                              color="success"
+                              onClick={() => handleCreateMessage(row)}
+                            >
+                              <EmailIcon />
+                            </Button>
+                          </TableCell>
                           <TableCell align="center">
                             <Button
                               onClick={() => handleDelete(row.id)}

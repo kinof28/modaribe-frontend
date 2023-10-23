@@ -16,8 +16,9 @@ import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EmailIcon from "@mui/icons-material/Email";
 import { useSnackbar } from "notistack";
+// Added by Abdelwahab
+import EmailIcon from "@mui/icons-material/Email";
 import TextField from "@mui/material/TextField";
 import {
   collection,
@@ -43,7 +44,9 @@ export default function AdminTeachers() {
     { id: "Gender", label: t("gender"), minWidth: 150 },
     { id: "Phone", label: t("phone"), minWidth: 150 },
     { id: "View", label: t("view"), minWidth: 150 },
+    // Added by Abdelwahab
     { id: "message", label: t("instant_messaging"), minWidth: 150 },
+    // ---------
     { id: "actions", label: t("actions"), minWidth: 150 },
     { id: "financialRecord", label: t("financialRecord"), minWidth: 150 },
   ];
