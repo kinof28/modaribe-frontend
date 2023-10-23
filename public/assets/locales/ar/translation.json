@@ -353,5 +353,6 @@
   "invalid_session": "لا يوجد درس محجوز بالرقم :",
   "lessonTitle": "عنوان الدرس",
   "admin_message": ":رسالة من مدير الموقع",
-  "instant_messaging": "محادثة"
+  "instant_messaging": "محادثة",
+  "empty_search_result": "لا يوجد معلمين في نتيجة هذا البحث حاليا"
 }

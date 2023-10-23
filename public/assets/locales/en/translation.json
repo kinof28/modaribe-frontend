@@ -343,5 +343,6 @@
   "invalid_session": "There is no Booked lesson with ID: ",
   "lessonTitle": "Lesson Title",
   "admin_message": "Message from the Admin:",
-  "instant_messaging": "Send Message"
+  "instant_messaging": "Send Message",
+  "empty_search_result": "There are no teachers in this search result for now"
 }
