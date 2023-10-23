@@ -19,23 +19,28 @@ function AdminHistory() {
   const [isLoading, setIsLoading] = useState(true);
   const [url, setURl] = useState("");
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_KEY}api/v1/admin/allReportsPDF`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      setURl(url);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
+  useEffect(() => {
+    let controller = new AbortController();
+    (async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_KEY}api/v1/admin/allReportsPDF`,
+          {
+            headers: {
+              Authorization: token,
+            },
+            signal: controller.signal,
+          }
+        );
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        setURl(url);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+    return () => controller?.abort();
   }, []);
 
   const handleDownloadFile = async () => {
