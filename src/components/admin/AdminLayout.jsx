@@ -154,8 +154,8 @@ function AdminLayout(props) {
       <Divider />
       <List>
         {topics.map((item, index) => (
-          <Link to={`/admin${item.link}`}>
-            <ListItem key={item.title + index + "o"} disablePadding>
+          <Link key={item.title + index + "o"} to={`/admin${item.link}`}>
+            <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <item.icon />
