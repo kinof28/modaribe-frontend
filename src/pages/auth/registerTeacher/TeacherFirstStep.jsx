@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "notistack";
 import Cookies from "js-cookie";
+import PhoneInput from "react-phone-input-2";
 
 export default function TeacherFirstStep() {
   const {
@@ -25,6 +26,7 @@ export default function TeacherFirstStep() {
   } = useForm({
     defaultValues: {
       email: "",
+      phone: "",
     },
   });
 
@@ -44,7 +46,10 @@ export default function TeacherFirstStep() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: data.email }),
+          body: JSON.stringify({
+            email: data.email,
+            phoneNumber: "+" + data.phone,
+          }),
         }
       );
       const resData = await response.json();
@@ -98,6 +103,32 @@ export default function TeacherFirstStep() {
                 </Typography>
               )}
             </Box>
+            {/* Added by Abdelwahab */}
+            <Box sx={{ marginBottom: "26px" }}>
+              <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+                {t("phone")}
+              </InputLabel>
+              <Box sx={{ direction: "rtl" }}>
+                <Controller
+                  name="phone"
+                  control={control}
+                  render={({ field }) => <PhoneInput {...field} />}
+                  {...register("phone", {
+                    required: "Phone Number is required",
+                  })}
+                />
+                {errors.phone?.type === "required" && (
+                  <Typography
+                    color="error"
+                    role="alert"
+                    sx={{ fontSize: "13px", marginTop: "6px" }}
+                  >
+                    {t("required")}
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+            {/* ------------------- */}
             <Button
               variant="contained"
               color="secondary"
