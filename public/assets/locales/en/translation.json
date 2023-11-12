@@ -344,5 +344,12 @@
   "lessonTitle": "Lesson Title",
   "admin_message": "Message from the Admin:",
   "instant_messaging": "Send Message",
-  "empty_search_result": "There are no teachers in this search result for now"
+  "empty_search_result": "There are no teachers in this search result for now",
+  "lesson_starting_at": "Lesson started at",
+  "lesson_ending_at": "Lesson ended at",
+  "lesson_calculated_length": "The calculated period of lesson",
+  "hour": "hour",
+  "minute": "minute",
+  "start_lesson": "Start the lesson",
+  "end_lesson": "End the lesson"
 }

@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 export default function BookedLesson({
   image,
@@ -28,11 +29,16 @@ export default function BookedLesson({
   sessionId,
   parentTeacher,
   parentStudent,
+  startedAt,
+  endedAt,
 }) {
   const { t } = useTranslation();
   const teacher = useSelector((state) => state.teacher);
   const student = useSelector((state) => state.student);
+  const [edited, setEdited] = useState(false);
   const navigate = useNavigate();
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
+
   const [showAttend, setShowAttend] = useState(
     (isStudent && !studentAccept) || (!isStudent && !teacherAccept)
   );
@@ -68,12 +74,58 @@ export default function BookedLesson({
       console.log(err);
     }
   }
+  const handleLessonStartAndEnd = async () => {
+    try {
+      let response;
+      if (isStudent) {
+        response = await fetch(
+          `${process.env.REACT_APP_API_KEY}api/v1/student/startLesson/${student?.student.id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: student?.token,
+            },
+            body: JSON.stringify({ SessionId: sessionId }),
+          }
+        );
+      } else {
+        response = await fetch(
+          `${process.env.REACT_APP_API_KEY}api/v1/teacher/endLesson/${teacher?.teacher.id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: teacher?.token,
+            },
+            body: JSON.stringify({ SessionId: sessionId }),
+          }
+        );
+      }
+      if (response.ok) {
+        closeSnackbar();
+        enqueueSnackbar(t("update_success"), {
+          variant: "success",
+          autoHideDuration: 1000,
+        });
+        setEdited(true);
+      } else {
+        closeSnackbar();
+        enqueueSnackbar("something went wrong please try later", {
+          variant: "error",
+          autoHideDuration: 1000,
+        });
+      }
+    } catch (err) {
+      closeSnackbar();
+      enqueueSnackbar("something went wrong please try later", {
+        variant: "error",
+        autoHideDuration: 1000,
+      });
+      console.log(err);
+    }
+  };
   const handleCreateMessage = async () => {
-    console.log("starting messaging.....");
-    console.log("is Student: ", isStudent);
-    console.log("parent teacher: ", parentTeacher);
-    console.log("parent Student: ", parentStudent);
-
     const q = query(
       collection(db, "chats"),
       where("studentId", "==", `${parentStudent?.id}`),
@@ -166,6 +218,30 @@ export default function BookedLesson({
             >
               {t("instant_messaging")}
             </Button>
+
+            {isStudent && !startedAt && !edited && (
+              <Button
+                onClick={handleLessonStartAndEnd}
+                variant="contained"
+                size="small"
+                sx={{ marginTop: "4px", marginBottom: "8px", marginX: "16px" }}
+                color="success"
+              >
+                {t("start_lesson")}
+              </Button>
+            )}
+
+            {!isStudent && startedAt && !edited && !endedAt && (
+              <Button
+                onClick={handleLessonStartAndEnd}
+                variant="contained"
+                size="small"
+                sx={{ marginTop: "4px", marginBottom: "8px", marginX: "16px" }}
+                color="success"
+              >
+                {t("end_lesson")}
+              </Button>
+            )}
           </Box>
         </Box>
       </Box>

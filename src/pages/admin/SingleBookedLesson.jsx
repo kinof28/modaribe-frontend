@@ -21,10 +21,14 @@ function SingleBookedLesson() {
   const { data, isLoading } = useAdminLessons(token);
   const [bookedLesson, setBookedLesson] = useState([]);
   useEffect(() => {
-    if (data)
+    if (data) {
       setBookedLesson(data.data.filter((i) => `${i.id}` === bookedLessonId)[0]);
+      console.log(data);
+    }
   }, [data, bookedLessonId]);
 
+  console.log(bookedLesson?.startedAt);
+  console.log(new Date(+bookedLesson?.startedAt));
   return (
     <AdminLayout>
       {!isLoading ? (
@@ -344,6 +348,98 @@ function SingleBookedLesson() {
                       {t(bookedLesson?.type + "_place")}
                     </Typography>
                   </Box>
+                  {/* -------------------------------- */}
+                  {bookedLesson?.startedAt && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: "8px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("lesson_starting_at")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {Moment(new Date(+bookedLesson?.startedAt)).format(
+                          "MMMM Do YYYY, h:mm:ss a"
+                        )}
+                      </Typography>
+                    </Box>
+                  )}
+                  {bookedLesson?.endedAt && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: "8px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("lesson_ending_at")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {Moment(new Date(+bookedLesson?.endedAt)).format(
+                          "MMMM Do YYYY, h:mm:ss a"
+                        )}
+                      </Typography>
+                    </Box>
+                  )}
+                  {bookedLesson?.startedAt && bookedLesson?.endedAt && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: "8px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          color: "#4f4f51",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {t("lesson_calculated_length")}:{" "}
+                      </Typography>
+                      <Typography sx={{ color: "#616161", fontSize: "14px" }}>
+                        {Moment(new Date(+bookedLesson)?.endedAt).diff(
+                          new Date(+bookedLesson?.startedAt),
+                          "h"
+                        ) > 0 &&
+                          Moment(new Date(+bookedLesson?.endedAt)).diff(
+                            new Date(+bookedLesson?.startedAt),
+                            "h"
+                          ) +
+                            " " +
+                            t("hour")}
+                        {" , "}
+                        {Moment(new Date(+bookedLesson?.endedAt)).diff(
+                          new Date(+bookedLesson?.startedAt),
+                          "m"
+                        ) %
+                          60 >
+                          0 &&
+                          (Moment(new Date(+bookedLesson?.endedAt)).diff(
+                            new Date(+bookedLesson?.startedAt),
+                            "m"
+                          ) %
+                            60) +
+                            " " +
+                            t("minute")}
+                      </Typography>
+                    </Box>
+                  )}
+                  {/* -------------------------------- */}
                   <Box
                     sx={{
                       display: "flex",

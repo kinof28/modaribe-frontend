@@ -354,5 +354,12 @@
   "lessonTitle": "عنوان الدرس",
   "admin_message": ":رسالة من مدير الموقع",
   "instant_messaging": "محادثة",
-  "empty_search_result": "لا يوجد معلمين في نتيجة هذا البحث حاليا"
+  "empty_search_result": "لا يوجد معلمين في نتيجة هذا البحث حاليا",
+  "lesson_starting_at": "وقت بداية الدرس",
+  "lesson_ending_at": "وقت نهاية الدرس",
+  "lesson_calculated_length": "مدة الدرس المحسوبة",
+  "hour": "ساعة",
+  "minute": "دقيقة",
+  "start_lesson": "إبدأ الدرس",
+  "end_lesson": "إنهي الدرس"
 }
