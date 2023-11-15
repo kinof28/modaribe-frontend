@@ -212,7 +212,9 @@ function AdminLayout(props) {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" noWrap component="div">
-                <Image src={logo} />
+                <Link to="/">
+                  <Image src={logo} />
+                </Link>
               </Typography>
             </Box>
             <Box>
