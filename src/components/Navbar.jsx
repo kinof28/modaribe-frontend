@@ -347,7 +347,17 @@ function Navbar(props) {
             }}
           >
             <Link to="/landing">
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  marginX: 2,
+                }}
+              >
+                <Typography sx={{ fontSize: "14px" }}>
+                  {t("search_for_teachers")}
+                </Typography>
                 <SearchIcon />
               </Box>
             </Link>

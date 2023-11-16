@@ -361,5 +361,6 @@
   "hour": "ساعة",
   "minute": "دقيقة",
   "start_lesson": "إبدأ الدرس",
-  "end_lesson": "إنهي الدرس"
+  "end_lesson": "إنهي الدرس",
+  "search_for_teachers": "البحث عن معلمين"
 }
