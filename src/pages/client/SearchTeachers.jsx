@@ -12,9 +12,10 @@ export default function SearchTeachers() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   //  side bar search
+
   const [gender, setGender] = useState("all");
   const [curriculum, setCurriculum] = useState("all");
-  const [spackArabic, setSpeakArabic] = useState(false);
+  const [spackArabic, setSpeakArabic] = useState(true);
   const [isVideo, setIsVideo] = useState(false);
 
   const [teachers, setTeachers] = useState([]);
