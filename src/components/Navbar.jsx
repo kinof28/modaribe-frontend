@@ -40,10 +40,12 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import Groups2Icon from "@mui/icons-material/Groups2";
 import call from "../images/callsvg.svg";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 import { useSocialMedia } from "../hooks/useSocialMedia";
+
 const drawerWidth = 240;
 
 const ImageLogo = styled("img")({
@@ -113,6 +115,11 @@ function Navbar(props) {
       title: t("lessons"),
       link: "/lessons",
       icon: <CastForEducationIcon fontSize="small" />,
+    },
+    {
+      title: t("my_students"),
+      link: "/students",
+      icon: <Groups2Icon fontSize="small" />,
     },
     {
       title: t("messages"),
