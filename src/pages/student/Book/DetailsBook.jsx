@@ -238,7 +238,7 @@ export default function DetailsBook() {
                     <FormControlLabel
                       value="wallet"
                       control={<Radio size="2px" />}
-                      label={t("credit")}
+                      label={`${t("credit")} (${t("wallet")})`}
                     />
                     <FormControlLabel
                       value="thawani"
