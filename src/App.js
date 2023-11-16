@@ -74,6 +74,8 @@ import ForgetPasswordFirstStep from "./pages/auth/forgetPassword/ForgetPassFirst
 import AdminMessages from "./pages/admin/AdminMessages";
 import SingleBookedLesson from "./pages/admin/SingleBookedLesson";
 import AdminHistory from "./pages/admin/AdminHistory";
+import TeacherStudents from "./pages/teacher/TeacherStudents";
+import StudentTeachers from "./pages/student/StudentTeachers";
 
 const theme = createTheme({
   direction: "rtl",
@@ -227,7 +229,10 @@ function App() {
                 student ? <StudentPaymentHistory /> : <Navigate to="/login" />
               }
             />
-
+            <Route
+              path="/student/teachers"
+              element={student ? <StudentTeachers /> : <Navigate to="/login" />}
+            />
             {/** teacher pages */}
             <Route
               path="teacher/about"
@@ -285,7 +290,10 @@ function App() {
               path="teacher/credit"
               element={teacher ? <TeacherCredit /> : <Navigate to="/login" />}
             />
-
+            <Route
+              path="teacher/students"
+              element={teacher ? <TeacherStudents /> : <Navigate to="/login" />}
+            />
             {/** admin pages */}
             <Route
               path="admin/login"
