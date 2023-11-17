@@ -354,5 +354,7 @@
   "end_lesson": "End the lesson",
   "search_for_teachers": "Search for Teachers",
   "my_teachers": "My Teachers",
-  "my_students": "My Students"
+  "my_students": "My Students",
+  "my_teachers_empty": "You do not have teachers yet",
+  "my_students_empty": "You do not have students yet"
 }

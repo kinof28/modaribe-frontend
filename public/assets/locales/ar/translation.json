@@ -364,5 +364,7 @@
   "end_lesson": "إنهي الدرس",
   "search_for_teachers": "البحث عن معلمين",
   "my_teachers": "معلميني",
-  "my_students": "تلامذتي"
+  "my_students": "تلامذتي",
+  "my_teachers_empty": "ليس لديك معلمين حاليا",
+  "my_students_empty": "ليس لديك تلاميذ حاليا"
 }
