@@ -17,8 +17,6 @@ import StarIcon from "@mui/icons-material/Star";
 import verify from "../../../images/verify.svg";
 import video from "../../../images/videosvg.svg";
 import ReactCountryFlag from "react-country-flag";
-import RedeemIcon from "@mui/icons-material/Redeem";
-import { useSelector } from "react-redux";
 
 const MatLink = styled(Link)({});
 const Image = styled("img")({
