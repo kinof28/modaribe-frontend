@@ -38,7 +38,6 @@ export default function StudentFirstStep() {
   const { t } = useTranslation();
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  // const [location, setLocation] = useState({ latitude: null, longitude: null });
 
   const lang = Cookies.get("i18next") || "en";
 
