@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Navbar from "../../../components/Navbar";
 import HeaderSteps from "../../../components/auth/HeaderSteps";
@@ -38,8 +38,21 @@ export default function StudentFirstStep() {
   const { t } = useTranslation();
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  // const [location, setLocation] = useState({ latitude: null, longitude: null });
 
   const lang = Cookies.get("i18next") || "en";
+
+  useEffect(() => {
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => {
+        localStorage.setItem("latitude", position.coords.latitude);
+        localStorage.setItem("longitude", position.coords.longitude);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, []);
 
   async function onSubmit(data) {
     closeSnackbar();
