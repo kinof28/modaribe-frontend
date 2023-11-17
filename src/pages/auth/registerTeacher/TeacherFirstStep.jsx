@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Navbar from "../../../components/Navbar";
 import HeaderSteps from "../../../components/auth/HeaderSteps";
@@ -33,7 +33,17 @@ export default function TeacherFirstStep() {
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => {
+        localStorage.setItem("latitude", position.coords.latitude);
+        localStorage.setItem("longitude", position.coords.longitude);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, []);
   const lang = Cookies.get("i18next") || "en";
 
   async function onSubmit(data) {
