@@ -2,10 +2,16 @@ import { useSelector } from "react-redux";
 import { useStudentMap } from "../../../hooks/useStudentMap";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
 
 const MapBrowsing = () => {
   const { token, student } = useSelector((state) => state.student);
   const { data } = useStudentMap(student?.id, token);
+  const { t } = useTranslation();
+  const lang = Cookies.get("i18next") || "en";
+
+  console.log("data from useStudentMap", data);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -34,13 +40,27 @@ const MapBrowsing = () => {
               mapTypeControl: false,
             }}
           >
-            {data?.result?.map((teacher) => (
-              <Marker
-                key={teacher?.id}
-                position={{ lat: teacher?.lat, lng: teacher?.long }}
-                onClick={() => pushRoute(teacher.id)}
-              />
-            ))}
+            {data?.result?.map((teacher) => {
+              let subjects = "";
+              teacher.TeacherSubjects.map((subject) => {
+                if (lang === "en") subjects += subject.Subject.titleEN + "\n ";
+                else subjects += subject.Subject.titleAR + "\n ";
+                return subject;
+              });
+              subjects = subjects.slice(0, subjects.length - 2);
+              return (
+                <Marker
+                  key={teacher?.id}
+                  position={{ lat: teacher?.lat, lng: teacher?.long }}
+                  label={teacher?.firstName?.slice(0, 3)}
+                  title={`${teacher?.firstName} ${teacher.lastName}\n ${t(
+                    "subjects"
+                  )}: ${subjects}
+                `}
+                  onClick={() => pushRoute(teacher.id)}
+                />
+              );
+            })}
           </GoogleMap>
         </Box>
       )}
