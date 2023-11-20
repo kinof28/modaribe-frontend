@@ -15,7 +15,7 @@ export default function SearchTeachers() {
 
   const [gender, setGender] = useState("all");
   const [curriculum, setCurriculum] = useState("all");
-  const [spackArabic, setSpeakArabic] = useState(true);
+  const [spackArabic, setSpeakArabic] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
 
   const [teachers, setTeachers] = useState([]);
