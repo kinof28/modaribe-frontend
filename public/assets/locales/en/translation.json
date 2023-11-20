@@ -223,6 +223,7 @@
   "lessonPrice": "Lesson Price",
   "totlalessonPrice": "Total Lesson Price",
   "lessonDate": "Lesson Date",
+  "lessonTime": "Lesson Time",
   "gateway": "Visa",
   "login_as_student": "Please login as student",
   "ok": "okay",

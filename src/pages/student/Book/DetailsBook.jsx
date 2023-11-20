@@ -46,6 +46,7 @@ export default function DetailsBook() {
       hours: "1",
       typeLesson: "",
       date: "",
+      time: "",
       typeofbook: "",
     },
   });
@@ -70,7 +71,7 @@ export default function DetailsBook() {
             currency: currency,
             typeOfPayment: data.typeofbook,
             period: data.hours,
-            date: data.date,
+            date: data.date + "T" + data.time,
             type: data.typeLesson,
             title: "",
           }),
@@ -204,29 +205,60 @@ export default function DetailsBook() {
                   </Typography>
                 )}
               </Box>
-              <Box sx={{ marginBottom: "30px" }}>
-                <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
-                  {t("lessonDate")}
-                </InputLabel>
-                <Controller
-                  name="date"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField type="datetime-local" {...field} fullWidth />
+              <Box sx={{ display: "flex", gap: 3 }}>
+                <Box sx={{ marginBottom: "30px", width: "100%" }}>
+                  <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+                    {t("lessonDate")}
+                  </InputLabel>
+                  <Controller
+                    name="date"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField type="date" {...field} fullWidth />
+                    )}
+                    {...register("date", {
+                      required: "date Address is required",
+                    })}
+                  />
+                  {errors.date?.type === "required" && (
+                    <Typography
+                      color="error"
+                      role="alert"
+                      sx={{ fontSize: "13px", marginTop: "6px" }}
+                    >
+                      {t("required")}
+                    </Typography>
                   )}
-                  {...register("date", {
-                    required: "date Address is required",
-                  })}
-                />
-                {errors.date?.type === "required" && (
-                  <Typography
-                    color="error"
-                    role="alert"
-                    sx={{ fontSize: "13px", marginTop: "6px" }}
-                  >
-                    {t("required")}
-                  </Typography>
-                )}
+                </Box>
+                {/* ------------------------------- */}
+                <Box sx={{ marginBottom: "30px", width: "100%" }}>
+                  <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+                    {t("lessonTime")}
+                  </InputLabel>
+                  <Controller
+                    name="time"
+                    control={control}
+                    render={({ field }) => (
+                      // <Box sx={{ display: "flex" }}>
+                      //   <TextField type="date" {...field} fullWidth />
+                      //   <TextField type="time" {...field} fullWidth />
+                      // </Box>
+                      <TextField type="time" {...field} fullWidth />
+                    )}
+                    {...register("time", {
+                      required: "time is required",
+                    })}
+                  />
+                  {errors.time?.type === "required" && (
+                    <Typography
+                      color="error"
+                      role="alert"
+                      sx={{ fontSize: "13px", marginTop: "6px" }}
+                    >
+                      {t("required")}
+                    </Typography>
+                  )}
+                </Box>
               </Box>
             </Box>
             <Box sx={{ marginBottom: "26px" }}>

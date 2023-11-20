@@ -222,6 +222,7 @@
   "lessonPrice": "سعر الدرس",
   "totlalessonPrice": "سعر الدرس الكلي",
   "lessonDate": "موعد الحجز",
+  "lessonTime": "وقت الحجز",
   "gateway": "بطاقة الدفع الإئتمانية",
   "login_as_student": "الرجاء تسجيل الدخول كطالب",
   "ok": "موافق",
