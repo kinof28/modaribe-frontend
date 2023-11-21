@@ -20,14 +20,10 @@ import { useSnackbar } from "notistack";
 // Added by Abdelwahab
 import EmailIcon from "@mui/icons-material/Email";
 import TextField from "@mui/material/TextField";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-  Timestamp,
-} from "firebase/firestore";
+import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
+import DoDisturbOffIcon from "@mui/icons-material/DoDisturbOff";
+import BuildIcon from "@mui/icons-material/Build";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function AdminTeachers() {
@@ -45,10 +41,11 @@ export default function AdminTeachers() {
     { id: "Phone", label: t("phone"), minWidth: 150 },
     { id: "View", label: t("view"), minWidth: 150 },
     // Added by Abdelwahab
-    { id: "message", label: t("instant_messaging"), minWidth: 150 },
-    // ---------
-    { id: "actions", label: t("actions"), minWidth: 150 },
     { id: "financialRecord", label: t("financialRecord"), minWidth: 150 },
+    { id: "message", label: t("instant_messaging"), minWidth: 150 },
+    { id: "edit", label: t("update"), minWidth: 150 },
+    { id: "suspend", label: t("actions"), minWidth: 150 },
+    { id: "delete", label: t("delete"), minWidth: 150 },
   ];
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
 
@@ -95,6 +92,7 @@ export default function AdminTeachers() {
           },
         }
       );
+      closeSnackbar();
       enqueueSnackbar("Teacher Deleted Successfully", {
         variant: "warning",
         autoHideDuration: 4000,
@@ -119,6 +117,9 @@ export default function AdminTeachers() {
       lastmessage: time,
     });
     navigate(`/admin/messages`);
+  };
+  const handleSuspend = async (id) => {
+    console.log("trying to suspend client with id: ", id);
   };
 
   return (
@@ -214,10 +215,41 @@ export default function AdminTeachers() {
                           </TableCell>
                           <TableCell align="center">
                             <Button
+                              onClick={() =>
+                                navigate(`/admin/teacher/${row.id}/dues`)
+                              }
+                              sx={{ minWidth: "10px" }}
+                            >
+                              <LocalAtmIcon />
+                            </Button>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Button
                               color="success"
                               onClick={() => handleCreateMessage(row)}
                             >
                               <EmailIcon />
+                            </Button>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Button
+                              onClick={() =>
+                                navigate("/admin/edit/teacher/" + row.id)
+                              }
+                              sx={{ minWidth: "10px" }}
+                              color="info"
+                            >
+                              <BuildIcon />
+                            </Button>
+                          </TableCell>
+
+                          <TableCell align="center">
+                            <Button
+                              onClick={() => handleSuspend(row.id)}
+                              sx={{ minWidth: "10px" }}
+                              color="warning"
+                            >
+                              <DoDisturbOnIcon />
                             </Button>
                           </TableCell>
                           <TableCell align="center">
@@ -227,16 +259,6 @@ export default function AdminTeachers() {
                               color="error"
                             >
                               <DeleteIcon />
-                            </Button>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Button
-                              onClick={() =>
-                                navigate(`/admin/teacher/${row.id}/dues`)
-                              }
-                              sx={{ minWidth: "10px" }}
-                            >
-                              <LocalAtmIcon />
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -258,6 +280,16 @@ export default function AdminTeachers() {
       ) : (
         <Loading />
       )}
+      <Box sx={{ marginY: 5 }}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => navigate("/admin/new/teacher")}
+          sx={{ fontSize: 20 }}
+        >
+          {t("create_new_account")}
+        </Button>
+      </Box>
     </AdminLayout>
   );
 }

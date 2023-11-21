@@ -76,6 +76,10 @@ import SingleBookedLesson from "./pages/admin/SingleBookedLesson";
 import AdminHistory from "./pages/admin/AdminHistory";
 import TeacherStudents from "./pages/teacher/TeacherStudents";
 import StudentTeachers from "./pages/student/StudentTeachers";
+import AdminNewStudent from "./pages/admin/AdminNewStudent";
+import AdminNewTeacher from "./pages/admin/AdminNewTeacher";
+import AdminEditTeacher from "./pages/admin/AdminEditTeacher";
+import AdminEditStudent from "./pages/admin/AdminEditStudent";
 
 const theme = createTheme({
   direction: "rtl",
@@ -425,7 +429,30 @@ function App() {
                 admin ? <SingleBookedLesson /> : <Navigate to="/admin/login" />
               }
             />
-
+            <Route
+              path="admin/new/student"
+              element={
+                admin ? <AdminNewStudent /> : <Navigate to="/admin/login" />
+              }
+            />
+            <Route
+              path="admin/new/teacher"
+              element={
+                admin ? <AdminNewTeacher /> : <Navigate to="/admin/login" />
+              }
+            />
+            <Route
+              path="admin/edit/student/:studentId"
+              element={
+                admin ? <AdminEditStudent /> : <Navigate to="/admin/login" />
+              }
+            />
+            <Route
+              path="admin/edit/teacher/:teacherId"
+              element={
+                admin ? <AdminEditTeacher /> : <Navigate to="/admin/login" />
+              }
+            />
             {/** parent pages */}
             <Route path="parent/register" element={<ParentRegister />} />
             <Route

@@ -19,14 +19,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // Added by Abdelwahab
 import EmailIcon from "@mui/icons-material/Email";
 import TextField from "@mui/material/TextField";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-  Timestamp,
-} from "firebase/firestore";
+import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
+import DoDisturbOffIcon from "@mui/icons-material/DoDisturbOff";
+import BuildIcon from "@mui/icons-material/Build";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function AdminStduents() {
@@ -41,8 +37,9 @@ export default function AdminStduents() {
     { id: "financialRecord", label: t("financialRecord"), minWidth: 150 },
     // Added by Abdelwahab
     { id: "message", label: t("instant_messaging"), minWidth: 150 },
-    // ---------
-    { id: "actions", label: t("actions"), minWidth: 150 },
+    { id: "edit", label: t("update"), minWidth: 150 },
+    { id: "suspend", label: t("actions"), minWidth: 150 },
+    { id: "delete", label: t("delete"), minWidth: 150 },
     { id: "credit", label: `${t("credit")} - OMR`, minWidth: 150 },
   ];
 
@@ -122,6 +119,9 @@ export default function AdminStduents() {
       lastmessage: time,
     });
     navigate(`/admin/messages`);
+  };
+  const handleSuspend = async (id) => {
+    console.log("trying to suspend client with id: ", id);
   };
 
   return (
@@ -221,6 +221,27 @@ export default function AdminStduents() {
                           </TableCell>
                           <TableCell align="center">
                             <Button
+                              onClick={() =>
+                                navigate("/admin/edit/student/" + row.id)
+                              }
+                              sx={{ minWidth: "10px" }}
+                              color="info"
+                            >
+                              <BuildIcon />
+                            </Button>
+                          </TableCell>
+
+                          <TableCell align="center">
+                            <Button
+                              onClick={() => handleSuspend(row.id)}
+                              sx={{ minWidth: "10px" }}
+                              color="warning"
+                            >
+                              <DoDisturbOnIcon />
+                            </Button>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Button
                               onClick={() => handleDelete(row.id)}
                               sx={{ minWidth: "10px" }}
                               color="error"
@@ -248,6 +269,16 @@ export default function AdminStduents() {
       ) : (
         <Loading />
       )}
+      <Box sx={{ marginY: 5 }}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => navigate("/admin/new/student")}
+          sx={{ fontSize: 20 }}
+        >
+          {t("create_new_account")}
+        </Button>
+      </Box>
     </AdminLayout>
   );
 }
