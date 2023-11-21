@@ -27,7 +27,6 @@ export default function CheckoutsNew() {
   const [list, setList] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  console.log("data: ", data);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
