@@ -14,14 +14,16 @@ import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
 import UpdateClass from "./UpdateClass";
 import TextField from "@mui/material/TextField";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function StudyClasses() {
   const { t } = useTranslation();
   const columns = [
-    { id: "name_course", label: t("titleAr"), minWidth: 150 },
-    { id: "name_course", label: t("titleEn"), minWidth: 150 },
+    { id: "name_courseAr", label: t("titleAr"), minWidth: 150 },
+    { id: "name_courseEn", label: t("titleEn"), minWidth: 150 },
     { id: "name_teacher", label: t("studylevel"), minWidth: 150 },
     { id: "update", label: t("update"), minWidth: 150 },
+    { id: "delete", label: t("delete"), minWidth: 150 },
   ];
 
   const [page, setPage] = React.useState(0);
@@ -51,7 +53,8 @@ export default function StudyClasses() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  // Added by Abdelwahab
+  const handleDelete = () => {};
   return (
     <Box>
       {!isLoading ? (
@@ -115,6 +118,11 @@ export default function StudyClasses() {
                               handleClose={handleClose}
                             />
                           </Dialog>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Button color="error" onClick={handleDelete}>
+                            <DeleteIcon />
+                          </Button>
                         </TableCell>
                       </TableRow>
                     );

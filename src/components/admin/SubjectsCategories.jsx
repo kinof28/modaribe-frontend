@@ -16,14 +16,16 @@ import UpdateSubjectCategory from "./UpdateSubjectCategory";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 
+import DeleteIcon from "@mui/icons-material/Delete";
 export default function SubjectsCategories() {
   const { t } = useTranslation();
 
   const columns = [
-    { id: "name_course", label: t("titleAr"), minWidth: 150 },
+    { id: "name_course_ar", label: t("titleAr"), minWidth: 150 },
     { id: "name_course_en", label: t("titleEn"), minWidth: 150 },
     { id: "name_teacher", label: t("subject"), minWidth: 150 },
     { id: "update", label: t("update"), minWidth: 150 },
+    { id: "delete", label: t("delete"), minWidth: 150 },
   ];
 
   const [page, setPage] = React.useState(0);
@@ -49,6 +51,8 @@ export default function SubjectsCategories() {
     setOpen(false);
   };
 
+  // Added by Abdelwahab
+  const handleDelete = () => {};
   useEffect(() => {
     if (data?.data) {
       setCategoires(data.data);
@@ -118,6 +122,11 @@ export default function SubjectsCategories() {
                               handleClose={handleClose}
                             />
                           </Dialog>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Button color="error" onClick={handleDelete}>
+                            <DeleteIcon />
+                          </Button>
                         </TableCell>
                       </TableRow>
                     );

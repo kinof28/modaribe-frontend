@@ -14,14 +14,16 @@ import UpdateCurriculms from "./UpdateCurriculms";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function StudyCurriculums() {
   const { t } = useTranslation();
 
   const columns = [
-    { id: "name_course", label: t("titleAr"), minWidth: 150 },
-    { id: "name_course", label: t("titleEn"), minWidth: 150 },
+    { id: "name_courseAr", label: t("titleAr"), minWidth: 150 },
+    { id: "name_courseEn", label: t("titleEn"), minWidth: 150 },
     { id: "update", label: t("update"), minWidth: 150 },
+    { id: "delete", label: t("delete"), minWidth: 150 },
   ];
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -52,6 +54,8 @@ export default function StudyCurriculums() {
     setOpen(false);
   };
 
+  // Added by Abdelwahab
+  const handleDelete = () => {};
   return (
     <Box>
       {!isLoading ? (
@@ -104,6 +108,11 @@ export default function StudyCurriculums() {
                               handleClose={handleClose}
                             />
                           </Dialog>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Button color="error" onClick={handleDelete}>
+                            <DeleteIcon />
+                          </Button>
                         </TableCell>
                       </TableRow>
                     );
