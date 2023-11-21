@@ -3,8 +3,6 @@ import AdminLayout from "../../components/admin/AdminLayout";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import ParentStudentNew from "../../components/admin/ParentStudentNew";
-import ParentStudentFinished from "../../components/admin/ParentStudentFinished";
 import CheckoutsNew from "../../components/admin/CheckoutsNew";
 import CheckoutsProcessed from "../../components/admin/CheckoutsProcessed";
 

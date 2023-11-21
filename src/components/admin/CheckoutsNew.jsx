@@ -23,10 +23,11 @@ export default function CheckoutsNew() {
     { id: "actions", label: t("actions"), minWidth: 150 },
   ];
   const { token } = useSelector((state) => state.admin);
-
+  let { data, isLoading } = useNewCheckouts(token);
+  const [list, setList] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  console.log("data: ", data);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -36,23 +37,19 @@ export default function CheckoutsNew() {
     setPage(0);
   };
 
-  let { data, isLoading } = useNewCheckouts(token);
-
-  const [list, setList] = useState([]);
-
   useEffect(() => {
-    // if (data) {
-    //   setList(data?.data);
-    // }
+    if (data) {
+      setList(data?.data);
+    }
   }, [data]);
 
   async function handleAccept(id) {
     filterList(id);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_KEY}api/v1/admin/studentParent/accept/${id}`,
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/checkout/accept/${id}`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             Authorization: token,
           },
@@ -70,9 +67,9 @@ export default function CheckoutsNew() {
     filterList(id);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_KEY}api/v1/admin/studentParent/reject/${id}`,
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/checkout/reject/${id}`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             Authorization: token,
           },
@@ -87,7 +84,7 @@ export default function CheckoutsNew() {
   }
 
   function filterList(id) {
-    setList((pre) => pre.filter((item) => item.id != id));
+    setList((pre) => pre.filter((item) => item.id !== id));
   }
 
   return (
@@ -108,33 +105,41 @@ export default function CheckoutsNew() {
                 ))}
               </TableRow>
               <TableBody>
-                {/* {list
-                        ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => {
-                            return <TableRow hover role="checkbox"  key={row.id+"denjhbmj"}>
-                                <TableCell align='center'>
-                                    {row?.Student?.name}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    {row?.Parent.name}
-                                </TableCell>
-                                <TableCell align='center'>
-                                    <Button color="success" onClick={()=>handleAccept(row.id)}>
-                                        <DoneIcon/>
-                                    </Button>
-                                    <Button color="error" onClick={()=>handleReject(row.id)}>
-                                        <ClearIcon/>
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        })} */}
+                {list
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow hover role="checkbox" key={row.id + "denjhbmj"}>
+                        <TableCell align="center">
+                          {row?.Teacher?.firstName +
+                            " " +
+                            row?.Teacher?.lastName}
+                        </TableCell>
+                        <TableCell align="center">{row?.value}</TableCell>
+                        <TableCell align="center">
+                          <Button
+                            color="success"
+                            onClick={() => handleAccept(row.id)}
+                          >
+                            <DoneIcon />
+                          </Button>
+                          <Button
+                            color="error"
+                            onClick={() => handleReject(row.id)}
+                          >
+                            <ClearIcon />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            // count={data.data.length}
+            count={data.data.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

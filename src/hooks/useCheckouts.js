@@ -12,10 +12,6 @@ async function getNewCheckouts(token) {
   return response.json();
 }
 
-export const useNewCheckouts = (token) => {
-  return useQuery("get-new-checkouts", () => getNewCheckouts(token));
-};
-
 async function getProcessedCheckouts(token) {
   const response = await fetch(
     `${process.env.REACT_APP_API_KEY}api/v1/admin/getProcessedCheckoutRequests`,
@@ -28,7 +24,11 @@ async function getProcessedCheckouts(token) {
   return response.json();
 }
 
-export const useParentStudentFinished = (token) => {
+export const useNewCheckouts = (token) => {
+  return useQuery("get-new-checkouts", () => getNewCheckouts(token));
+};
+
+export const useProcessedCheckouts = (token) => {
   return useQuery("get-processed-checkouts", () =>
     getProcessedCheckouts(token)
   );
