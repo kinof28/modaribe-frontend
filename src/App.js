@@ -80,6 +80,7 @@ import AdminNewStudent from "./pages/admin/AdminNewStudent";
 import AdminNewTeacher from "./pages/admin/AdminNewTeacher";
 import AdminEditTeacher from "./pages/admin/AdminEditTeacher";
 import AdminEditStudent from "./pages/admin/AdminEditStudent";
+import AdminCheckoutRequests from "./pages/admin/AdminCheckoutRequests";
 
 const theme = createTheme({
   direction: "rtl",
@@ -451,6 +452,16 @@ function App() {
               path="admin/edit/teacher/:teacherId"
               element={
                 admin ? <AdminEditTeacher /> : <Navigate to="/admin/login" />
+              }
+            />
+            <Route
+              path="admin/checkout-requests"
+              element={
+                admin ? (
+                  <AdminCheckoutRequests />
+                ) : (
+                  <Navigate to="/admin/login" />
+                )
               }
             />
             {/** parent pages */}

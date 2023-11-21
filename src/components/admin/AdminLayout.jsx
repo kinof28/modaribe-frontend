@@ -40,6 +40,7 @@ import PercentIcon from "@mui/icons-material/Percent";
 // Edited by Abdelwahab
 import EmailIcon from "@mui/icons-material/Email";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 const drawerWidth = 240;
 
 const Image = styled("img")({
@@ -104,6 +105,11 @@ function AdminLayout(props) {
       title: t("student_parent"),
       icon: SubjectIcon,
       link: "/parent-student",
+    },
+    {
+      title: t("checkout_requests"),
+      icon: CurrencyExchangeIcon,
+      link: "/checkout-requests",
     },
     {
       title: t("bookedLessons"),
