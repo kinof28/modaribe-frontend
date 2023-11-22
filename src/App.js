@@ -81,6 +81,13 @@ import AdminNewTeacher from "./pages/admin/AdminNewTeacher";
 import AdminEditTeacher from "./pages/admin/AdminEditTeacher";
 import AdminEditStudent from "./pages/admin/AdminEditStudent";
 import AdminCheckoutRequests from "./pages/admin/AdminCheckoutRequests";
+import AdminEditTeacherPhoto from "./pages/admin/AdminEditTeacherPhoto";
+import AdminEditTeacherAdditionalInfo from "./pages/admin/AdminEditTeacherAdditionalInfo";
+import AdminEditTeacherAvailability from "./pages/admin/AdminEditTeacherAvailability";
+import AdminEditTeacherDescription from "./pages/admin/AdminEditTeacherDescription";
+import AdminEditTeacherResume from "./pages/admin/AdminEditTeacherResume";
+import AdminEditTeacherSubjects from "./pages/admin/AdminEditTeacherSubjects";
+import AdminEditTeacherVideo from "./pages/admin/AdminEditTeacherVideo";
 
 const theme = createTheme({
   direction: "rtl",
@@ -452,6 +459,76 @@ function App() {
               path="admin/edit/teacher/:teacherId"
               element={
                 admin ? <AdminEditTeacher /> : <Navigate to="/admin/login" />
+              }
+            />
+            <Route
+              path="admin/edit/teacher/photo/:teacherId"
+              element={
+                admin ? (
+                  <AdminEditTeacherPhoto />
+                ) : (
+                  <Navigate to="/admin/login" />
+                )
+              }
+            />
+            <Route
+              path="admin/edit/teacher/additionalInformation/:teacherId"
+              element={
+                admin ? (
+                  <AdminEditTeacherAdditionalInfo />
+                ) : (
+                  <Navigate to="/admin/login" />
+                )
+              }
+            />
+            <Route
+              path="admin/edit/teacher/availability/:teacherId"
+              element={
+                admin ? (
+                  <AdminEditTeacherAvailability />
+                ) : (
+                  <Navigate to="/admin/login" />
+                )
+              }
+            />
+            <Route
+              path="admin/edit/teacher/description/:teacherId"
+              element={
+                admin ? (
+                  <AdminEditTeacherDescription />
+                ) : (
+                  <Navigate to="/admin/login" />
+                )
+              }
+            />
+            <Route
+              path="admin/edit/teacher/resume/:teacherId"
+              element={
+                admin ? (
+                  <AdminEditTeacherResume />
+                ) : (
+                  <Navigate to="/admin/login" />
+                )
+              }
+            />
+            <Route
+              path="admin/edit/teacher/subjects/:teacherId"
+              element={
+                admin ? (
+                  <AdminEditTeacherSubjects />
+                ) : (
+                  <Navigate to="/admin/login" />
+                )
+              }
+            />
+            <Route
+              path="admin/edit/teacher/video/:teacherId"
+              element={
+                admin ? (
+                  <AdminEditTeacherVideo />
+                ) : (
+                  <Navigate to="/admin/login" />
+                )
               }
             />
             <Route

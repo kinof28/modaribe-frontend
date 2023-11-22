@@ -1,5 +1,4 @@
 import AdminLayout from "../../components/admin/AdminLayout";
-
 import {
   FormControl,
   Grid,
@@ -25,8 +24,6 @@ import { useClasses } from "../../hooks/useClasses";
 import { useCurriculums } from "../../hooks/useCurriculums";
 import { useStudent } from "../../hooks/useStudent";
 import SelectTimeZone from "../../components/reusableUi/SelectTimeZone";
-import { changeStudentName } from "../../redux/studentSlice";
-import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -38,14 +35,13 @@ const AdminEditStudent = () => {
   const { studentId } = useParams();
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const lang = Cookies.get("i18next") || "en";
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { data, isLoading } = useStudent(studentId);
+  const { data } = useStudent(studentId);
   const [chosenlanguages, setChosenLanguages] = useState([]);
   const [load, setLoad] = useState(false);
   const [regionTime, setRegionTime] = useState(null);
-
   const { token } = useSelector((state) => state.admin);
+
   const {
     register,
     control,
