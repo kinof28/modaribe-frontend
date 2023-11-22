@@ -77,12 +77,13 @@ const AdminNewStudent = () => {
 
   return (
     <AdminLayout>
-      <Container sx={{ marginTop: "110px" }}>
+      <Container>
         <Paper
           sx={{
             width: { md: "450px" },
             padding: "30px 50px",
-            margin: "60px auto 60px",
+            marginBottom: "60px",
+            marginX: "auto",
           }}
         >
           <Typography sx={{ fontSize: 24, fontWeight: "bold", marginY: 2 }}>
