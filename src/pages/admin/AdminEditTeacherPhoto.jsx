@@ -24,7 +24,6 @@ const AdminEditTeacherPhoto = () => {
   const { teacherId } = useParams();
   const { token } = useSelector((state) => state.admin);
   const { data } = useTeacher(teacherId);
-  console.log("data from edit photo: ", data);
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState();
   const [load, setLoad] = useState(false);
