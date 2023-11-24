@@ -85,6 +85,7 @@ const AdminEditTeacherResume = () => {
         }
       );
       setLoad(false);
+      closeSnackbar();
       enqueueSnackbar(t("update_success"), {
         variant: "success",
         autoHideDuration: 1000,
