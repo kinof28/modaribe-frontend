@@ -27,11 +27,23 @@ import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 
 export default function TeacherSubjects() {
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
-  const [choseCategories, setChosenCategories] = useState([]);
+  const navigate = useNavigate();
+  const { teacher, token } = useSelector((state) => state.teacher);
+  const { data: teacher2, isLoading: isLoading2 } = useTeacher(teacher.id);
   const { data, isLoading } = useSubjects();
+  const [choseCategories, setChosenCategories] = useState([]);
   const [load, setLoad] = useState(false);
   const [open, setOpen] = useState(false);
+  const [online, setOnline] = useState(false);
+  const [person, setPerson] = useState(false);
+  const [studentHome, setStudentHome] = useState(false);
+  const [teeacherHome, setTeacherHome] = useState(false);
+  const [remote, setRemote] = useState(null);
+  const [f2fStudent, setf2fStudent] = useState(null);
+  const [f2fTeacher, setf2fTeacher] = useState(null);
+  const [discount, setDiscount] = useState(0);
 
   function handleDeleteSelectedCategory(id) {
     setChosenCategories((back) => back.filter((categ) => categ.id !== id));
@@ -45,32 +57,15 @@ export default function TeacherSubjects() {
     setOpen(false);
   };
 
-  const { teacher, token } = useSelector((state) => state.teacher);
-  const [online, setOnline] = useState(false);
-  const [person, setPerson] = useState(false);
-  const [studentHome, setStudentHome] = useState(false);
-  const [teeacherHome, setTeacherHome] = useState(false);
-  const [remote, setRemote] = useState({});
-  const [f2fStudent, setf2fStudent] = useState({});
-  const [f2fTeacher, setf2fTeacher] = useState({});
-  const { data: teacher2, isLoading: isLoading2 } = useTeacher(teacher.id);
-  const navigate = useNavigate();
-  const [discount, setDiscount] = useState("");
-  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
-
   const handleDiscount = (e) => {
     closeSnackbar();
-    if (discount < 0 || discount > 100) {
-      setDiscount(e.target.value);
+    if (e.target.value < 0 || e.target.value > 100) {
       enqueueSnackbar(t("discount_error"), {
         variant: "error",
         autoHideDuration: "5000",
       });
     } else {
       setDiscount(e.target.value);
-      setRemote({ ...remote, discount: e.target.value });
-      setf2fStudent({ ...f2fStudent, discount: e.target.value });
-      setf2fTeacher({ ...f2fTeacher, discount: e.target.value });
     }
   };
 
@@ -114,25 +109,10 @@ export default function TeacherSubjects() {
   }, [teacher2]);
 
   const onSubmit = async () => {
-    // if (
-    //   discount >= 100 ||
-    //   discount < 0 ||
-    //   discount === "" ||
-    //   discount === undefined
-    // ) {
-    //   enqueueSnackbar(t("discount_error"), {
-    //     variant: "error",
-    //     autoHideDuration: 5000,
-    //   });
-    //   return;
-    // }
+    setLoad(true);
     let ar1 = choseCategories.map((sub) => {
       return { TeacherId: teacher.id, SubjectId: sub.id };
     });
-    setLoad(true);
-    const remote2 = Object.keys(remote).length > 0 ? remote : null;
-    const f2fStudent2 = Object.keys(f2fStudent).length > 0 ? f2fStudent : null;
-    const f2fTeacher2 = Object.keys(f2fTeacher).length > 0 ? f2fTeacher : null;
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_KEY}api/v1/teacher/subjects/${teacher.id}`,
@@ -144,9 +124,18 @@ export default function TeacherSubjects() {
           },
           body: JSON.stringify({
             subjects: ar1,
-            remote: remote2,
-            f2fStudent: f2fStudent2,
-            f2fTeacher: f2fTeacher2,
+            remote:
+              discount >= 0 && remote
+                ? { ...remote, discount: +discount }
+                : remote,
+            f2fStudent:
+              discount >= 0 && f2fStudent
+                ? { ...f2fStudent, discount: +discount }
+                : f2fStudent,
+            f2fTeacher:
+              discount >= 0 && f2fTeacher
+                ? { ...f2fTeacher, discount: +discount }
+                : f2fTeacher,
           }),
         }
       );
@@ -214,6 +203,9 @@ export default function TeacherSubjects() {
             <TextField
               fullWidth
               name="discount"
+              type="number"
+              min="0"
+              max="100"
               required
               sx={{ marginBottom: 3 }}
               onChange={handleDiscount}
@@ -235,7 +227,7 @@ export default function TeacherSubjects() {
                   <Checkbox
                     onChange={() => {
                       setOnline((back) => !back);
-                      setRemote({});
+                      setRemote(null);
                     }}
                     checked={online}
                   />
@@ -307,8 +299,8 @@ export default function TeacherSubjects() {
                   <Checkbox
                     onChange={() => {
                       setPerson((back) => !back);
-                      setf2fTeacher({});
-                      setf2fStudent({});
+                      setf2fTeacher(null);
+                      setf2fStudent(null);
                     }}
                     checked={person}
                   />
@@ -324,7 +316,7 @@ export default function TeacherSubjects() {
                           size="small"
                           onChange={() => {
                             setTeacherHome((back) => !back);
-                            setf2fTeacher({});
+                            setf2fTeacher(null);
                           }}
                           checked={teeacherHome}
                         />
@@ -403,7 +395,7 @@ export default function TeacherSubjects() {
                           size="small"
                           onChange={() => {
                             setStudentHome((back) => !back);
-                            setf2fStudent({});
+                            setf2fStudent(null);
                           }}
                           checked={studentHome}
                         />
