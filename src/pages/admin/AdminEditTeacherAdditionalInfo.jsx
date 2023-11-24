@@ -1,6 +1,5 @@
 import AdminLayout from "../../components/admin/AdminLayout";
 import TeacherLayout from "../../components/teacher/TeacherLayout";
-
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
@@ -14,13 +13,14 @@ import {
   Typography,
 } from "@mui/material";
 import StepperButtons from "../../components/reusableUi/StepperButtons";
-import CheckBoxLevels from "../../components/teacher/CheckBoxLevels";
-import CheckBoxCurriculum from "../../components/teacher/CheckBoxCurriculum";
+
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTeacher } from "../../hooks/useTeacher";
 import { useSnackbar } from "notistack";
+import CheckBoxCurriculum from "../../components/admin/edit-teacher/CheckBoxCurriculum";
+import CheckBoxLevels from "../../components/admin/edit-teacher/CheckBoxLevels";
 
 const AdminEditTeacherAdditionalInfo = () => {
   const { teacherId } = useParams();
@@ -29,7 +29,6 @@ const AdminEditTeacherAdditionalInfo = () => {
   const [checked_2, setChecked_2] = useState([]);
   const { token } = useSelector((state) => state.admin);
   const { data } = useTeacher(teacherId);
-  console.log("data from additional info: ", data);
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
@@ -476,7 +475,11 @@ const AdminEditTeacherAdditionalInfo = () => {
               </Typography>
             )}
           </Box>
-          <CheckBoxLevels checked={checked} setChecked={setChecked} />
+          <CheckBoxLevels
+            checked={checked}
+            setChecked={setChecked}
+            teacher={data?.data}
+          />
           <CheckBoxCurriculum
             checked={checked_2}
             setChecked={setChecked_2}
