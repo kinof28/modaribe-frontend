@@ -88,6 +88,7 @@ import AdminEditTeacherDescription from "./pages/admin/AdminEditTeacherDescripti
 import AdminEditTeacherResume from "./pages/admin/AdminEditTeacherResume";
 import AdminEditTeacherSubjects from "./pages/admin/AdminEditTeacherSubjects";
 import AdminEditTeacherVideo from "./pages/admin/AdminEditTeacherVideo";
+import StudentFinancialRecords from "./pages/student/StudentFinancialRecords";
 
 const theme = createTheme({
   direction: "rtl",
@@ -239,6 +240,12 @@ function App() {
               path="/student/payment-history"
               element={
                 student ? <StudentPaymentHistory /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/student/financial-records"
+              element={
+                student ? <StudentFinancialRecords /> : <Navigate to="/login" />
               }
             />
             <Route

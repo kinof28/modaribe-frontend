@@ -29,6 +29,7 @@ export default function StudentLayout({ children }) {
     { title: t("messages"), link: "/messages" },
     { title: t("credit"), link: "/credit" },
     { title: t("payment_history"), link: "/payment-history" },
+    { title: t("paymentOperations"), link: "/financial-records" },
   ];
 
   const { student } = useSelector((state) => state.student);
