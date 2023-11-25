@@ -13,6 +13,7 @@ import Loading from "../../components/Loading";
 import { useAdminDeposits } from "../../hooks/useAdminDeposits";
 import { useSelector } from "react-redux";
 import Moment from "moment";
+import FinancialRecords from "../../components/admin/FinancialRecords";
 
 export default function AdminPayments() {
   const { t } = useTranslation();
@@ -38,6 +39,7 @@ export default function AdminPayments() {
 
   const { token } = useSelector((state) => state.admin);
   const { data, isLoading } = useAdminDeposits(token);
+
   const [pdf, setPdf] = useState(null);
   async function handleDownloadFile() {
     try {
@@ -140,6 +142,7 @@ export default function AdminPayments() {
       ) : (
         <Loading />
       )}
+      <FinancialRecords />
     </AdminLayout>
   );
 }
