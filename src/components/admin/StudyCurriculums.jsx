@@ -15,6 +15,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
+import Cookies from "js-cookie";
 
 export default function StudyCurriculums() {
   const { t } = useTranslation();
@@ -28,6 +31,12 @@ export default function StudyCurriculums() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchInput, setSearchInput] = React.useState("");
+  const { data, isLoading } = useCurriculums();
+  const [curriculums, setCurriculums] = useState([]);
+
+  const { token } = useSelector((state) => state.admin);
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
+  const { lang } = Cookies.get("i18next") || "en";
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -37,9 +46,6 @@ export default function StudyCurriculums() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  const { data, isLoading } = useCurriculums();
-  const [curriculums, setCurriculums] = useState([]);
 
   useEffect(() => {
     if (data?.data) {
@@ -55,7 +61,37 @@ export default function StudyCurriculums() {
   };
 
   // Added by Abdelwahab
-  const handleDelete = () => {};
+  const handleDelete = async (id) => {
+    closeSnackbar();
+    const isConfirmed = window.confirm(t("confirm_dangerous_action"));
+    if (!isConfirmed) return;
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/curriculum/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+        }
+      );
+      if (res.ok) {
+        const json = await res.json();
+        if (lang === "en") {
+          enqueueSnackbar(json.msg.english, { variant: "success" });
+        } else {
+          enqueueSnackbar(json.msg.arabic, { variant: "success" });
+        }
+        setCurriculums(curriculums.filter((c) => c.id !== id));
+      } else {
+        enqueueSnackbar(res.message, { variant: "error" });
+      }
+    } catch (err) {
+      console.log("error: ", err);
+      enqueueSnackbar(t("somethingWentWrong"), { variant: "error" });
+    }
+  };
   return (
     <Box>
       {!isLoading ? (
@@ -110,7 +146,10 @@ export default function StudyCurriculums() {
                           </Dialog>
                         </TableCell>
                         <TableCell align="center">
-                          <Button color="error" onClick={handleDelete}>
+                          <Button
+                            color="error"
+                            onClick={() => handleDelete(row.id)}
+                          >
                             <DeleteIcon />
                           </Button>
                         </TableCell>
