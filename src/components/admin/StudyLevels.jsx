@@ -13,8 +13,11 @@ import { useTranslation } from "react-i18next";
 import EditIcon from "@mui/icons-material/Edit";
 import UpdateStudyLevel from "./UpdateStudyLevel";
 import TextField from "@mui/material/TextField";
-
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
+import Cookies from "js-cookie";
+
 export default function StudyLevels() {
   const { t } = useTranslation();
   const columns = [
@@ -23,11 +26,14 @@ export default function StudyLevels() {
     { id: "update", label: t("update"), minWidth: 150 },
     { id: "delete", label: t("delete"), minWidth: 150 },
   ];
-
+  const { token } = useSelector((state) => state.admin);
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchInput, setSearchInput] = React.useState("");
-
+  const { data, isLoading } = useLevels();
+  const [levels, setLevels] = useState([]);
+  const { lang } = Cookies.get("i18next") || "en";
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -36,8 +42,6 @@ export default function StudyLevels() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const { data, isLoading } = useLevels();
-  const [levels, setLevels] = useState([]);
 
   useEffect(() => {
     if (data) {
@@ -53,7 +57,38 @@ export default function StudyLevels() {
   };
 
   // Added by Abdelwahab
-  const handleDelete = () => {};
+  const handleDelete = async (id) => {
+    closeSnackbar();
+    console.log("trying to delete level with id: ", id);
+    const isConfirmed = window.confirm(t("confirm_dangerous_action"));
+    if (!isConfirmed) return;
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/level/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+        }
+      );
+      if (res.ok) {
+        const json = await res.json();
+        if (lang === "en") {
+          enqueueSnackbar(json.msg.english, { variant: "success" });
+        } else {
+          enqueueSnackbar(json.msg.arabic, { variant: "success" });
+        }
+        setLevels(levels.filter((level) => level.id !== id));
+      } else {
+        enqueueSnackbar(res.message, { variant: "error" });
+      }
+    } catch (err) {
+      console.log("error: ", err);
+      enqueueSnackbar(t("somethingWentWrong"), { variant: "error" });
+    }
+  };
   return (
     <Box>
       {!isLoading ? (
@@ -108,7 +143,10 @@ export default function StudyLevels() {
                           </Dialog>
                         </TableCell>
                         <TableCell align="center">
-                          <Button color="error" onClick={handleDelete}>
+                          <Button
+                            color="error"
+                            onClick={() => handleDelete(row.id)}
+                          >
                             <DeleteIcon />
                           </Button>
                         </TableCell>

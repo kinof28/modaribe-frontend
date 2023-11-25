@@ -370,5 +370,6 @@
   "my_teachers_empty": "ليس لديك معلمين حاليا",
   "my_students_empty": "ليس لديك تلاميذ حاليا",
   "create_new_account": "إنشاء حساب جديد",
-  "checkout_requests": "طلبات دفع المستحقات"
+  "checkout_requests": "طلبات دفع المستحقات",
+  "confirm_dangerous_action": "هذه العملية لا يمكن عكسها، هل تريد التأكيد؟"
 }

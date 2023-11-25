@@ -360,5 +360,6 @@
   "my_teachers_empty": "You do not have teachers yet",
   "my_students_empty": "You do not have students yet",
   "create_new_account": "Create New Account",
-  "checkout_requests": "Checkout Requests"
+  "checkout_requests": "Checkout Requests",
+  "confirm_dangerous_action": "This action is irreversible, Are you sure you want to perform it?"
 }
