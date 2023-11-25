@@ -15,6 +15,8 @@ import Cookies from "js-cookie";
 import UpdateClass from "./UpdateClass";
 import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useSnackbar } from "notistack";
+import { useSelector } from "react-redux";
 
 export default function StudyClasses() {
   const { t } = useTranslation();
@@ -30,6 +32,9 @@ export default function StudyClasses() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchInput, setSearchInput] = React.useState("");
 
+  const { token } = useSelector((state) => state.admin);
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
+  const { lang } = Cookies.get("i18next") || "en";
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -54,7 +59,37 @@ export default function StudyClasses() {
     setOpen(false);
   };
   // Added by Abdelwahab
-  const handleDelete = () => {};
+  const handleDelete = async (id) => {
+    closeSnackbar();
+    const isConfirmed = window.confirm(t("confirm_dangerous_action"));
+    if (!isConfirmed) return;
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/class/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+        }
+      );
+      if (res.ok) {
+        const json = await res.json();
+        if (lang === "en") {
+          enqueueSnackbar(json.msg.english, { variant: "success" });
+        } else {
+          enqueueSnackbar(json.msg.arabic, { variant: "success" });
+        }
+        setClasses(classes.filter((item) => item.id !== id));
+      } else {
+        enqueueSnackbar(res.message, { variant: "error" });
+      }
+    } catch (err) {
+      console.log("error: ", err);
+      enqueueSnackbar(t("somethingWentWrong"), { variant: "error" });
+    }
+  };
   return (
     <Box>
       {!isLoading ? (
@@ -120,7 +155,10 @@ export default function StudyClasses() {
                           </Dialog>
                         </TableCell>
                         <TableCell align="center">
-                          <Button color="error" onClick={handleDelete}>
+                          <Button
+                            color="error"
+                            onClick={() => handleDelete(row.id)}
+                          >
                             <DeleteIcon />
                           </Button>
                         </TableCell>

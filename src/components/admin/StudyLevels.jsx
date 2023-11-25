@@ -59,7 +59,6 @@ export default function StudyLevels() {
   // Added by Abdelwahab
   const handleDelete = async (id) => {
     closeSnackbar();
-    console.log("trying to delete level with id: ", id);
     const isConfirmed = window.confirm(t("confirm_dangerous_action"));
     if (!isConfirmed) return;
     try {
