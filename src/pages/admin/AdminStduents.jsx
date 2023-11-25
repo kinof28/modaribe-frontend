@@ -24,6 +24,7 @@ import DoDisturbOffIcon from "@mui/icons-material/DoDisturbOff";
 import BuildIcon from "@mui/icons-material/Build";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase";
+import Cookies from "js-cookie";
 
 export default function AdminStduents() {
   const { t } = useTranslation();
@@ -42,6 +43,7 @@ export default function AdminStduents() {
     { id: "delete", label: t("delete"), minWidth: 150 },
     { id: "credit", label: `${t("credit")} - OMR`, minWidth: 150 },
   ];
+  const { lang } = Cookies.get("i18next") || "en";
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -121,7 +123,63 @@ export default function AdminStduents() {
     navigate(`/admin/messages`);
   };
   const handleSuspend = async (id) => {
-    console.log("trying to suspend client with id: ", id);
+    closeSnackbar();
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/suspend/student/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+        }
+      );
+      if (res.ok) {
+        const json = await res.json();
+        if (lang === "en") {
+          enqueueSnackbar(json.msg.english, { variant: "success" });
+        } else {
+          enqueueSnackbar(json.msg.arabic, { variant: "success" });
+        }
+        window.location.reload();
+      } else {
+        enqueueSnackbar(res.message, { variant: "error" });
+      }
+    } catch (err) {
+      console.log("error: ", err);
+      enqueueSnackbar(t("somethingWentWrong"), { variant: "error" });
+    }
+  };
+
+  const handleUnSuspend = async (id) => {
+    closeSnackbar();
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/unsuspend/student/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+        }
+      );
+      if (res.ok) {
+        const json = await res.json();
+        if (lang === "en") {
+          enqueueSnackbar(json.msg.english, { variant: "success" });
+        } else {
+          enqueueSnackbar(json.msg.arabic, { variant: "success" });
+        }
+        window.location.reload();
+      } else {
+        enqueueSnackbar(res.message, { variant: "error" });
+      }
+    } catch (err) {
+      console.log("error: ", err);
+      enqueueSnackbar(t("somethingWentWrong"), { variant: "error" });
+    }
   };
 
   return (
@@ -232,13 +290,25 @@ export default function AdminStduents() {
                           </TableCell>
 
                           <TableCell align="center">
-                            <Button
-                              onClick={() => handleSuspend(row.id)}
-                              sx={{ minWidth: "10px" }}
-                              color="warning"
-                            >
-                              <DoDisturbOnIcon />
-                            </Button>
+                            {row.isSuspended ? (
+                              <Button
+                                onClick={() => handleUnSuspend(row.id)}
+                                sx={{ minWidth: "10px" }}
+                                color="warning"
+                                title={t("unsuspend")}
+                              >
+                                <DoDisturbOffIcon />
+                              </Button>
+                            ) : (
+                              <Button
+                                onClick={() => handleSuspend(row.id)}
+                                sx={{ minWidth: "10px" }}
+                                color="error"
+                                title={t("suspend")}
+                              >
+                                <DoDisturbOnIcon />
+                              </Button>
+                            )}
                           </TableCell>
                           <TableCell align="center">
                             <Button
