@@ -3,6 +3,9 @@ import { Box, Button, Typography } from "@mui/material";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { useSnackbar } from "notistack";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Image = styled("img")({
   width: "80%",
@@ -12,7 +15,44 @@ const Image = styled("img")({
 
 export default function SubjectBox({ subject, setOpen }) {
   const { t } = useTranslation();
-  const handleDelete = (id) => {};
+
+  const { token } = useSelector((state) => state.admin);
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
+  const { lang } = Cookies.get("i18next") || "en";
+  const navigate = useNavigate();
+
+  const handleDelete = async (id) => {
+    closeSnackbar();
+    const isConfirmed = window.confirm(t("confirm_dangerous_action"));
+    if (!isConfirmed) return;
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/admin/subjectCategory/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+        }
+      );
+      if (res.ok) {
+        const json = await res.json();
+        if (lang === "en") {
+          enqueueSnackbar(json.msg.english, { variant: "success" });
+        } else {
+          enqueueSnackbar(json.msg.arabic, { variant: "success" });
+        }
+        // setCategoires(categories.filter((c) => c.id !== id));
+        navigate("/admin/subjects");
+      } else {
+        enqueueSnackbar(res.message, { variant: "error" });
+      }
+    } catch (err) {
+      console.log("error: ", err);
+      enqueueSnackbar(t("somethingWentWrong"), { variant: "error" });
+    }
+  };
   return (
     <Box
       sx={{
