@@ -31,7 +31,7 @@ export default function Message({ you, message, isAdmin }) {
       </Typography>
       <Stack direction={"row"} alignItems="center">
         <Typography sx={{ fontSize: "11px", marginY: "5px" }}>
-          {format(message.date)}
+          {format(message.date.seconds * 1000)}
         </Typography>
       </Stack>
     </Box>
