@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 const MapBrowsing = () => {
   const { token, student } = useSelector((state) => state.student);
   const { data, loading } = useStudentMap(student?.id, token);
+  console.log("data: ", data);
   const { t } = useTranslation();
   const lang = Cookies.get("i18next") || "en";
 
@@ -40,9 +41,9 @@ const MapBrowsing = () => {
           >
             {data?.result?.map((teacher) => {
               let subjects = "";
-              teacher.TeacherSubjects.map((subject) => {
-                if (lang === "en") subjects += subject.Subject.titleEN + "\n ";
-                else subjects += subject.Subject.titleAR + "\n ";
+              teacher.TeacherSubjects?.map((subject) => {
+                if (lang === "en") subjects += subject.Subject?.titleEN + "\n ";
+                else subjects += subject.Subject?.titleAR + "\n ";
                 return subject;
               });
               subjects = subjects.slice(0, subjects.length - 2);
