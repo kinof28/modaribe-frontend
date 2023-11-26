@@ -30,7 +30,6 @@ const FinancialRecords = () => {
   const { token } = useSelector((state) => state.admin);
 
   const { data, isLoading } = useAdminFinancialRecords(token);
-  console.log("data: ", data);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
