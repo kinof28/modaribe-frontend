@@ -9,14 +9,13 @@ import HomeWorks from "../../components/client/home/HomeWorks";
 import LinksFooter from "../../components/client/home/LinksFooter";
 import Navbar from "../../components/Navbar";
 import { useSelector } from "react-redux";
-import MapBrowser from "./MapBrowser";
 import MapBrowsing from "../../components/client/home/MapBrowsing";
 
 export default function Home() {
   const { student } = useSelector((state) => state.student);
   return (
     <Navbar>
-      {student && <MapBrowsing />}
+      {student && student.lat && student.long && <MapBrowsing />}
       <HomeBanner />
       <HomeImages />
       <HomeWorks />

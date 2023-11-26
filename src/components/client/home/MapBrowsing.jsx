@@ -7,11 +7,9 @@ import Cookies from "js-cookie";
 
 const MapBrowsing = () => {
   const { token, student } = useSelector((state) => state.student);
-  const { data } = useStudentMap(student?.id, token);
+  const { data, loading } = useStudentMap(student?.id, token);
   const { t } = useTranslation();
   const lang = Cookies.get("i18next") || "en";
-
-  console.log("data from useStudentMap", data);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -24,7 +22,7 @@ const MapBrowsing = () => {
 
   return (
     <>
-      {isLoaded && (
+      {isLoaded && !loading && (
         <Box width="100%" height="100vh">
           <GoogleMap
             mapContainerStyle={{
