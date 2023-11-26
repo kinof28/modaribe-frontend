@@ -364,5 +364,7 @@
   "checkout_requests": "Checkout Requests",
   "confirm_dangerous_action": "This action is irreversible, Are you sure you want to perform it?",
   "suspend": "Suspend",
-  "unsuspend": "Activate"
+  "unsuspend": "Activate",
+  "requestPayment": "Request Checkout the available credit",
+  "lowBalance": "You don't have enough credit to checkout, Minimum is 100$"
 }

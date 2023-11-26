@@ -374,5 +374,7 @@
   "checkout_requests": "طلبات دفع المستحقات",
   "confirm_dangerous_action": "هذه العملية لا يمكن عكسها، هل تريد التأكيد؟",
   "suspend": "توقيف",
-  "unsuspend": "تفعيل"
+  "unsuspend": "تفعيل",
+  "requestPayment": "طلب سحب الرصيد المتوفر",
+  "lowBalance": "رصيدك غير كافي لدفع الطلب, الحد الأدنى 100دولار"
 }
