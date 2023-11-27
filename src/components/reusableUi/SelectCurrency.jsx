@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { changeCurrency } from "../../redux/currency";
 import { Box } from "@mui/material";
 import Cookies from "js-cookie";
+import { fetchConversionRate } from "../../redux/conversionRate";
 
 export default function SelectCurrency() {
   const { currency } = useSelector((state) => state.currency);
@@ -14,6 +15,7 @@ export default function SelectCurrency() {
 
   const handleChange = (e) => {
     dispatch(changeCurrency({ currency: e.target.value }));
+    dispatch(fetchConversionRate(e.target.value));
   };
   const lang = Cookies.get("i18next") || "en";
 

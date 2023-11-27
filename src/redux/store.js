@@ -5,6 +5,7 @@ import teacherReducer from "./teacherSlice";
 import parentReducer from "./parentSlice";
 import currencyReducer from "./currency";
 import ForgetPasswordReducer from "./ForgetPasswordSlice";
+import conversionRateReducer from "./conversionRate";
 
 import {
   persistStore,
@@ -53,6 +54,11 @@ const persistConfig6 = {
   version: 1,
   storage,
 };
+const persistConfig7 = {
+  key: "7",
+  version: 1,
+  storage,
+};
 
 const rootReducer = combineReducers({
   admin: persistReducer(persistConfig, adminRreducer),
@@ -61,6 +67,7 @@ const rootReducer = combineReducers({
   parent: persistReducer(persistConfig4, parentReducer),
   currency: persistReducer(persistConfig5, currencyReducer),
   forgetPassword: persistReducer(persistConfig6, ForgetPasswordReducer),
+  conversionRate: persistReducer(persistConfig7, conversionRateReducer),
 });
 
 export const store = configureStore({

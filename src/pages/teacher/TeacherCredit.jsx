@@ -23,22 +23,8 @@ export default function TeacherCredit() {
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const lang = Cookies.get("i18next") || "en";
   const { currency } = useSelector((state) => state.currency);
-  const [conversionRate, setConversionRate] = useState(null);
+  const { conversionRate } = useSelector((state) => state.conversionRate);
 
-  useEffect(() => {
-    const getConversionRate = async () => {
-      setConversionRate(null);
-      const response = await fetch(
-        `${process.env.REACT_APP_API_KEY}api/v1/currency/conversion-rate/${currency}`
-      );
-      const json = await response.json();
-      if (response.status === 200) setConversionRate(json.data);
-      else setConversionRate(1);
-    };
-    if (data) {
-      getConversionRate();
-    }
-  }, [currency]);
   const handleRequestCheckout = async () => {
     try {
       const response = await fetch(

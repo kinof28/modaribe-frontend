@@ -21,10 +21,12 @@ import StepperButtons from "../../components/reusableUi/StepperButtons";
 import { useTranslation } from "react-i18next";
 import { useSubjects } from "../../hooks/useSubject";
 import currencies from "../../data/currencies";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTeacher } from "../../hooks/useTeacher";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { changeCurrency } from "../../redux/currency";
+import { fetchConversionRate } from "../../redux/conversionRate";
 
 export default function TeacherSubjects() {
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
@@ -44,6 +46,13 @@ export default function TeacherSubjects() {
   const [f2fStudent, setf2fStudent] = useState(null);
   const [f2fTeacher, setf2fTeacher] = useState(null);
   const [discount, setDiscount] = useState(0);
+  const { currency } = useSelector((state) => state.currency);
+  const dispatch = useDispatch();
+
+  const handleCurrencyChange = (e) => {
+    dispatch(changeCurrency({ currency: e.target.value }));
+    dispatch(fetchConversionRate(e.target.value));
+  };
 
   function handleDeleteSelectedCategory(id) {
     setChosenCategories((back) => back.filter((categ) => categ.id !== id));
@@ -80,10 +89,10 @@ export default function TeacherSubjects() {
         setRemote({
           price: +user?.RemoteSession?.price,
           TeacherId: user?.RemoteSession?.TeacherId,
-          currency: user?.RemoteSession?.currency,
           discount: discount,
         });
         setDiscount(user?.RemoteSession?.discount);
+        dispatch(changeCurrency({ currency: user?.RemoteSession?.currency }));
       }
       if (user?.F2FSessionStd) {
         setPerson(true);
@@ -91,9 +100,10 @@ export default function TeacherSubjects() {
         setf2fStudent({
           price: +user?.F2FSessionStd?.price,
           TeacherId: user?.F2FSessionStd?.TeacherId,
-          currency: user?.F2FSessionStd?.currency,
           discount: discount,
         });
+        setDiscount(user?.F2FSessionStd?.discount);
+        dispatch(changeCurrency({ currency: user?.F2FSessionStd?.currency }));
       }
       if (user?.F2FSessionTeacher) {
         setPerson(true);
@@ -101,10 +111,15 @@ export default function TeacherSubjects() {
         setf2fTeacher({
           price: +user?.F2FSessionTeacher?.price,
           TeacherId: user?.F2FSessionTeacher?.TeacherId,
-          currency: user?.F2FSessionTeacher?.currency,
+          // currency: user?.F2FSessionTeacher?.currency,
           discount: discount,
         });
+        setDiscount(user?.F2FSessionTeacher?.discount);
+        dispatch(
+          changeCurrency({ currency: user?.F2FSessionTeacher?.currency })
+        );
       }
+      dispatch(fetchConversionRate(currency));
     }
   }, [teacher2]);
 
@@ -126,15 +141,15 @@ export default function TeacherSubjects() {
             subjects: ar1,
             remote:
               discount >= 0 && remote
-                ? { ...remote, discount: +discount }
+                ? { ...remote, currency, discount: +discount }
                 : remote,
             f2fStudent:
               discount >= 0 && f2fStudent
-                ? { ...f2fStudent, discount: +discount }
+                ? { ...f2fStudent, currency, discount: +discount }
                 : f2fStudent,
             f2fTeacher:
               discount >= 0 && f2fTeacher
-                ? { ...f2fTeacher, discount: +discount }
+                ? { ...f2fTeacher, currency, discount: +discount }
                 : f2fTeacher,
           }),
         }
@@ -270,16 +285,8 @@ export default function TeacherSubjects() {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       fullWidth
-                      value={remote?.currency}
-                      onChange={(e) =>
-                        setRemote((pre) => {
-                          return {
-                            ...pre,
-                            currency: e.target.value,
-                            TeacherId: teacher.id,
-                          };
-                        })
-                      }
+                      value={currency}
+                      onChange={handleCurrencyChange}
                     >
                       {currencies.map((item, index) => {
                         return (
@@ -341,15 +348,15 @@ export default function TeacherSubjects() {
                             type="number"
                             name="rate"
                             value={f2fTeacher?.price}
-                            onChange={(e) =>
+                            onChange={(e) => {
                               setf2fTeacher((pre) => {
                                 return {
                                   ...pre,
                                   price: e.target.value,
                                   TeacherId: teacher.id,
                                 };
-                              })
-                            }
+                              });
+                            }}
                           />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -362,16 +369,8 @@ export default function TeacherSubjects() {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             fullWidth
-                            value={f2fTeacher?.currency}
-                            onChange={(e) =>
-                              setf2fTeacher((pre) => {
-                                return {
-                                  ...pre,
-                                  currency: e.target.value,
-                                  TeacherId: teacher.id,
-                                };
-                              })
-                            }
+                            value={currency}
+                            onChange={handleCurrencyChange}
                           >
                             {currencies.map((item, index) => {
                               return (
@@ -441,16 +440,8 @@ export default function TeacherSubjects() {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             fullWidth
-                            value={f2fStudent?.currency}
-                            onChange={(e) =>
-                              setf2fStudent((pre) => {
-                                return {
-                                  ...pre,
-                                  currency: e.target.value,
-                                  TeacherId: teacher.id,
-                                };
-                              })
-                            }
+                            value={currency}
+                            onChange={handleCurrencyChange}
                           >
                             {currencies.map((item, index) => {
                               return (
