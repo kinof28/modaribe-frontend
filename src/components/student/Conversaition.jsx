@@ -11,10 +11,15 @@ import {
 import React, { useEffect, useRef } from "react";
 import Message from "../reusableUi/Message";
 import { useForm, Controller } from "react-hook-form";
-import { doc, updateDoc, arrayUnion, Timestamp } from "firebase/firestore";
-import { v4 as uuid } from "uuid";
-
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../../firebase";
+
+import { v4 as uuid } from "uuid";
 import { useSelector } from "react-redux";
 import { useTeacher } from "../../hooks/useTeacher";
 import { useStudent } from "../../hooks/useStudent";
@@ -40,17 +45,36 @@ export default function Conversaition({ messages }) {
     if (isOnlyWhitespace(text)) {
       return;
     }
-    const time = new Date();
-    await updateDoc(doc(db, "chats", messages.id), {
-      messages: arrayUnion({
-        id: uuid(),
-        text: text,
-        studentId: student ? `${student.id}` : "",
-        teacherId: teacher ? `${teacher.id}` : "",
-        date: time,
-      }),
-      lastmessage: time,
-    });
+    try {
+      const respone = await fetch(
+        "http://worldtimeapi.org/api/timezone/Etc/GMT"
+      );
+      const data = await respone.json();
+      const time = new Date(data.datetime);
+      await updateDoc(doc(db, "chats", messages.id), {
+        lastmessage: serverTimestamp(),
+        messages: arrayUnion({
+          id: uuid(),
+          text: text,
+          studentId: student ? `${student.id}` : "",
+          teacherId: teacher ? `${teacher.id}` : "",
+          date: time,
+        }),
+      });
+    } catch (error) {
+      console.log("error happened during fetching the time: ", error);
+      const time = new Date();
+      await updateDoc(doc(db, "chats", messages.id), {
+        lastmessage: serverTimestamp(),
+        messages: arrayUnion({
+          id: uuid(),
+          text: text,
+          studentId: student ? `${student.id}` : "",
+          teacherId: teacher ? `${teacher.id}` : "",
+          date: time,
+        }),
+      });
+    }
   };
 
   useEffect(() => {
