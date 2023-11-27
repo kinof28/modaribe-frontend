@@ -203,9 +203,6 @@ export default function AdminTeachers() {
           <TableContainer
             sx={{
               maxHeight: 440,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
             }}
           >
             <TextField
