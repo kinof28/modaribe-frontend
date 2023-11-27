@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useSnackbar } from "notistack";
 import Cookies from "js-cookie";
+import Loading from "../../components/Loading";
 
 export default function TeacherCredit() {
   const { t } = useTranslation();
@@ -21,8 +22,24 @@ export default function TeacherCredit() {
   const finicails = useTeacherHistroy(teacher?.id, token);
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const lang = Cookies.get("i18next") || "en";
+  const { currency } = useSelector((state) => state.currency);
+  const [conversionRate, setConversionRate] = useState(null);
+
+  useEffect(() => {
+    const getConversionRate = async () => {
+      setConversionRate(null);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/currency/conversion-rate/${currency}`
+      );
+      const json = await response.json();
+      if (response.status === 200) setConversionRate(json.data);
+      else setConversionRate(1);
+    };
+    if (data) {
+      getConversionRate();
+    }
+  }, [currency]);
   const handleRequestCheckout = async () => {
-    console.log("trying to request checkout");
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_KEY}api/v1/teacher/request-checkout/` +
@@ -89,41 +106,54 @@ export default function TeacherCredit() {
             {t("requestPayment")}
           </Button>
         )}
-
-        <Paper sx={{ padding: "40px 20px" }}>
-          <Grid
-            container
-            rowGap={2}
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item xs={12} md={4}>
-              <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
-                {t("totalbalance")}
-              </Typography>
-              <Typography sx={{ fontSize: "24px", textAlign: "center" }}>
-                {isLoading ? 0 : data.data.totalAmount} omr
-              </Typography>
+        {!isLoading && conversionRate ? (
+          <Paper sx={{ padding: "40px 20px" }}>
+            <Grid
+              container
+              rowGap={2}
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item xs={12} md={4}>
+                <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
+                  {t("totalbalance")}
+                </Typography>
+                <Typography sx={{ fontSize: "24px", textAlign: "center" }}>
+                  {isLoading
+                    ? 0
+                    : (data.data.totalAmount * conversionRate).toFixed(2)}{" "}
+                  {currency}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
+                  {t("availablebalance")}
+                </Typography>
+                <Typography sx={{ fontSize: "24px", textAlign: "center" }}>
+                  {isLoading
+                    ? 0
+                    : (
+                        (data.data.totalAmount - data.data.dues) *
+                        conversionRate
+                      ).toFixed(2)}{" "}
+                  {currency}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
+                  {t("withdrawnbalance")}
+                </Typography>
+                <Typography sx={{ fontSize: "24px", textAlign: "center" }}>
+                  {isLoading ? 0 : (data.data.dues * conversionRate).toFixed(2)}{" "}
+                  {currency}
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
-                {t("availablebalance")}
-              </Typography>
-              <Typography sx={{ fontSize: "24px", textAlign: "center" }}>
-                {isLoading ? 0 : data.data.totalAmount - data.data.dues} omr
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
-                {t("withdrawnbalance")}
-              </Typography>
-              <Typography sx={{ fontSize: "24px", textAlign: "center" }}>
-                {isLoading ? 0 : data.data.dues} omr
-              </Typography>
-            </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        ) : (
+          <Loading />
+        )}
         {!finicails.isLoading ? (
           <TableContainer component={Paper} sx={{ marginTop: "30px" }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
