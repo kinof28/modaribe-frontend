@@ -53,7 +53,6 @@ export default function TeacherCredit() {
         }
       );
       const responseData = await response.json();
-      console.log("responseData: ", responseData);
       if (response.ok) {
         enqueueSnackbar(
           lang === "en" ? responseData.msg.english : responseData.msg.arabic,
