@@ -17,6 +17,7 @@ import StarIcon from "@mui/icons-material/Star";
 import verify from "../../../images/verify.svg";
 import video from "../../../images/videosvg.svg";
 import ReactCountryFlag from "react-country-flag";
+import { useSelector } from "react-redux";
 
 const MatLink = styled(Link)({});
 const Image = styled("img")({
@@ -28,6 +29,8 @@ export default function TeacherSearchBox({ teacher }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const lang = Cookies.get("i18next") || "en";
+  const { currency } = useSelector((state) => state.currency);
+  const { conversionRate } = useSelector((state) => state.conversionRate);
   return (
     <Paper sx={{ padding: "32px 24px", marginY: "20px" }}>
       <Grid container spacing={2}>
@@ -188,19 +191,29 @@ export default function TeacherSearchBox({ teacher }) {
               {teacher.F2FSessionStd && (
                 <Typography sx={{ marginBottom: "5px", fontSize: "13px" }}>
                   {t("studenthome")} -{" "}
-                  {teacher.F2FSessionStd?.priceAfterDiscount}
+                  {(
+                    teacher.F2FSessionStd?.priceAfterDiscount * conversionRate
+                  ).toFixed(2)}{" "}
+                  {currency}
                 </Typography>
               )}
               {teacher.F2FSessionTeacher && (
                 <Typography sx={{ marginBottom: "5px", fontSize: "13px" }}>
                   {t("teacherhome")} -{" "}
-                  {teacher.F2FSessionTeacher?.priceAfterDiscount}
+                  {(
+                    teacher.F2FSessionTeacher?.priceAfterDiscount *
+                    conversionRate
+                  ).toFixed(2)}{" "}
+                  {currency}
                 </Typography>
               )}
               {teacher.RemoteSession && (
                 <Typography sx={{ fontSize: "13px" }}>
                   {t("onlineStudy")} -{" "}
-                  {teacher.RemoteSession?.priceAfterDiscount}
+                  {(
+                    teacher.RemoteSession?.priceAfterDiscount * conversionRate
+                  ).toFixed(2)}{" "}
+                  {currency}
                 </Typography>
               )}
             </Paper>

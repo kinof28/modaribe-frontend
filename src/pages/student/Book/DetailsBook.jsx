@@ -29,6 +29,7 @@ export default function DetailsBook() {
   const lang = Cookies.get("i18next") || "en";
   const { teacherId } = useParams();
   const { currency } = useSelector((state) => state.currency);
+  const { conversionRate } = useSelector((state) => state.conversionRate);
   const { data, isLoading } = useSingleTeacher(teacherId, currency);
   const { t } = useTranslation();
   const [load, setLoad] = useState(false);
@@ -328,7 +329,7 @@ export default function DetailsBook() {
                   </Typography>
                 </Box>
                 <Typography>
-                  {parseFloat(price).toFixed(2)} {currency}
+                  {parseFloat(price * conversionRate).toFixed(2)} {currency}
                 </Typography>
               </Box>
               <Box
@@ -365,7 +366,10 @@ export default function DetailsBook() {
                   </Typography>
                 </Box>
                 <Typography>
-                  {parseFloat(price * watch("hours")).toFixed(2)} {currency}
+                  {parseFloat(price * watch("hours") * conversionRate).toFixed(
+                    2
+                  )}{" "}
+                  {currency}
                 </Typography>
               </Box>
             </Box>
