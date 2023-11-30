@@ -69,7 +69,7 @@ export default function DetailsBook() {
             StudentId: student.id,
             TeacherId: teacherId,
             price: price.toFixed(3),
-            currency: "OMR",
+            currency: currency,
             typeOfPayment: data.typeofbook,
             period: data.hours,
             date: data.date + "T" + data.time,
