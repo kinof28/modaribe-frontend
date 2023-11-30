@@ -191,28 +191,23 @@ export default function TeacherSearchBox({ teacher }) {
               {teacher.F2FSessionStd && (
                 <Typography sx={{ marginBottom: "5px", fontSize: "13px" }}>
                   {t("studenthome")} -{" "}
-                  {(
-                    teacher.F2FSessionStd?.priceAfterDiscount * conversionRate
-                  ).toFixed(2)}{" "}
+                  {(teacher.F2FSessionStd?.price * conversionRate).toFixed(2)}{" "}
                   {currency}
                 </Typography>
               )}
               {teacher.F2FSessionTeacher && (
                 <Typography sx={{ marginBottom: "5px", fontSize: "13px" }}>
                   {t("teacherhome")} -{" "}
-                  {(
-                    teacher.F2FSessionTeacher?.priceAfterDiscount *
-                    conversionRate
-                  ).toFixed(2)}{" "}
+                  {(teacher.F2FSessionTeacher?.price * conversionRate).toFixed(
+                    2
+                  )}{" "}
                   {currency}
                 </Typography>
               )}
               {teacher.RemoteSession && (
                 <Typography sx={{ fontSize: "13px" }}>
                   {t("onlineStudy")} -{" "}
-                  {(
-                    teacher.RemoteSession?.priceAfterDiscount * conversionRate
-                  ).toFixed(2)}{" "}
+                  {(teacher.RemoteSession?.price * conversionRate).toFixed(2)}{" "}
                   {currency}
                 </Typography>
               )}
