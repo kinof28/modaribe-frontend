@@ -68,8 +68,8 @@ export default function DetailsBook() {
           body: JSON.stringify({
             StudentId: student.id,
             TeacherId: teacherId,
-            price: price,
-            currency: currency,
+            price: price.toFixed(3),
+            currency: "OMR",
             typeOfPayment: data.typeofbook,
             period: data.hours,
             date: data.date + "T" + data.time,
