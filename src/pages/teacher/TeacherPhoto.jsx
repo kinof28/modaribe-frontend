@@ -107,11 +107,15 @@ export default function TeacherPhoto() {
             />
           )}
         </Box>
-        <StepperButtons
-          skipLink={"AdditionalInformation"}
-          onSubmit={handleButtonSubmit}
-          load={load}
-        />
+        {teacher?.image ? (
+          <StepperButtons
+            skipLink={"AdditionalInformation"}
+            onSubmit={handleButtonSubmit}
+            load={load}
+          />
+        ) : (
+          <StepperButtons onSubmit={handleButtonSubmit} load={load} />
+        )}
       </TeacherLayout>
     </Navbar>
   );
