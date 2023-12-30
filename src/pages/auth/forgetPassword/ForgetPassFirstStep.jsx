@@ -13,8 +13,8 @@ import Navbar from "../../../components/Navbar";
 import HeaderSteps from "../../../components/auth/HeaderSteps";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { sendEmail } from "../../../redux/ForgetPasswordSlice";
+import { useSnackbar } from "notistack";
+import Cookies from "js-cookie";
 
 export default function ForgetPasswordFirstStep() {
   const {
@@ -30,13 +30,46 @@ export default function ForgetPasswordFirstStep() {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.admin);
-
-  function onSubmit(data) {
-    console.log(data);
-    dispatch(sendEmail(data.email, token));
-  }
+  const lang = Cookies.get("i18next") || "en";
+  const { enqueueSnackbar } = useSnackbar();
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_KEY}api/v1/forgetPassword`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data.email,
+          }),
+        }
+      );
+      const responseData = await response.json();
+      if (response.status === 200) {
+        const message =
+          lang === "en"
+            ? "Email sent successfully"
+            : "تم ارسال البريد الالكتروني بنجاح";
+        enqueueSnackbar(message, {
+          variant: "success",
+        });
+        navigate("/auth/forgetpassword/secondstep");
+      } else {
+        enqueueSnackbar(
+          lang === "en"
+            ? responseData.message.english
+            : responseData.message.arabic,
+          {
+            variant: "error",
+          }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Navbar>

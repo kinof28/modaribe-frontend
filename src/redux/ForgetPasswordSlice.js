@@ -1,26 +1,31 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../lib/axios";
-
-export const sendEmail = createAsyncThunk(
-  "forgetPassword",
-  async (email, token, { dispatch }) => {
-    console.log(email, token);
-    try {
-      await axios.post("api/v1/forgetPassword", email, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      dispatch(setEmail(email));
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
 
 const initialState = {
   email: "",
 };
+
+export const sendEmail = createAsyncThunk("forgetPassword", async (email) => {
+  console.log("email: ", email);
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_KEY}api/v1/forgetPassword`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      }
+    );
+    const data = await response.json();
+    console.log("JSON: ", data);
+    console.log("response: ", response);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 export const ForgetPasswordSlice = createSlice({
   name: "ForgetPassword",
@@ -29,6 +34,14 @@ export const ForgetPasswordSlice = createSlice({
     setEmail: (action, state) => {
       state.email = action.email;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(sendEmail.fulfilled, (state, action) => {
+      state.email = action.payload;
+    });
+    builder.addCase(sendEmail.rejected, (state) => {
+      state.email = null;
+    });
   },
 });
 
