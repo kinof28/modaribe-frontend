@@ -32,11 +32,9 @@ const ForgetPassSecondStep = () => {
   const navigate = useNavigate();
   const lang = Cookies.get("i18next") || "en";
   const { enqueueSnackbar } = useSnackbar();
-  const { email } = useSelector((state) => state.email);
+  const email = useSelector((state) => state.forgetPassword.email);
 
   const onSubmit = async (data) => {
-    console.log("data", data);
-    console.log("email", email);
     if (!`${data.code}`.match("^[0-9]{4}$")) {
       enqueueSnackbar(t("code_error"), { variant: "error" });
       return;
@@ -50,10 +48,22 @@ const ForgetPassSecondStep = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            code: data.code,
+            email: email,
+            registerCode: data.code,
           }),
         }
       );
+      const json = await response.json();
+      if (response.status === 200) {
+        enqueueSnackbar(lang === "en" ? json.msg.english : json.msg.arabic, {
+          variant: "success",
+        });
+        navigate("/forgetpassword/step3");
+      } else {
+        enqueueSnackbar(lang === "en" ? json.msg.english : json.msg.arabic, {
+          variant: "error",
+        });
+      }
     } catch (error) {
       enqueueSnackbar(t("code_error"), { variant: "error" });
     }

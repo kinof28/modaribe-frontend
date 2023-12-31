@@ -5,7 +5,6 @@ const initialState = {
 };
 
 export const sendEmail = createAsyncThunk("forgetPassword", async (email) => {
-  console.log("email: ", email);
   try {
     const response = await fetch(
       `${process.env.REACT_APP_API_KEY}api/v1/forgetPassword`,
@@ -31,8 +30,9 @@ export const ForgetPasswordSlice = createSlice({
   name: "ForgetPassword",
   initialState,
   reducers: {
-    setEmail: (action, state) => {
-      state.email = action.email;
+    setEmail: (state, action) => {
+      console.log("payload from reducer: ", action.payload);
+      state.email = action.payload;
     },
   },
   extraReducers: (builder) => {

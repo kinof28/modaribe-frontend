@@ -58,7 +58,7 @@ export default function ForgetPasswordFirstStep() {
         enqueueSnackbar(message, {
           variant: "success",
         });
-        dispatch(setEmail({ email: data.email }));
+        dispatch(setEmail(data.email));
         navigate("/forgetpassword/step2");
       } else {
         enqueueSnackbar(
