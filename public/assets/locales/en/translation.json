@@ -366,5 +366,8 @@
   "suspend": "Suspend",
   "unsuspend": "Activate",
   "requestPayment": "Request Checkout the available credit",
-  "lowBalance": "You don't have enough credit to checkout, Minimum is 100$"
+  "lowBalance": "You don't have enough credit to checkout, Minimum is 100$",
+  "enter_code": "Enter the code from the email you received",
+  "code": "Code",
+  "code_error": "The code you entered is incorrect"
 }

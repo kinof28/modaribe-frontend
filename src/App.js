@@ -89,6 +89,7 @@ import AdminEditTeacherResume from "./pages/admin/AdminEditTeacherResume";
 import AdminEditTeacherSubjects from "./pages/admin/AdminEditTeacherSubjects";
 import AdminEditTeacherVideo from "./pages/admin/AdminEditTeacherVideo";
 import StudentFinancialRecords from "./pages/student/StudentFinancialRecords";
+import ForgetPassSecondStep from "./pages/auth/forgetPassword/ForgetPassSecondStep";
 
 const theme = createTheme({
   direction: "rtl",
@@ -202,7 +203,10 @@ function App() {
               path="forgetPassword/step1"
               element={<ForgetPasswordFirstStep />}
             />
-
+            <Route
+              path="forgetPassword/step2"
+              element={<ForgetPassSecondStep />}
+            />
             {/** student pages */}
             <Route
               path="student/profile"

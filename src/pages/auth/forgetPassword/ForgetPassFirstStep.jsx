@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "notistack";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { setEmail } from "../../../redux/ForgetPasswordSlice";
 
 export default function ForgetPasswordFirstStep() {
   const {
@@ -32,6 +34,7 @@ export default function ForgetPasswordFirstStep() {
   const navigate = useNavigate();
   const lang = Cookies.get("i18next") || "en";
   const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
   const onSubmit = async (data) => {
     try {
       const response = await fetch(
@@ -55,7 +58,8 @@ export default function ForgetPasswordFirstStep() {
         enqueueSnackbar(message, {
           variant: "success",
         });
-        navigate("/auth/forgetpassword/secondstep");
+        dispatch(setEmail({ email: data.email }));
+        navigate("/forgetpassword/step2");
       } else {
         enqueueSnackbar(
           lang === "en"
