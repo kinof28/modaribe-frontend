@@ -369,5 +369,6 @@
   "lowBalance": "You don't have enough credit to checkout, Minimum is 100$",
   "enter_code": "Enter the code from the email you received",
   "code": "Code",
-  "code_error": "The code you entered is incorrect"
+  "code_error": "The code you entered is incorrect",
+  "password_missMach": "Confirming password does not match, please re-enter your password"
 }
