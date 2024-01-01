@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../../components/Navbar";
 import {
@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import HeaderSteps from "../../../components/auth/HeaderSteps";
+import { loginTeacher } from "../../../redux/teacherSlice";
+import { loginStudent } from "../../../redux/studentSlice";
 
 const ForgetPassThirdStep = () => {
   const {
@@ -31,6 +33,8 @@ const ForgetPassThirdStep = () => {
   });
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const lang = Cookies.get("i18next") || "en";
   const { enqueueSnackbar } = useSnackbar();
   const email = useSelector((state) => state.forgetPassword.email);
@@ -72,7 +76,16 @@ const ForgetPassThirdStep = () => {
         enqueueSnackbar(lang === "en" ? json.msg.english : json.msg.arabic, {
           variant: "success",
         });
-        navigate("/login");
+        localStorage.clear();
+        if (json.role === "teacher") {
+          dispatch(loginTeacher({ token: json.token, teacher: json.data }));
+          navigate("/teacher/about");
+        } else if (json.role === "student") {
+          dispatch(loginStudent({ token: json.token, student: json.data }));
+          navigate("/");
+        } else {
+          navigate("/login");
+        }
       } else {
         enqueueSnackbar(
           lang === "en" ? json.message.english : json.message.arabic,
