@@ -370,5 +370,7 @@
   "enter_code": "Enter the code from the email you received",
   "code": "Code",
   "code_error": "The code you entered is incorrect",
-  "password_missMach": "Confirming password does not match, please re-enter your password"
+  "password_missMach": "Confirming password does not match, please re-enter your password",
+  "complete_teacher_account": "Please complete your profile information to confirm your teacher account.",
+  "account_under_review": "your account is under review by the administration, please wait for a while"
 }
