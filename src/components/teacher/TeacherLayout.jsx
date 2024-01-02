@@ -12,24 +12,24 @@ export default function TeacherLayout({ active, title, children }) {
   return (
     <Container sx={{ marginBottom: "60px", marginTop: "120px" }}>
       {!isLoading &&
-      (!data.data.firstName ||
-        !data.data.lastName ||
-        !data.data.gender ||
-        !data.data.dateOfBirth ||
-        !data.data.phone ||
-        !data.data.email ||
-        !data.data.country ||
-        !data.data.city ||
-        !data.data.image ||
-        !data.data.favStdGender ||
-        !data.data.experienceYears ||
-        !data.data.favHours ||
-        !data.data.shortHeadlineAr ||
-        !data.data.shortHeadlineEn ||
-        !data.data.descriptionAr ||
-        !data.data.descriptionEn ||
-        data.data.CurriculumTeachers.length === 0 ||
-        data.data.TeacherLevels.length === 0) ? (
+      (!data?.data?.firstName ||
+        !data?.data?.lastName ||
+        !data?.data?.gender ||
+        !data?.data?.dateOfBirth ||
+        !data?.data?.phone ||
+        !data?.data?.email ||
+        !data?.data?.country ||
+        !data?.data?.city ||
+        !data?.data?.image ||
+        !data?.data?.favStdGender ||
+        !data?.data?.experienceYears ||
+        !data?.data?.favHours ||
+        !data?.data?.shortHeadlineAr ||
+        !data?.data?.shortHeadlineEn ||
+        !data?.data?.descriptionAr ||
+        !data?.data?.descriptionEn ||
+        data?.data?.CurriculumTeachers.length === 0 ||
+        data?.data?.TeacherLevels.length === 0) ? (
         <Typography
           sx={{
             bgcolor: "#f50000",
@@ -43,7 +43,7 @@ export default function TeacherLayout({ active, title, children }) {
           {t("complete_teacher_account")}
         </Typography>
       ) : (
-        !data.data.isVerified && (
+        !data?.data?.isVerified && (
           <Typography
             sx={{
               bgcolor: "orange",
