@@ -96,7 +96,7 @@ const theme = createTheme({
   direction: "rtl",
   palette: {
     primary: {
-      main: "#005B8E",
+      main: "#800000",
       contrastText: "#ffffff",
     },
     secondary: {

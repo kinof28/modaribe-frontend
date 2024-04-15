@@ -51,6 +51,7 @@ const drawerWidth = 240;
 const ImageLogo = styled("img")({
   width: "110px",
   height: "50px",
+  objectFit: "cover",
 });
 
 const ImageCall = styled("img")({
@@ -157,7 +158,7 @@ function Navbar(props) {
             <ListItemText primary="" />
           </ListItemButton>
         </ListItem>
-        <a href="mailto:info@moalime.com">
+        <a href="mailto:info@modaribe.com">
           <Box
             sx={{
               display: "flex",
@@ -169,7 +170,7 @@ function Navbar(props) {
             }}
           >
             <EmailOutlinedIcon sx={{ fontSize: "15px" }} />
-            <Typography sx={{ fontSize: "14px" }}>info@moalime.com</Typography>
+            <Typography sx={{ fontSize: "14px" }}>info@modaribe.com</Typography>
           </Box>
         </a>
         <a
@@ -368,13 +369,13 @@ function Navbar(props) {
                 <SearchIcon />
               </Box>
             </Link>
-            <a href="mailto:info@moalime.com">
+            <a href="mailto:info@modaribe.com">
               <Box
                 sx={{ display: "flex", alignItems: "center", columnGap: "4px" }}
               >
                 <EmailOutlinedIcon sx={{ fontSize: "15px" }} />
                 <Typography sx={{ fontSize: "14px" }}>
-                  info@moalime.com
+                  info@modaribe.com
                 </Typography>
               </Box>
             </a>
