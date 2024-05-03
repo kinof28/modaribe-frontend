@@ -49,9 +49,10 @@ import { useSocialMedia } from "../hooks/useSocialMedia";
 const drawerWidth = 240;
 
 const ImageLogo = styled("img")({
-  width: "110px",
-  height: "50px",
+  height: "60px",
   objectFit: "cover",
+  objectPosition: "bottom",
+  aspectRatio: "1.9",
 });
 
 const ImageCall = styled("img")({
