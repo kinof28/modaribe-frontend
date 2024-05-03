@@ -44,8 +44,10 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 const drawerWidth = 240;
 
 const Image = styled("img")({
-  width: "90px",
-  height: "40px",
+  height: "60px",
+  objectFit: "cover",
+  objectPosition: "bottom",
+  aspectRatio: "1.9",
 });
 
 function AdminLayout(props) {
