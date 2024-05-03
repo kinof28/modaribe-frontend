@@ -55,6 +55,74 @@ export default function LandingBanner() {
   }
 
   return (
+    // <Wrapper sx={{ backgroundImage: `url(${cover})` }} className="overlay">
+    //   <Container>
+    //     <Typography
+    //       sx={{
+    //         marginBottom: "70px",
+    //         fontSize: { md: "28px", xs: "18px" },
+    //         position: "relative",
+    //         fontWeight: "bold",
+    //       }}
+    //       color="secondary"
+    //     >
+    //       {t("landing_title")}
+    //     </Typography>
+    //     <Grid
+    //       container
+    //       spacing={2}
+    //       alignItems="center"
+    //       sx={{
+    //         backgroundColor: "white",
+    //         padding: "0px 10px 14px",
+    //         borderRadius: "6px",
+    //         position: "relative",
+    //         zIndex: 3,
+    //       }}
+    //     >
+    //       <Grid item fullWidth xs={24} md={12} lg={10}>
+    //         <FormControl fullWidth>
+    //           <InputLabel id="demo-simple-select-label">
+    //             {t("studylevel")}
+    //           </InputLabel>
+    //           <Select
+    //             sx={{ textAlign: "start" }}
+    //             placeholder="level"
+    //             labelId="demo-simple-select-label"
+    //             id="demo-simple-select"
+    //             value={level}
+    //             onChange={handleChange}
+    //             label={t("studylevel")}
+    //             MenuProps={{
+    //               elevation: 0.3,
+    //               PaperProps: {
+    //                 style: {
+    //                   maxHeight: 48 * 3 + 8,
+    //                   width: 160,
+    //                 },
+    //               },
+    //             }}
+    //           >
+    //             {!levelsData.isLoading &&
+    //               levelsData.data.data.length > 0 &&
+    //               levelsData.data.data.map((item, index) => {
+    //                 return (
+    //                   <MenuItem key={index + "zas"} value={item.id}>
+    //                     {lang === "ar" ? item.titleAR : item.titleEN}
+    //                   </MenuItem>
+    //                 );
+    //               })}
+    //           </Select>
+    //         </FormControl>
+    //       </Grid>
+    //       <Grid item xs={12} md={12} lg={2}>
+    //         <Button variant="contained" fullWidth onClick={searchNavigate}>
+    //           {t("search")}
+    //         </Button>
+    //       </Grid>
+    //     </Grid>
+    //   </Container>
+    // </Wrapper>
     <Wrapper sx={{ backgroundImage: `url(${cover})` }} className="overlay">
       <Container>
         <Typography
@@ -80,7 +148,41 @@ export default function LandingBanner() {
             zIndex: 3,
           }}
         >
-          <Grid item fullWidth xs={24} md={12} lg={10}>
+          <Grid item xs={12} md={6} lg={5}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                {t("categories")}
+              </InputLabel>
+              <Select
+                sx={{ textAlign: "start" }}
+                placeholder="level"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                label={t("studylevel")}
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: 48 * 3 + 8,
+                      width: 160,
+                    },
+                  },
+                }}
+              >
+                {!categoriesData.isLoading &&
+                  categoriesData.data.data.length > 0 &&
+                  categoriesData.data.data.map((item, index) => {
+                    return (
+                      <MenuItem key={index + "zas"} value={item.id}>
+                        {lang === "ar" ? item.titleAR : item.titleEN}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={6} lg={5}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
                 {t("studylevel")}
