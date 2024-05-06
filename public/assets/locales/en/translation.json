@@ -65,7 +65,7 @@
   "websiteWork": "How it works",
   "work1_title": "Build your profile",
   "work1_desc": "Tell us about yourself, describe your expertise and knowledge, upload your professional or academic certificates, set your availability and rate.",
-  "work2_title": "Meet global students",
+  "work2_title": "Meet students",
   "work2_desc": "We will help anyone who wants to learn driving to find you online based on your profile, skills, availability and rate",
   "work3_title": "Get booked",
   "work3_desc": "Your booking is confirmed via our website for slots of either 5, 10, 15 or 20 hours based on your availability. You have the choice to deliver the lessons online or in person.",
@@ -372,5 +372,6 @@
   "code_error": "The code you entered is incorrect",
   "password_missMach": "Confirming password does not match, please re-enter your password",
   "complete_teacher_account": "Please complete your profile information to confirm your instructor account.",
-  "account_under_review": "your account is under review by the administration, please wait for a while"
+  "account_under_review": "your account is under review by the administration, please wait for a while",
+  "website_name": "Muscat Driving School"
 }
