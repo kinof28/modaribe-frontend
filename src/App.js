@@ -1,6 +1,6 @@
 import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Cookies from "js-cookie";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -91,6 +91,7 @@ import AdminEditTeacherVideo from "./pages/admin/AdminEditTeacherVideo";
 import StudentFinancialRecords from "./pages/student/StudentFinancialRecords";
 import ForgetPassSecondStep from "./pages/auth/forgetPassword/ForgetPassSecondStep";
 import ForgetPassThirdStep from "./pages/auth/forgetPassword/ForgetPassThirdStep";
+import { Helmet } from "react-helmet";
 
 const theme = createTheme({
   direction: "rtl",
@@ -117,11 +118,12 @@ const theme = createTheme({
 function App() {
   const dispatch = useDispatch();
   const queryClient = new QueryClient();
-
+  const [title, setTitle] = useState("Muscat Driving School");
   useEffect(() => {
     const lang = Cookies.get("i18next") || "en";
     if (lang === "ar") {
       document.body.dir = "rtl";
+      setTitle("مسقط لتعليم قيادة السيارات");
     } else {
       document.body.dir = "ltr";
     }
@@ -146,6 +148,10 @@ function App() {
 
   return (
     <div className="App">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{title}</title>
+      </Helmet>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <Routes>
