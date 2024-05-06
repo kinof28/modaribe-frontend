@@ -29,6 +29,17 @@ export default function HomeBanner() {
         }}
         color="secondary"
       >
+        {t("website_name")}
+      </Typography>
+      <Typography
+        sx={{
+          marginBottom: "8px",
+          fontSize: { md: "32px", xs: "22px" },
+          position: "relative",
+          fontWeight: "bold",
+        }}
+        color="secondary"
+      >
         {t("bannerTitle")}
       </Typography>
       <Typography
