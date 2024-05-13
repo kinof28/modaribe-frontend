@@ -29,6 +29,7 @@ export default function AdditionalInformation() {
   const [load, setLoad] = useState(false);
   const navigate = useNavigate();
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
+  const [profit, setProfit] = useState("");
 
   const {
     register,
@@ -50,6 +51,25 @@ export default function AdditionalInformation() {
       paypal_acc: "",
     },
   });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_KEY}api/v1/teacher/profit-ratio`
+        );
+
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+        const resData = await response.json();
+        setProfit(resData.profitRatio);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (!data) return;
@@ -420,7 +440,7 @@ export default function AdditionalInformation() {
                 {t("required")}
               </Typography>
             )}
-            <p>{t("note_teacher")}</p>
+            <p>{t("note_teacher_1") + profit + "%" + t("note_teacher_2")}</p>
           </Box>
           <Box sx={{ marginBottom: "26px" }}>
             <InputLabel sx={{ marginBottom: "6px", fontSize: "14px" }}>
