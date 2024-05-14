@@ -11,6 +11,7 @@ import { useTeacher } from "../../hooks/useTeacher";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import timezones from "../../data/timezones";
 
 export default function TeacherAvailability() {
   const { t } = useTranslation();
@@ -27,7 +28,12 @@ export default function TeacherAvailability() {
 
   useEffect(() => {
     if (!isLoading) {
-      setSelectedTimezone(data.data?.timeZone);
+      if (data.data?.timeZone) setSelectedTimezone(data.data?.timeZone);
+      else {
+        const offset = (-1 * new Date().getTimezoneOffset()) / 60;
+        const s = timezones.filter((e) => e.offset == offset)[0];
+        setSelectedTimezone(s.text);
+      }
       setSelectedTimes(data?.data?.TeacherDays);
       for (const day of data?.data?.TeacherDays) {
         setSelectedDays((back) => [...back, day.DayId]);
