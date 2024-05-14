@@ -53,7 +53,6 @@ const Image = styled("img")({
   },
   objectFit: "cover",
   objectPosition: "bottom",
-  aspectRatio: "1.9",
 });
 
 function AdminLayout(props) {

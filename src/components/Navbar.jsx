@@ -50,6 +50,7 @@ const drawerWidth = 240;
 
 const ImageLogo = styled("img")({
   height: "60px",
+
   "@media screen and (max-width: 600px) ": {
     height: "45px",
   },
@@ -58,7 +59,6 @@ const ImageLogo = styled("img")({
   },
   objectFit: "cover",
   objectPosition: "bottom",
-  aspectRatio: "1.9",
 });
 
 const ImageCall = styled("img")({
