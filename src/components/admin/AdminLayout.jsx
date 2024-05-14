@@ -45,6 +45,12 @@ const drawerWidth = 240;
 
 const Image = styled("img")({
   height: "60px",
+  "@media screen and (max-width: 600px) ": {
+    height: "45px",
+  },
+  "@media screen and (max-width: 320px) ": {
+    height: "27px",
+  },
   objectFit: "cover",
   objectPosition: "bottom",
   aspectRatio: "1.9",
