@@ -179,17 +179,19 @@ export default function DetailsBook() {
                       >
                         {data?.data.RemoteSession && (
                           <MenuItem value={"online"}>
-                            {lang === "ar" ? "عن بعد" : "online"}
+                            {lang === "ar" ? "أونلاين" : "online"}
                           </MenuItem>
                         )}
                         {data?.data.F2FSessionStd && (
                           <MenuItem value={"student"}>
-                            {lang === "ar" ? "في منزل الطالب" : "Student home"}
+                            {lang === "ar" ? "في موقع الطالب" : "Student place"}
                           </MenuItem>
                         )}
                         {data?.data.F2FSessionTeacher && (
                           <MenuItem value={"teacher"}>
-                            {lang === "ar" ? "في منزل المعلم" : "Teacher home"}
+                            {lang === "ar"
+                              ? "في موقع التدريب"
+                              : "Training Place"}
                           </MenuItem>
                         )}
                       </Select>
