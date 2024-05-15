@@ -92,6 +92,7 @@ import StudentFinancialRecords from "./pages/student/StudentFinancialRecords";
 import ForgetPassSecondStep from "./pages/auth/forgetPassword/ForgetPassSecondStep";
 import ForgetPassThirdStep from "./pages/auth/forgetPassword/ForgetPassThirdStep";
 import { Helmet } from "react-helmet";
+import StudentNotifications from "./pages/student/StudentNotifications";
 
 const theme = createTheme({
   direction: "rtl",
@@ -266,6 +267,12 @@ function App() {
             <Route
               path="/student/teachers"
               element={student ? <StudentTeachers /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="student/notifications"
+              element={
+                student ? <StudentNotifications /> : <Navigate to="/login" />
+              }
             />
             {/** teacher pages */}
             <Route

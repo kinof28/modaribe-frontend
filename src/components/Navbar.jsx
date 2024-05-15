@@ -246,6 +246,17 @@ function Navbar(props) {
         )}
         {student && (
           <>
+            <Link to="/student/notifications">
+              <ListItem
+                sx={{
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {t("notifications")}
+              </ListItem>
+            </Link>
             <Link to="/student/profile">
               <ListItem
                 sx={{
@@ -353,6 +364,30 @@ function Navbar(props) {
               <ImageLogo src={logoImage} />
             </Link>
           </Box>
+          {(teacher || student) && (
+            <Box
+              sx={{
+                padding: "4px",
+                backgroundColor: "#fc5a5a",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "50%",
+                cursor: "pointer",
+                marginX: { xs: "4px", sm: "1.5rem" },
+                display: { md: "none", xs: "flex" },
+              }}
+              onClick={() =>
+                teacher
+                  ? navigate("/teacher/notifications")
+                  : navigate("/student/notifications")
+              }
+            >
+              <Badge badgeContent={notSeen} color="success">
+                <NotificationsIcon sx={{ fontSize: "20px" }} />
+              </Badge>
+            </Box>
+          )}
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
@@ -537,6 +572,22 @@ function Navbar(props) {
             )}
             {student && (
               <Stack direction="row" alignItems={"center"}>
+                <Box
+                  sx={{
+                    padding: "5px",
+                    backgroundColor: "#fc5a5a",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "50%",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/student/notifications")}
+                >
+                  <Badge badgeContent={notSeen} color="success">
+                    <NotificationsIcon sx={{ fontSize: "22px" }} />
+                  </Badge>
+                </Box>
                 <Button
                   color="Blue"
                   variant="contained"
@@ -580,7 +631,6 @@ function Navbar(props) {
                   alignItems: "center",
                   justifyContent: "center",
                   color: "white",
-                  marginBottom: "12px",
                 }}
               >
                 <SearchIcon />
