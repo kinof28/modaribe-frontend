@@ -165,7 +165,7 @@ function Navbar(props) {
             <ListItemText primary="" />
           </ListItemButton>
         </ListItem>
-        <a href="mailto:info@muscatdrivingschool.com">
+        <a target="_blank" href="mailto:info@muscatdrivingschool.com">
           <Box
             sx={{
               display: "flex",
@@ -182,10 +182,7 @@ function Navbar(props) {
             </Typography>
           </Box>
         </a>
-        <a
-          target="_black"
-          href="https://api.whatsapp.com/send?phone=96894414423"
-        >
+        <a target="_blank" href={whatsAppLink}>
           <Box
             sx={{
               display: "flex",
@@ -378,7 +375,7 @@ function Navbar(props) {
                 <SearchIcon />
               </Box>
             </Link>
-            <a href="mailto:info@muscatdrivingschool.com">
+            <a target="_blank" href="mailto:info@muscatdrivingschool.com">
               <Box
                 sx={{ display: "flex", alignItems: "center", columnGap: "4px" }}
               >
@@ -388,7 +385,7 @@ function Navbar(props) {
                 </Typography>
               </Box>
             </a>
-            <a target="_black" href={whatsAppLink}>
+            <a target="_blank" href={whatsAppLink}>
               <Box
                 sx={{ display: "flex", alignItems: "center", columnGap: "8px" }}
               >
