@@ -149,6 +149,11 @@ function Navbar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { data } = useSocialMedia();
+  const links = data?.data;
+  const whatsAppLink = links
+    ?.filter((obj) => obj.type === "Whatsapp")
+    .map((obj) => obj.link);
 
   const drawer = (
     <Box
@@ -182,7 +187,7 @@ function Navbar(props) {
             </Typography>
           </Box>
         </a>
-        <a target="_blank" href={whatsAppLink}>
+        <a target="_blank" href={whatsAppLink || "/"}>
           <Box
             sx={{
               display: "flex",
@@ -322,11 +327,6 @@ function Navbar(props) {
       </List>
     </Box>
   );
-  const { data } = useSocialMedia();
-  const links = data?.data;
-  const whatsAppLink = links
-    ?.filter((obj) => obj.type === "Whatsapp")
-    .map((obj) => obj.link);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -385,7 +385,7 @@ function Navbar(props) {
                 </Typography>
               </Box>
             </a>
-            <a target="_blank" href={whatsAppLink}>
+            <a target="_blank" href={whatsAppLink || "/"}>
               <Box
                 sx={{ display: "flex", alignItems: "center", columnGap: "8px" }}
               >
