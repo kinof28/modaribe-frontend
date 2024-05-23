@@ -92,6 +92,8 @@ export default function StudentLessons() {
                     studentAccept={lesson?.studentAccept}
                     teacherAccept={lesson?.teacherAccept}
                     sessionId={lesson?.id}
+                    startedAt={lesson?.startedAt}
+                    endedAt={lesson?.endedAt}
                     key={index + "zw12"}
                   />
                 );
@@ -116,6 +118,8 @@ export default function StudentLessons() {
                     studentAccept={lesson?.studentAccept}
                     teacherAccept={lesson?.teacherAccept}
                     sessionId={lesson?.id}
+                    startedAt={lesson?.startedAt}
+                    endedAt={lesson?.endedAt}
                     key={index + "zw13"}
                   />
                 );

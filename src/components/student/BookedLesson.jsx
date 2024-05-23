@@ -69,6 +69,7 @@ export default function BookedLesson({
           }
         );
       }
+      window.location.reload();
       setShowAttend(false);
     } catch (err) {
       console.log(err);
@@ -103,6 +104,7 @@ export default function BookedLesson({
         );
       }
       if (response.ok) {
+        window.location.reload();
         closeSnackbar();
         enqueueSnackbar(t("update_success"), {
           variant: "success",
