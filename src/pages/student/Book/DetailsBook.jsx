@@ -380,7 +380,7 @@ export default function DetailsBook() {
                 {t("next")}
               </Button>
             ) : (
-              <Button fullWidth variant="contained">
+              <Button fullWidth variant="contained" disabled>
                 {t("next")}...
               </Button>
             )}
