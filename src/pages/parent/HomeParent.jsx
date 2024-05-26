@@ -62,7 +62,6 @@ export default function HomeParent() {
   const { parent, token } = useSelector((s) => s.parent);
 
   const { data } = useStudentsForParent(parent.id, token);
-
   const { t } = useTranslation();
 
   return (
@@ -108,7 +107,7 @@ export default function HomeParent() {
                   md={4}
                   lg={3}
                   sx={{ width: "100%" }}
-                  key={st.id + "kmk"}
+                  key={st.StudentId + "kmk"}
                 >
                   <Paper
                     sx={{
@@ -119,8 +118,8 @@ export default function HomeParent() {
                     }}
                   >
                     <Avatar
-                      alt={st.name}
-                      src={`${process.env.REACT_APP_API}images/${st.image}`}
+                      alt={st.Student.name}
+                      src={`${process.env.REACT_APP_API}images/${st.Student.image}`}
                       sx={{ width: "105px", height: "105px", fontSize: "42px" }}
                     />
                     <Typography
@@ -132,10 +131,12 @@ export default function HomeParent() {
                         textAlign: "center",
                       }}
                     >
-                      {t("student")} : {st.name}
+                      {t("student")} : {st.Student.name}
                     </Typography>
                     <Button
-                      onClick={() => navigate(`/parent-dash/student/${st.id}`)}
+                      onClick={() =>
+                        navigate(`/parent-dash/student/${st.StudentId}`)
+                      }
                     >
                       {t("view")}
                     </Button>
