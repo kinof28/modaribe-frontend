@@ -106,8 +106,21 @@ function Navbar(props) {
         setNotSeen(conv.filter((not) => not.seen === false).length);
       });
       return () => unsubscribe();
+    } else if (student) {
+      const q = query(
+        collection(db, "Notifications"),
+        where("StudentId", "==", `${student.id}`)
+      );
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        let conv = [];
+        querySnapshot.forEach((doc) => {
+          conv.push({ ...doc.data(), id: doc.id });
+        });
+        setNotSeen(conv.filter((not) => not.seen === false).length);
+      });
+      return () => unsubscribe();
     }
-  }, [teacher]);
+  }, [teacher, student]);
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
