@@ -43,6 +43,32 @@ export default function StudentNotifications() {
     return () => unsubscribe();
   }, [student]);
 
+  useEffect(() => {
+    async function updateNotification() {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_KEY}api/v1/student/updateNotification/${student.id}`,
+          {
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+            method: "PUT",
+          }
+        );
+        const resData = await response.json();
+        if (response.status !== 200 && response.status !== 201) {
+          throw new Error("failed occured");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    setTimeout(() => {
+      updateNotification();
+    }, 5000);
+  }, [student, token]);
+
   return (
     <Navbar>
       <Container
