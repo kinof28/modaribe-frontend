@@ -56,6 +56,13 @@ export default function BookedLesson({
             body: JSON.stringify({ SessionId: sessionId }),
           }
         );
+        await addDoc(collection(db, "Notifications"), {
+          titleAR: `${parentStudent?.name} قد أكد حضور الحصة التدريبية `,
+          titleEn: `${parentStudent?.name} has confirmed the training session attendance`,
+          TeacherId: `${parentTeacher?.id}`,
+          seen: false,
+          date: Date.now(),
+        });
       } else {
         const response = await fetch(
           `${process.env.REACT_APP_API_KEY}api/v1/teacher/acceptLesson/${teacher?.teacher.id}`,
@@ -68,6 +75,13 @@ export default function BookedLesson({
             body: JSON.stringify({ SessionId: sessionId }),
           }
         );
+        await addDoc(collection(db, "Notifications"), {
+          titleAR: `${parentTeacher?.firstName} ${parentTeacher?.lastName} قد أكد حضور الحصة التدريبية `,
+          titleEn: `${parentTeacher?.firstName} ${parentTeacher?.lastName} has confirmed the training session attendance`,
+          StudentId: `${parentStudent?.id}`,
+          seen: false,
+          date: Date.now(),
+        });
       }
       window.location.reload();
       setShowAttend(false);
@@ -90,6 +104,13 @@ export default function BookedLesson({
             body: JSON.stringify({ SessionId: sessionId }),
           }
         );
+        await addDoc(collection(db, "Notifications"), {
+          titleAR: ` قد بدأ الحصة التدريبية ${parentStudent?.name}`,
+          titleEn: `${parentStudent?.name} has started the training session`,
+          TeacherId: `${parentTeacher?.id}`,
+          seen: false,
+          date: Date.now(),
+        });
       } else {
         response = await fetch(
           `${process.env.REACT_APP_API_KEY}api/v1/teacher/endLesson/${teacher?.teacher.id}`,
@@ -102,6 +123,13 @@ export default function BookedLesson({
             body: JSON.stringify({ SessionId: sessionId }),
           }
         );
+        await addDoc(collection(db, "Notifications"), {
+          titleAR: `${parentTeacher?.firstName} ${parentTeacher?.lastName} قد أنهى الحصة التدريبية `,
+          titleEn: `${parentTeacher?.firstName} ${parentTeacher?.lastName} has ended the training session`,
+          StudentId: `${parentStudent?.id}`,
+          seen: false,
+          date: Date.now(),
+        });
       }
       if (response.ok) {
         window.location.reload();
@@ -172,7 +200,6 @@ export default function BookedLesson({
               <DateRangeIcon sx={{ fontSize: "16px", color: "#9D9D9D" }} />
               <Typography sx={{ fontSize: "13px", color: "#9D9D9D" }}>
                 {new Date(date).toLocaleString()}
-                {/* {date?.split("T")[0]} */}
               </Typography>
             </Box>
             <Box
