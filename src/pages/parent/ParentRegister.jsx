@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
@@ -17,10 +17,12 @@ import { loginParent } from "../../redux/parentSlice";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
+import ReactCodeInput from "react-code-input";
 
 export default function ParentRegister() {
   const { t } = useTranslation();
   const lang = Cookies.get("i18next") || "en";
+  const input1 = useRef();
 
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
@@ -42,6 +44,19 @@ export default function ParentRegister() {
 
   async function onSubmit(data) {
     closeSnackbar();
+    if (input1.current.state.value.length !== 4) {
+      // console.log();
+      enqueueSnackbar(
+        lang == "en"
+          ? "password is a required field"
+          : "الرجاء ادخال الرقم السري",
+        {
+          variant: "error",
+          autoHideDuration: "8000",
+        }
+      );
+      return;
+    }
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_KEY}api/v1/parent/signup`,
@@ -52,7 +67,7 @@ export default function ParentRegister() {
           },
           body: JSON.stringify({
             email: data.email,
-            password: data.password,
+            password: input1.current.state.value,
             name: data.name,
           }),
         }
@@ -150,25 +165,9 @@ export default function ParentRegister() {
               <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
                 {t("password")}
               </InputLabel>
-              <Controller
-                name="password"
-                control={control}
-                render={({ field }) => (
-                  <TextField type="password" {...field} fullWidth />
-                )}
-                {...register("password", {
-                  required: "password Address is required",
-                })}
-              />
-              {errors.password?.type === "required" && (
-                <Typography
-                  color="error"
-                  role="alert"
-                  sx={{ fontSize: "13px", marginTop: "6px" }}
-                >
-                  this field is required
-                </Typography>
-              )}
+              <Box sx={{ direction: "rtl" }}>
+                <ReactCodeInput type="number" fields={4} ref={input1} />
+              </Box>
             </Box>
             <Button
               variant="contained"
