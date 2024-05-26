@@ -107,7 +107,7 @@ export default function HomeParent() {
                   md={4}
                   lg={3}
                   sx={{ width: "100%" }}
-                  key={st.StudentId + "kmk"}
+                  key={st.id + "kmk"}
                 >
                   <Paper
                     sx={{
@@ -118,8 +118,8 @@ export default function HomeParent() {
                     }}
                   >
                     <Avatar
-                      alt={st.Student.name}
-                      src={`${process.env.REACT_APP_API}images/${st.Student.image}`}
+                      alt={st.name}
+                      src={`${process.env.REACT_APP_API}images/${st.image}`}
                       sx={{ width: "105px", height: "105px", fontSize: "42px" }}
                     />
                     <Typography
@@ -131,12 +131,10 @@ export default function HomeParent() {
                         textAlign: "center",
                       }}
                     >
-                      {t("student")} : {st.Student.name}
+                      {t("student")} : {st.name}
                     </Typography>
                     <Button
-                      onClick={() =>
-                        navigate(`/parent-dash/student/${st.StudentId}`)
-                      }
+                      onClick={() => navigate(`/parent-dash/student/${st.id}`)}
                     >
                       {t("view")}
                     </Button>
