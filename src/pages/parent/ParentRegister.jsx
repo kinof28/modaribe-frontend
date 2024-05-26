@@ -35,7 +35,6 @@ export default function ParentRegister() {
   } = useForm({
     defaultValues: {
       email: "",
-      password: "",
       name: "",
     },
   });
@@ -45,7 +44,6 @@ export default function ParentRegister() {
   async function onSubmit(data) {
     closeSnackbar();
     if (input1.current.state.value.length !== 4) {
-      // console.log();
       enqueueSnackbar(
         lang == "en"
           ? "password is a required field"
