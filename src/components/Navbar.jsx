@@ -171,7 +171,7 @@ function Navbar(props) {
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
-      sx={{ textAlign: "center", height: "100vh", backgroundColor: "#005B8E" }}
+      sx={{ textAlign: "center", height: "100vh", backgroundColor: "#800000" }}
     >
       <Typography variant="h6" sx={{ my: 2 }}>
         <ImageLogo src={logoImage} />
