@@ -17,7 +17,7 @@ const MapBrowsing = () => {
   });
 
   const pushRoute = (id) => {
-    window.open(`https://moalime.com/teacher/${id}`, "_blank");
+    window.open(`https://muscatdrivingschool.com/teacher/${id}`, "_blank");
   };
 
   return (
