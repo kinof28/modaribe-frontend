@@ -13,7 +13,7 @@ export default function Landing() {
   return (
     <Navbar>
       <LandingBanner />
-      {/* <LandingSubjects/> */}
+      <LandingSubjects />
       {/* <LandingTestimonials/> */}
       <LandingReasons />
       <LandingJoin />
