@@ -1,7 +1,9 @@
 import {
+  Autocomplete,
   Box,
   Button,
   FormControl,
+  Input,
   InputLabel,
   MenuItem,
   Select,
@@ -37,7 +39,9 @@ export default function TeacherAbout() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [chosenlanguages, setChosenLanguages] = useState([]);
-
+  const [countryValue, setCountryValue] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [countryError, setCountryError] = useState(false);
   const {
     register,
     control,
@@ -69,10 +73,20 @@ export default function TeacherAbout() {
         country: user?.country,
         city: user?.city,
       });
+      let c;
+      if (user?.country) {
+        c = countries.find((e) => e.code == user.country);
+        setCountryValue(lang === "en" ? c.name_en : c.name_ar);
+        setCountryCode(c.code);
+      }
     }
   }, [data]);
 
   async function onSubmit(data) {
+    if (countryCode === "") {
+      setCountryError(true);
+      return;
+    }
     setLoad(true);
     const languages = chosenlanguages?.map((lang) => {
       return {
@@ -89,7 +103,11 @@ export default function TeacherAbout() {
           "Content-Type": "application/json",
           Authorization: token,
         },
-        body: JSON.stringify({ ...data, languages: languages }),
+        body: JSON.stringify({
+          ...data,
+          country: countryCode,
+          languages: languages,
+        }),
       }
     );
     setLoad(false);
@@ -237,38 +255,45 @@ export default function TeacherAbout() {
               <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
                 {t("country")}
               </InputLabel>
-              <Controller
+              <Autocomplete
+                fullWidth
                 name="country"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    fullWidth
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    MenuProps={{
-                      elevation: 1,
-                      PaperProps: {
-                        style: {
-                          maxHeight: 48 * 3 + 8,
-                          width: 160,
-                        },
-                      },
+                options={countries}
+                value={countryValue}
+                inputValue={countryValue}
+                onChange={(event, newInputValue) => {
+                  if (newInputValue) {
+                    setCountryValue(
+                      lang === "en"
+                        ? newInputValue?.name_en
+                        : newInputValue?.name_ar
+                    );
+                    setCountryCode(newInputValue?.code);
+                    setCountryError(false);
+                  } else {
+                    setCountryValue("");
+                    setCountryCode("");
+                  }
+                }}
+                onInputChange={(event, newInputValue) => {
+                  console.log("on input change newInputValue: ", newInputValue);
+                  setCountryValue(newInputValue);
+                }}
+                getOptionLabel={(op) =>
+                  lang === "en" ? op.name_en : op.name_ar || op
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose a country"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password",
                     }}
-                    {...register("country", { required: "gender is required" })}
-                  >
-                    {countries.map((op, index) => {
-                      return (
-                        <MenuItem key={index + "mjn"} value={op.code}>
-                          {lang === "en" ? op.name_en : op.name_ar}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
+                  />
                 )}
-                {...register("country", { required: "country is required" })}
               />
-              {errors.country?.type === "required" && (
+              {countryError && (
                 <Typography
                   color="error"
                   role="alert"
