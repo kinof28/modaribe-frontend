@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
+  Autocomplete,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StudentLayout from "../../components/student/StudentLayout";
@@ -43,6 +44,12 @@ export default function StudentProfile() {
   const [chosenlanguages, setChosenLanguages] = useState([]);
   const [load, setLoad] = useState(false);
   const [regionTime, setRegionTime] = useState(null);
+  const [countryValue, setCountryValue] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [countryError, setCountryError] = useState(false);
+  const [nationalityValue, setNationalityValue] = useState("");
+  const [nationalityCode, setNationalityCode] = useState("");
+  const [nationalityError, setNationalityError] = useState(false);
 
   const {
     register,
@@ -90,10 +97,29 @@ export default function StudentProfile() {
         location: user?.location,
         nationality: user?.nationality,
       });
+      let c;
+      if (user?.location) {
+        c = countries.find((e) => e.code == user.location);
+        setCountryValue(lang === "en" ? c.name_en : c.name_ar);
+        setCountryCode(c.code);
+      }
+      if (user?.nationality) {
+        c = countries.find((e) => e.code == user.nationality);
+        setNationalityValue(lang === "en" ? c.name_en : c.name_ar);
+        setNationalityCode(c.code);
+      }
     }
   }, [data]);
 
   const onSubmit = async (data) => {
+    if (countryCode === "") {
+      setCountryError(true);
+      return;
+    }
+    if (nationalityCode === "") {
+      setNationalityError(true);
+      return;
+    }
     closeSnackbar();
     setLoad(true);
     const languages = chosenlanguages.map((lang) => {
@@ -118,8 +144,8 @@ export default function StudentProfile() {
             dateOfBirth: data.dateOfBirth,
             phoneNumber: data.phone,
             city: data.city,
-            nationality: data.nationality,
-            location: data.location,
+            nationality: nationalityCode,
+            location: countryCode,
             regionTime: regionTime,
             LevelId: data.level,
             ClassId: data.class,
@@ -304,39 +330,47 @@ export default function StudentProfile() {
                 <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
                   {t("location")}
                 </InputLabel>
-                <Controller
-                  name="location"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      fullWidth
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      MenuProps={{
-                        elevation: 1,
-                        PaperProps: {
-                          style: {
-                            maxHeight: 48 * 3 + 8,
-                            width: 160,
-                          },
-                        },
+                <Autocomplete
+                  fullWidth
+                  name="country"
+                  options={countries}
+                  value={countryValue}
+                  inputValue={countryValue}
+                  onChange={(event, newInputValue) => {
+                    if (newInputValue) {
+                      setCountryValue(
+                        lang === "en"
+                          ? newInputValue?.name_en
+                          : newInputValue?.name_ar
+                      );
+                      setCountryCode(newInputValue?.code);
+                      setCountryError(false);
+                    } else {
+                      setCountryValue("");
+                      setCountryCode("");
+                    }
+                  }}
+                  onInputChange={(event, newInputValue) => {
+                    setCountryValue(newInputValue);
+                  }}
+                  getOptionLabel={(op) =>
+                    (lang === "en" ? op.name_en : op.name_ar) || op
+                  }
+                  isOptionEqualToValue={(op, value) =>
+                    lang === "en" ? op.name_en == value : op.name_ar == value
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={lang === "en" ? "Choose a country" : "إختر بلدك"}
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password",
                       }}
-                      {...register("location", {
-                        required: "location is required",
-                      })}
-                    >
-                      {countries.map((op, index) => {
-                        return (
-                          <MenuItem key={index + "mjnnj"} value={op.code}>
-                            {lang === "en" ? op.name_en : op.name_ar}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
+                    />
                   )}
                 />
-                {errors.location?.type === "required" && (
+                {countryError && (
                   <Typography
                     color="error"
                     role="alert"
@@ -350,38 +384,57 @@ export default function StudentProfile() {
                 <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
                   {t("nationality")}
                 </InputLabel>
-                <Controller
+                <Autocomplete
+                  fullWidth
                   name="nationality"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      fullWidth
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      MenuProps={{
-                        elevation: 1,
-                        PaperProps: {
-                          style: {
-                            maxHeight: 48 * 3 + 8,
-                            width: 160,
-                          },
-                        },
+                  options={countries}
+                  value={nationalityValue}
+                  inputValue={nationalityValue}
+                  onChange={(event, newInputValue) => {
+                    if (newInputValue) {
+                      setNationalityValue(
+                        lang === "en"
+                          ? newInputValue?.name_en
+                          : newInputValue?.name_ar
+                      );
+                      setNationalityCode(newInputValue?.code);
+                      setNationalityError(false);
+                    } else {
+                      setNationalityValue("");
+                      setNationalityCode("");
+                    }
+                  }}
+                  onInputChange={(event, newInputValue) => {
+                    setNationalityValue(newInputValue);
+                  }}
+                  getOptionLabel={(op) =>
+                    (lang === "en" ? op.name_en : op.name_ar) || op
+                  }
+                  isOptionEqualToValue={(op, value) =>
+                    lang === "en" ? op?.name_en == value : op?.name_ar == value
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={
+                        lang === "en" ? "Choose a nationality" : "إختر جنسيتك"
+                      }
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password",
                       }}
-                      {...register("nationality", {
-                        required: "nationality is required",
-                      })}
-                    >
-                      {countries.map((op, index) => {
-                        return (
-                          <MenuItem key={index + "mjnnj"} value={op.code}>
-                            {lang === "en" ? op.name_en : op.name_ar}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
+                    />
                   )}
                 />
+                {nationalityError && (
+                  <Typography
+                    color="error"
+                    role="alert"
+                    sx={{ fontSize: "13px", marginTop: "6px" }}
+                  >
+                    {t("required")}
+                  </Typography>
+                )}
               </Box>
               <AddLanguages
                 chosenlanguages={chosenlanguages}
