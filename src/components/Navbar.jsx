@@ -646,6 +646,9 @@ function Navbar(props) {
                   color: "white",
                 }}
               >
+                <Typography sx={{ fontSize: "10px" }}>
+                  {t("search_for_teachers")}
+                </Typography>
                 <SearchIcon />
               </Box>
             </Link>
