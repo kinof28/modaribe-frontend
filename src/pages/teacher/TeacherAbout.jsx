@@ -276,16 +276,15 @@ export default function TeacherAbout() {
                   }
                 }}
                 onInputChange={(event, newInputValue) => {
-                  console.log("on input change newInputValue: ", newInputValue);
                   setCountryValue(newInputValue);
                 }}
                 getOptionLabel={(op) =>
-                  lang === "en" ? op.name_en : op.name_ar || op
+                  (lang === "en" ? op.name_en : op.name_ar) || op
                 }
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Choose a country"
+                    label={lang === "en" ? "Choose a country" : "إختر بلدك"}
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "new-password",
