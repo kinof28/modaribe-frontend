@@ -45,6 +45,7 @@ export default function TeacherThirdStep() {
           body: JSON.stringify({
             password: input1.current.state.value,
             email: localStorage.getItem("teacherEmail"),
+            language: lang,
           }),
         }
       );

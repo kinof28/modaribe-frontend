@@ -68,6 +68,7 @@ export default function StudentFirstStep() {
             name: data.fullName,
             location: data.place,
             phoneNumber: "+" + data.phone,
+            language: lang,
           }),
         }
       );

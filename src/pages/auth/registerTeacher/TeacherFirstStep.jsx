@@ -33,6 +33,8 @@ export default function TeacherFirstStep() {
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const lang = Cookies.get("i18next") || "en";
+
   useEffect(() => {
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -44,7 +46,6 @@ export default function TeacherFirstStep() {
       }
     );
   }, []);
-  const lang = Cookies.get("i18next") || "en";
 
   async function onSubmit(data) {
     closeSnackbar();
@@ -59,6 +60,7 @@ export default function TeacherFirstStep() {
           body: JSON.stringify({
             email: data.email,
             phoneNumber: "+" + data.phone,
+            language: lang,
           }),
         }
       );
