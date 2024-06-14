@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Container,
@@ -9,7 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Navbar from "../../../components/Navbar";
 import HeaderSteps from "../../../components/auth/HeaderSteps";
@@ -38,7 +39,9 @@ export default function StudentFirstStep() {
   const { t } = useTranslation();
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-
+  const [countryValue, setCountryValue] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [countryError, setCountryError] = useState(false);
   const lang = Cookies.get("i18next") || "en";
 
   useEffect(() => {
@@ -54,6 +57,10 @@ export default function StudentFirstStep() {
   }, []);
 
   async function onSubmit(data) {
+    if (countryCode === "") {
+      setCountryError(true);
+      return;
+    }
     closeSnackbar();
     try {
       const response = await fetch(
@@ -66,7 +73,7 @@ export default function StudentFirstStep() {
           body: JSON.stringify({
             email: data.email,
             name: data.fullName,
-            location: data.place,
+            location: countryCode,
             phoneNumber: "+" + data.phone,
             language: lang,
           }),
@@ -173,7 +180,7 @@ export default function StudentFirstStep() {
               </Box>
             </Box>
             {/* ------------------- */}
-            <Box sx={{ marginBottom: "30px" }}>
+            {/* <Box sx={{ marginBottom: "30px" }}>
               <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
                 {t("place")}
               </InputLabel>
@@ -208,6 +215,57 @@ export default function StudentFirstStep() {
                 )}
               />
               {errors.place?.type === "required" && (
+                <Typography
+                  color="error"
+                  role="alert"
+                  sx={{ fontSize: "13px", marginTop: "6px" }}
+                >
+                  {t("required")}
+                </Typography>
+              )}
+            </Box> */}
+            <Box sx={{ marginBottom: "26px" }}>
+              <InputLabel sx={{ marginBottom: "6px", fontSize: "13px" }}>
+                {t("country")}
+              </InputLabel>
+              <Autocomplete
+                fullWidth
+                name="country"
+                options={countries}
+                value={countryValue}
+                inputValue={countryValue}
+                onChange={(event, newInputValue) => {
+                  if (newInputValue) {
+                    setCountryValue(
+                      lang === "en"
+                        ? newInputValue?.name_en
+                        : newInputValue?.name_ar
+                    );
+                    setCountryCode(newInputValue?.code);
+                    setCountryError(false);
+                  } else {
+                    setCountryValue("");
+                    setCountryCode("");
+                  }
+                }}
+                onInputChange={(event, newInputValue) => {
+                  setCountryValue(newInputValue);
+                }}
+                getOptionLabel={(op) =>
+                  (lang === "en" ? op.name_en : op.name_ar) || op
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={lang === "en" ? "Choose a country" : "إختر بلدك"}
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password",
+                    }}
+                  />
+                )}
+              />
+              {countryError && (
                 <Typography
                   color="error"
                   role="alert"
