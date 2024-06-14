@@ -72,9 +72,10 @@ export default function DetailsBook() {
             currency: currency,
             typeOfPayment: data.typeofbook,
             period: data.hours,
-            date: data.date + " - " + data.time,
+            date: data.date + " * " + data.time,
             type: data.typeLesson,
             title: "",
+            language: lang,
           }),
         }
       );
